@@ -1,13 +1,794 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>Hello World</title>
-    </head>
-    <body>
-        <h1>Hello World</h1>
-        <p>
-            testing ...
-        </p>
-    </body>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tech Lead 2.0 — Go from 1.5x to 10x with coding agents</title>
+<meta name="description" content="You plugged in a coding agent and got faster. Somewhat. Coding Agents 101 is a free live workshop, and Tech Lead 2.0 is the deep track where you rebuild how you work.">
+<link rel="canonical" href="https://eonoe.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://eonoe.github.io/">
+<meta property="og:title" content="Tech Lead 2.0 — Go from 1.5x to 10x with coding agents">
+<meta property="og:description" content="Free live workshop first. Then seven phases applied to a project you actually ship.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tech Lead 2.0 — Go from 1.5x to 10x with coding agents">
+<meta name="twitter:description" content="Free live workshop first. Then seven phases applied to a project you actually ship.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23ffd400'/%3E%3Ctext x='16' y='23' font-family='monospace' font-size='19' font-weight='700' text-anchor='middle' fill='%230b0b10'%3E2%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffffff;--ink:#0b0b10;--ink2:#41444d;--muted:#6b7280;
+  --line:#e7e8ec;--line2:#d4d6dc;
+  --blue:#3531ff;--blue-ink:#1f1ce0;--blue-soft:#edecff;
+  --pop:#ffd400;--panel:#f4f4f6;
+  --maxw:1080px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+/* .signup sets display:flex, which would otherwise beat the UA rule for [hidden]. */
+[hidden]{display:none!important;}
+html{scroll-behavior:smooth;}
+/* The nav is sticky and 64px tall, so anchor targets need clearance or they
+   land underneath it. */
+[id]{scroll-margin-top:84px;}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+a{color:inherit;text-decoration:none;}
+h1,h2,h3{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:-.03em;line-height:1.02;}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace;}
+code{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:.88em;background:var(--panel);padding:1px 6px;border-radius:5px;color:var(--blue-ink);}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px;}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important;}}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 26px;}
+
+/* MARQUEE */
+.marq{background:var(--pop);color:var(--ink);border-bottom:3px solid var(--ink);overflow:hidden;white-space:nowrap;}
+.marq-track{display:inline-block;padding:9px 0;animation:scroll 26s linear infinite;}
+.marq-track span{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;letter-spacing:.02em;text-transform:uppercase;padding:0 14px;}
+@keyframes scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* NAV */
+.bar{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+.bar-in{height:64px;display:flex;align-items:center;gap:18px;}
+.logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;letter-spacing:-.02em;margin-right:auto;}
+.logo .b{background:var(--pop);padding:0 7px;border-radius:5px;}
+.barlink{font-size:14px;color:var(--ink2);font-weight:500;display:none;}
+.barlink:hover{color:var(--ink);}
+@media(min-width:840px){.barlink{display:inline;}}
+
+/* BUTTONS */
+.btn{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;padding:12px 22px;border:2px solid var(--ink);border-radius:10px;cursor:pointer;display:inline-flex;align-items:center;gap:9px;transition:transform .12s,box-shadow .12s,background .15s,color .15s;background:#fff;color:var(--ink);box-shadow:4px 4px 0 var(--ink);}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink);}
+.btn-cta{background:var(--blue);color:#fff;border-color:var(--blue);}
+.btn-white{background:#fff;color:var(--ink);border-color:var(--ink);}
+.btn-sm{padding:9px 16px;font-size:14px;box-shadow:3px 3px 0 var(--ink);}
+.btn:active{transform:translate(0,0);box-shadow:2px 2px 0 var(--ink);}
+
+/* HERO */
+.hero{padding:66px 0 56px;border-bottom:3px solid var(--ink);}
+.tag{display:inline-flex;align-items:center;gap:9px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;background:var(--blue-soft);color:var(--blue-ink);padding:7px 13px;border-radius:30px;margin-bottom:22px;}
+.tag .dot{width:7px;height:7px;border-radius:50%;background:var(--blue);animation:blink 1.6s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.hero h1{font-size:clamp(42px,7.4vw,78px);margin-bottom:18px;max-width:15ch;}
+.hero h1 .hl{color:var(--pop);-webkit-text-stroke:1.6px var(--ink);paint-order:stroke fill;}
+.hero .sub{font-size:18px;color:var(--ink2);max-width:52ch;line-height:1.55;margin-bottom:28px;}
+.byline{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:26px;padding-top:20px;border-top:2px solid var(--line);font-size:14px;color:var(--ink2);}
+.byline .av{width:28px;height:28px;border-radius:50%;background:var(--pop);border:2px solid var(--ink);display:inline-flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12px;flex-shrink:0;}
+.byline a{color:var(--blue-ink);font-weight:600;}
+.byline a:hover{text-decoration:underline;}
+
+/* SIGNUP */
+.signup{display:flex;flex-wrap:wrap;gap:10px;align-items:center;max-width:520px;}
+.signup input[type="email"]{flex:1;min-width:200px;font-family:'Inter',sans-serif;font-size:15px;padding:13px 15px;border:2px solid var(--ink);border-radius:10px;background:#fff;color:var(--ink);}
+.signup input[type="email"]:focus{outline:none;box-shadow:3px 3px 0 var(--blue);}
+.signup button[disabled]{opacity:.6;cursor:default;}
+/* Honeypot: off-screen rather than display:none, which some bots skip. */
+.signup .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0;}
+.signup-msg{font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.5;margin-top:12px;max-width:520px;}
+.signup-msg.ok{color:var(--blue-ink);font-weight:700;}
+.signup-msg.err{color:#c02b2b;font-weight:700;}
+.hint{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);margin-top:12px;letter-spacing:.01em;line-height:1.55;}
+.hint a{color:var(--blue-ink);font-weight:700;}
+.hint a:hover{text-decoration:underline;}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);}
+@media(max-width:680px){.stats{grid-template-columns:1fr 1fr;}}
+.stat{padding:38px 24px;border-right:3px solid var(--ink);}
+.stat:last-child{border-right:none;}
+@media(max-width:680px){.stat:nth-child(2){border-right:none;}.stat:nth-child(1),.stat:nth-child(2){border-bottom:3px solid var(--ink);}}
+.stat .n{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(40px,6vw,58px);letter-spacing:-.04em;line-height:.9;margin-bottom:10px;}
+.stat .n.word{font-size:clamp(34px,4.8vw,48px);}
+.stat:nth-child(1) .n,.stat:nth-child(3) .n{color:var(--blue);}
+.stat .l{font-size:14px;color:var(--ink2);line-height:1.4;font-weight:500;}
+.stats-wrap{border-bottom:3px solid var(--ink);}
+
+/* SECTION SHELL */
+.sec{padding:70px 0;}
+.sec-line{border-bottom:3px solid var(--ink);}
+.sec-panel{background:var(--panel);}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px;}
+.sec h2{font-size:clamp(30px,4.6vw,46px);margin-bottom:14px;max-width:20ch;}
+.sec .lead{font-size:17px;color:var(--ink2);max-width:58ch;line-height:1.55;}
+.sec-head{margin-bottom:36px;}
+
+/* SHIFT TABLE */
+.shift{display:grid;grid-template-columns:1fr 1fr;border:3px solid var(--ink);border-radius:14px;overflow:hidden;box-shadow:8px 8px 0 var(--ink);background:#fff;}
+.sh-h{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:14px 18px;border-bottom:3px solid var(--ink);}
+.sh-h.a{background:var(--panel);color:var(--ink2);border-right:3px solid var(--ink);}
+.sh-h.b{background:var(--pop);color:var(--ink);}
+.sh-a,.sh-b{padding:14px 18px;font-size:15px;line-height:1.45;border-top:2px solid var(--line);}
+.sh-a{color:var(--muted);border-right:3px solid var(--ink);}
+.sh-b{color:var(--ink);font-weight:500;}
+.sh-a.first,.sh-b.first{border-top:none;}
+@media(max-width:560px){
+  .shift{grid-template-columns:1fr;box-shadow:5px 5px 0 var(--ink);}
+  .sh-h{display:none;}
+  .sh-a{border-right:none;border-top:3px solid var(--ink);padding-bottom:10px;}
+  .sh-b{border-right:none;border-top:none;background:#fffdf0;padding-top:10px;}
+  .sh-a.first{border-top:none;}
+  .sh-a::before{content:'NOW';display:block;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--muted);margin-bottom:4px;}
+  .sh-b::before{content:'AFTER';display:block;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--blue-ink);margin-bottom:4px;}
+}
+
+/* TRACK / PRICING CARDS */
+.tracks{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start;}
+@media(max-width:820px){.tracks{grid-template-columns:1fr;}}
+.tk{border:3px solid var(--ink);border-radius:14px;padding:26px;background:#fff;display:flex;flex-direction:column;}
+.tk.free{box-shadow:6px 6px 0 var(--pop);}
+.tk-flag{align-self:flex-start;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:4px 11px;border-radius:20px;border:2px solid var(--ink);margin-bottom:16px;}
+.tk.free .tk-flag{background:var(--pop);color:var(--ink);}
+.tk.deep .tk-flag{background:var(--blue-soft);color:var(--blue-ink);border-color:var(--blue);}
+.tk h3{font-size:22px;margin-bottom:8px;}
+.tk-price{display:flex;align-items:baseline;gap:10px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:36px;letter-spacing:-.04em;line-height:1;}
+.tk-price .was{font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:400;color:var(--muted);text-decoration:line-through;letter-spacing:0;}
+.tk-sub{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);margin-top:8px;}
+.tk.deep .tk-sub{color:var(--blue-ink);font-weight:700;}
+.tk ul{list-style:none;display:flex;flex-direction:column;gap:10px;margin:18px 0 0;flex:1;}
+.tk li{font-size:14.5px;color:var(--ink2);display:flex;gap:11px;line-height:1.5;}
+.chk{flex-shrink:0;margin-top:3px;color:var(--blue);}
+.tk-guarantee{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink);background:var(--pop);border:2px solid var(--ink);border-radius:8px;padding:8px 11px;margin-top:16px;font-weight:700;}
+.tk-hint{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);line-height:1.55;margin-top:16px;}
+.tk .signup{margin-top:16px;flex-direction:column;align-items:stretch;max-width:none;}
+.tk .signup input[type="email"]{width:100%;flex:none;}
+.tk .btn{width:100%;justify-content:center;}
+.tk-desc{font-size:14.5px;color:var(--ink2);line-height:1.55;margin-top:14px;}
+
+/* LOOP */
+.loop{display:grid;grid-template-columns:repeat(4,1fr);border:3px solid var(--ink);border-radius:14px;overflow:hidden;background:#fff;}
+@media(max-width:760px){.loop{grid-template-columns:1fr 1fr;}}
+.lstep{padding:24px 20px;border-right:3px solid var(--ink);}
+.lstep:last-child{border-right:none;}
+@media(max-width:760px){.lstep:nth-child(2){border-right:none;}.lstep:nth-child(1),.lstep:nth-child(2){border-bottom:3px solid var(--ink);}}
+.lstep .ln{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--blue);margin-bottom:12px;letter-spacing:.05em;}
+.lstep h3{font-size:18px;margin-bottom:7px;}
+.lstep p{font-size:14px;color:var(--ink2);line-height:1.55;}
+
+/* PERKS */
+.perks{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:28px;}
+@media(max-width:760px){.perks{grid-template-columns:1fr;}}
+.perk{border:2px solid var(--line2);border-radius:14px;padding:22px;transition:border-color .15s,transform .14s;}
+.perk:hover{border-color:var(--ink);transform:translateY(-3px);}
+.perk .pi{width:32px;height:32px;color:var(--blue);margin-bottom:13px;}
+.perk h3{font-size:17px;margin-bottom:7px;}
+.perk p{font-size:14px;color:var(--ink2);line-height:1.55;}
+
+/* WORKED EXAMPLE CALLOUT */
+.callout{display:flex;gap:15px;align-items:flex-start;background:var(--panel);border:2px solid var(--ink);border-radius:14px;padding:20px 22px;margin-bottom:32px;}
+.callout .ci{flex-shrink:0;color:var(--blue);margin-top:2px;}
+.callout p{font-size:14.5px;color:var(--ink2);line-height:1.6;}
+.callout b{color:var(--ink);}
+
+/* OUTLINE */
+.outline{display:flex;flex-direction:column;}
+.phase{display:grid;grid-template-columns:220px 1fr;gap:30px;padding:28px 0;border-top:2px solid var(--line);}
+.phase:first-child{border-top:3px solid var(--ink);}
+@media(max-width:760px){.phase{grid-template-columns:1fr;gap:16px;}}
+.ph-meta .ph-no{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--blue);margin-bottom:8px;}
+.ph-meta h3{font-size:20px;margin-bottom:9px;}
+.ph-meta .ph-tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink2);background:var(--panel);border:2px solid var(--line2);padding:3px 9px;border-radius:6px;}
+.ph-body .ph-cap{font-size:16px;color:var(--ink);font-weight:600;margin-bottom:14px;line-height:1.45;}
+.ph-cols{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:16px;}
+@media(max-width:560px){.ph-cols{grid-template-columns:1fr;gap:14px;}}
+.ph-col h4{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:6px;}
+.ph-col p{font-size:14px;color:var(--ink2);line-height:1.55;}
+.ship{display:inline-flex;gap:9px;align-items:flex-start;font-size:13.5px;color:var(--ink);background:var(--pop);border:2px solid var(--ink);border-radius:9px;padding:9px 13px;line-height:1.45;font-weight:500;}
+.ship .si{flex-shrink:0;margin-top:2px;}
+
+/* ABOUT */
+.about{display:grid;grid-template-columns:120px 1fr;gap:28px;align-items:start;}
+@media(max-width:760px){.about{grid-template-columns:1fr;gap:20px;}}
+.about-photo{width:104px;height:104px;border:3px solid var(--ink);border-radius:12px;background:#fff;box-shadow:5px 5px 0 var(--pop);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);text-align:center;line-height:1.4;overflow:hidden;}
+.about-photo img{width:100%;height:100%;object-fit:cover;display:block;}
+.about h2{margin-bottom:16px;}
+.about p{font-size:16px;color:var(--ink2);line-height:1.6;margin-bottom:12px;max-width:60ch;}
+.about .fill{background:var(--pop);padding:0 5px;font-weight:500;color:var(--ink);}
+.about-link{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--blue-ink);display:inline-flex;align-items:center;gap:7px;margin-top:6px;}
+.about-link:hover{text-decoration:underline;}
+
+/* FIT CHECK */
+.foryou{display:flex;flex-direction:column;}
+.fy{display:flex;gap:14px;align-items:center;padding:15px 0;border-top:2px solid var(--line);font-size:16.5px;color:var(--ink);}
+.fy:first-child{border-top:3px solid var(--ink);}
+.fy .fyi{flex-shrink:0;color:var(--blue);}
+.skip-head{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ink2);margin:36px 0 10px;}
+.skip{display:flex;flex-direction:column;gap:9px;}
+.skip div{font-size:15.5px;color:var(--muted);display:flex;gap:12px;line-height:1.5;}
+.skip .x{font-family:'JetBrains Mono',monospace;font-weight:700;flex-shrink:0;}
+
+/* PREREQS */
+.prereq{list-style:none;display:flex;flex-direction:column;gap:12px;}
+.prereq li{display:flex;gap:12px;font-size:15.5px;color:var(--ink2);line-height:1.55;}
+.prereq .pq{flex-shrink:0;margin-top:4px;color:var(--blue);}
+
+/* FAQ */
+.faq{border-top:3px solid var(--ink);}
+.faq .q{border-bottom:2px solid var(--line);}
+.faq .qh{display:flex;gap:16px;align-items:center;padding:20px 2px;cursor:pointer;user-select:none;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:18px;}
+.faq .qx{margin-left:auto;flex-shrink:0;color:var(--blue);transition:transform .2s;}
+.faq .q.open .qx{transform:rotate(45deg);}
+.faq .qb{display:none;padding:0 2px 22px;font-size:15px;color:var(--ink2);line-height:1.7;max-width:74ch;}
+.faq .q.open .qb{display:block;}
+
+/* CLOSER */
+.closer{background:var(--blue);border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);color:#fff;text-align:center;}
+.closer-in{padding:80px 0;}
+.closer h2{font-size:clamp(32px,5vw,54px);margin:0 auto 16px;color:#fff;max-width:16ch;}
+.closer p{font-size:18px;color:#dcdbff;max-width:46ch;margin:0 auto 28px;}
+.closer .signup{margin:0 auto;justify-content:center;}
+.closer .signup input[type="email"]{border-color:#fff;}
+.closer .hint{color:#cfceff;text-align:center;}
+.closer .signup-msg{margin:12px auto 0;text-align:center;}
+.closer .signup-msg.ok{color:#fff;}
+.closer .signup-msg.err{color:#ffd2d2;}
+
+/* FOOTER */
+footer{padding:34px 0;}
+.foot{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;}
+.foot .logo{margin-right:0;}
+.foot-links{display:flex;flex-wrap:wrap;gap:20px;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted);}
+.foot-links a:hover{color:var(--ink);}
+.foot-fine{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);margin-top:18px;}
+</style>
+</head>
+<body>
+
+<!-- MARQUEE -->
+<div class="marq" aria-hidden="true">
+  <div class="marq-track">
+    <span>Free live workshop</span>·<span>Coding Agents 101</span>·<span>Starts Mon Aug 17</span>·<span>4 sessions × 2 hours</span>·<span>Bring a repo you already work in</span>·<span>Free live workshop</span>·<span>Coding Agents 101</span>·<span>Starts Mon Aug 17</span>·<span>4 sessions × 2 hours</span>·<span>Bring a repo you already work in</span>·
+  </div>
+</div>
+
+<!-- NAV -->
+<header class="bar">
+  <div class="wrap bar-in">
+    <a href="#top" class="logo">Tech Lead <span class="b">2.0</span></a>
+    <a href="#shift" class="barlink">The shift</a>
+    <a href="#outline" class="barlink">Outline</a>
+    <a href="#about" class="barlink">About</a>
+    <a href="#faq" class="barlink">FAQ</a>
+    <a href="/ai-tech-lead/d/dayevent.html#get" class="btn btn-cta btn-sm">Get the free workshop</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <!-- The date below is duplicated from the countdown target in d/dayevent.html.
+           Keep the two in sync when the session moves. -->
+      <div class="tag"><span class="dot"></span> Free · starts Monday Aug 17</div>
+      <h1>Stop getting <span class="hl">1.5x</span> from your coding agent.</h1>
+      <p class="sub">You plugged in a coding agent and got faster. Somewhat. Coding Agents 101 is four free live sessions where you set the thing up properly and merge a change it wrote.</p>
+      <!-- The id lives on this wrapper, not on the form. The form gets [hidden]
+           after signup, and a display:none anchor target cannot be scrolled to. -->
+      <div id="get-free">
+        <form class="signup" data-source="workshop" novalidate>
+          <input type="email" name="email" placeholder="you@email.com" aria-label="Email address" required autocomplete="email">
+          <input type="text" class="hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button type="submit" class="btn btn-cta">Save my seat →</button>
+        </form>
+        <div class="hint">// just your email. every session is recorded. <a href="/ai-tech-lead/d/dayevent.html">full workshop details →</a></div>
+        <div class="signup-msg" role="status" aria-live="polite"></div>
+      </div>
+      <div class="byline">
+        <span class="av">N</span>
+        <span>Taught by <a href="#about">Noe</a>. Going deeper? <a href="#pricing">Tech Lead 2.0 →</a></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-wrap">
+    <div class="wrap">
+      <div class="stats">
+        <div class="stat"><div class="n">4</div><div class="l">live sessions</div></div>
+        <div class="stat"><div class="n">2h</div><div class="l">each, recorded</div></div>
+        <div class="stat"><div class="n">7</div><div class="l">phases in the deep track</div></div>
+        <div class="stat"><div class="n word">Free</div><div class="l">to start</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- THE SHIFT -->
+  <section class="sec sec-line" id="shift">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">The shift</div>
+        <h2>1.5x today. 10x after.</h2>
+        <p class="lead">Seven rows below, seven phases in the course. They line up.</p>
+      </div>
+      <div class="shift">
+        <div class="sh-h a">Where you are now</div>
+        <div class="sh-h b">After Tech Lead 2.0</div>
+        <div class="sh-a first">Agent as fancy autocomplete</div>
+        <div class="sh-b first">Agent as your main interface</div>
+        <div class="sh-a">Re-explaining the project every session</div>
+        <div class="sh-b">Context a cold agent reads in seconds</div>
+        <div class="sh-a">One chat, one task, waiting on it</div>
+        <div class="sh-b">Several agents going at once</div>
+        <div class="sh-a">Codebase drifts as the agent grows it</div>
+        <div class="sh-b">Bounded contexts and ADRs that hold</div>
+        <div class="sh-a">It works, and tests come later, if ever</div>
+        <div class="sh-b">Tests first, gates the agent cannot skip</div>
+        <div class="sh-a">Deploy is the part you avoid</div>
+        <div class="sh-b">Infra as code you review, shipped every phase</div>
+        <div class="sh-a">Your workflow, solo, in your head</div>
+        <div class="sh-b">A playbook your team runs on Monday</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TWO TRACKS -->
+  <section class="sec sec-line" id="tracks">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">Two ways in</div>
+        <h2>Start free. Go deep when you want to.</h2>
+        <p class="lead">The free workshop is worth doing on its own. The deep track is where you rebuild a real project, phase by phase.</p>
+      </div>
+      <div class="tracks">
+        <div class="tk free">
+          <span class="tk-flag">Start here</span>
+          <h3>Coding Agents 101</h3>
+          <div class="tk-price">Free</div>
+          <div class="tk-sub">four live sessions, two hours each</div>
+          <p class="tk-desc">Get a coding agent working properly and feel the difference between vague prompting and structured context.</p>
+          <ul>
+            <li><svg class="chk" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Set up an agent and ship a real change</li>
+            <li><svg class="chk" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Write your first <code>AGENTS.md</code></li>
+            <li><svg class="chk" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Review agent work without rubber-stamping it</li>
+            <li><svg class="chk" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Templates you keep</li>
+          </ul>
+          <a href="/ai-tech-lead/d/dayevent.html#get" class="btn btn-cta" style="margin-top:22px;">Save my seat →</a>
+        </div>
+        <div class="tk deep">
+          <span class="tk-flag">Next step</span>
+          <h3>Tech Lead 2.0</h3>
+          <div class="tk-price">$690 <span class="was">$890</span></div>
+          <div class="tk-sub">founding price, cohort 1</div>
+          <p class="tk-desc">You apply every phase to a real product you choose, with a full worked example to follow alongside.</p>
+          <ul>
+            <li><svg class="chk" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Seven phases, applied to your own project</li>
+            <li><svg class="chk" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Live office hours and a private community</li>
+            <li><svg class="chk" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Every phase ends in something that ships</li>
+            <li><svg class="chk" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> A team playbook you could roll out on Monday</li>
+          </ul>
+          <a href="#pricing" class="btn" style="margin-top:22px;">See the deep track</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="sec sec-line" id="how">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">How it works</div>
+        <h2>Self-guided, but never aimless.</h2>
+        <p class="lead">You watch the work done on a real product, then make the same move on yours. Every phase follows the same loop.</p>
+      </div>
+      <div class="loop">
+        <div class="lstep"><div class="ln">01 / LEARN</div><h3>Concept</h3><p>A short lesson on the capability, and why it matters.</p></div>
+        <div class="lstep"><div class="ln">02 / WATCH</div><h3>Demonstration</h3><p>See the work on the example project: the prompts, the reviews, and where the agent gets corrected.</p></div>
+        <div class="lstep"><div class="ln">03 / DO</div><h3>Apply</h3><p>Make the same move on your own project, at your own pace.</p></div>
+        <div class="lstep"><div class="ln">04 / SHIP</div><h3>Deliverable</h3><p>Each phase ends in something concrete that ships, plus a short reflection.</p></div>
+      </div>
+      <div class="perks">
+        <div class="perk">
+          <svg class="pi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg>
+          <h3>Learn at your pace</h3>
+          <p>Everything is recorded and written down. Office hours are live, optional, and recorded too, so a missed week costs you nothing.</p>
+        </div>
+        <div class="perk">
+          <svg class="pi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18M3 12h18M3 17h12"/></svg>
+          <h3>Bring your own project</h3>
+          <p>You are not cloning someone else's app. You apply each capability to something you actually want to build, and that is the part that sticks.</p>
+        </div>
+        <div class="perk">
+          <svg class="pi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5a1 1 0 0 1 1-1h11l4 4v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="M8 13h8M8 17h5"/></svg>
+          <h3>Momentum by design</h3>
+          <p>Small phases that each end in a shipped result. You feel progress every step instead of drowning in theory.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OUTLINE -->
+  <section class="sec sec-line" id="outline">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">The deep track</div>
+        <h2>Seven phases. Each installs a capability.</h2>
+        <p class="lead">Phases are described by what you will be able to <em>do</em>, not by a specific app. You apply each to your own project.</p>
+      </div>
+
+      <div class="callout">
+        <svg class="ci" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>
+        <p><b>The worked example.</b> Across the course, one real product gets built start to finish: an app where the AI does real work inside the product, not a chatbot stapled on the side. Picture something that reads what a user hands it and adapts. You get it as a reference for what good looks like at every phase, and you apply the same moves to your own AI app idea rather than a copy of this one.</p>
+      </div>
+
+      <div class="outline" id="outline-list"></div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="sec sec-line sec-panel" id="about">
+    <div class="wrap">
+      <div class="about">
+        <!-- Drop a headshot at assets/noe.jpg and swap the placeholder below for:
+             <img src="assets/noe.jpg" alt="Noe"> -->
+        <div class="about-photo">your<br>photo</div>
+        <div>
+          <h2>Hey, I'm Noe.</h2>
+          <p>15+ years building software, most of it leading engineering teams across startups and scale-ups. For the last eleven months, everything I do at work has gone through a coding agent. I also help engineering teams rework how they build with them.</p>
+          <p>What I keep running into: good engineers get a modest speedup and stop there. It is not a prompting problem. Nobody gave them the system that goes around the agent. So I wrote one down.</p>
+          <a class="about-link" href="https://github.com/eonoe" rel="me noopener" target="_blank">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.2 1.77 1.2 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.24 2.76.12 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.4-5.26 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.2.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5z"/></svg>
+            github.com/eonoe
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IS THIS FOR YOU -->
+  <section class="sec sec-line" id="foryou">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">Fit check</div>
+        <h2>Is this for you?</h2>
+      </div>
+      <div class="foryou" id="foryou-list"></div>
+      <div class="skip-head">Skip this if</div>
+      <div class="skip">
+        <div><span class="x">&times;</span> You have never shipped code and want a no-code path.</div>
+        <div><span class="x">&times;</span> You want a tool tutorial rather than a way of working.</div>
+        <div><span class="x">&times;</span> You are not going to bring a real project.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT COMES WITH IT -->
+  <section class="sec sec-line" id="get">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">What you get</div>
+        <h2>What comes with it.</h2>
+      </div>
+      <div class="perks" style="grid-template-columns:repeat(2,1fr);">
+        <div class="perk">
+          <svg class="pi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H4z"/><path d="M2 20h20"/></svg>
+          <h3>Lifetime access</h3>
+          <p>The lessons and recordings stay yours. Go back to any phase whenever you need it.</p>
+        </div>
+        <div class="perk">
+          <svg class="pi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8l-4 4 4 4M17 8l4 4-4 4M14 4l-4 16"/></svg>
+          <h3>A reference repo</h3>
+          <p>Clone the worked example and read how it is actually put together: the context files, the skills, and the architecture decisions with the reasoning behind them.</p>
+        </div>
+        <div class="perk">
+          <svg class="pi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 4v16M4 9h5M4 14h5"/></svg>
+          <h3>Reusable templates</h3>
+          <p>The context-file templates and the review checklist you will keep reusing long after the course.</p>
+        </div>
+        <div class="perk">
+          <svg class="pi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="10" r="2.4"/><path d="M3 19c0-3 2.7-5 6-5s6 2 6 5M16.5 14.6c2.6.4 4.5 2.2 4.5 4.4"/></svg>
+          <h3>Live office hours</h3>
+          <p>Twice a week, on the deep track, plus a private community. Bring the project and the blockers you actually have.</p>
+        </div>
+      </div>
+
+      <div class="sec-head" style="margin-top:52px;margin-bottom:22px;">
+        <div class="eyebrow">Prerequisites</div>
+        <h2 style="font-size:24px;">What you should bring</h2>
+      </div>
+      <ul class="prereq">
+        <li><svg class="pq" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Some engineering experience: you already build software in at least one language.</li>
+        <li><svg class="pq" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Comfort with the command line and basic Git.</li>
+        <li><svg class="pq" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Access to a coding agent. The free workshop is the gentlest on-ramp if you are brand new.</li>
+        <li><svg class="pq" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> For the deep track: a project you would actually like to ship.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="sec sec-line sec-panel" id="pricing">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">Pricing</div>
+        <h2>Start here.</h2>
+        <p class="lead">Coding Agents 101 is free and worth doing on its own. Tech Lead 2.0 is the next step if you want it.</p>
+      </div>
+      <div class="tracks">
+        <div class="tk free">
+          <span class="tk-flag">Start here</span>
+          <h3>Coding Agents 101</h3>
+          <div class="tk-price">Free</div>
+          <div class="tk-sub">four live sessions, two hours each</div>
+          <ul>
+            <li><svg class="chk" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Set up an agent and ship a real change</li>
+            <li><svg class="chk" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Write your first <code>AGENTS.md</code></li>
+            <li><svg class="chk" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Review agent work without rubber-stamping it</li>
+            <li><svg class="chk" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Templates you keep</li>
+            <li><svg class="chk" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Recorded, so a missed session costs you nothing</li>
+          </ul>
+          <form class="signup" data-source="workshop" novalidate>
+            <input type="email" name="email" placeholder="you@email.com" aria-label="Email address" required autocomplete="email">
+            <input type="text" class="hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <button type="submit" class="btn btn-cta">Save my seat →</button>
+          </form>
+          <div class="signup-msg" role="status" aria-live="polite"></div>
+        </div>
+        <div class="tk deep">
+          <span class="tk-flag">Next step</span>
+          <h3>Tech Lead 2.0</h3>
+          <div class="tk-price">$690 <span class="was">$890</span></div>
+          <div class="tk-sub">founding price, cohort 1</div>
+          <ul>
+            <li><svg class="chk" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> All seven phases, on your own project</li>
+            <li><svg class="chk" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Live office hours and a private community</li>
+            <li><svg class="chk" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Reference repo: context files, skills, ADRs</li>
+            <li><svg class="chk" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Something ships every phase</li>
+            <li><svg class="chk" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> A team playbook ready to roll out</li>
+            <li><svg class="chk" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Lifetime access</li>
+          </ul>
+          <div class="tk-guarantee">30-day refund, no questions.</div>
+          <div class="tk-hint">not open yet. the workshop list hears about dates first, and keeps this price.</div>
+          <form class="signup" data-source="techlead2" novalidate>
+            <input type="email" name="email" placeholder="you@email.com" aria-label="Email address" required autocomplete="email">
+            <input type="text" class="hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <button type="submit" class="btn">Join the waitlist</button>
+          </form>
+          <div class="signup-msg" role="status" aria-live="polite"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="sec" id="faq">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">FAQ</div>
+        <h2>Questions, answered.</h2>
+      </div>
+      <div class="faq" id="faq-list"></div>
+    </div>
+  </section>
+
+  <!-- CLOSER -->
+  <section class="closer">
+    <div class="wrap closer-in">
+      <h2>Lead the build. Let agents type.</h2>
+      <p>Four live sessions, free, starting Monday, August 17. Bring a repo you already work in.</p>
+      <form class="signup" data-source="workshop" novalidate>
+        <input type="email" name="email" placeholder="you@email.com" aria-label="Email address" required autocomplete="email">
+        <input type="text" class="hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button type="submit" class="btn btn-white">Save my seat →</button>
+      </form>
+      <div class="hint">// just your email</div>
+      <div class="signup-msg" role="status" aria-live="polite"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div class="logo">Tech Lead <span class="b">2.0</span></div>
+      <div class="foot-links">
+        <a href="#shift">The shift</a>
+        <a href="#outline">Outline</a>
+        <a href="#about">About</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+        <a href="https://github.com/eonoe" rel="noopener" target="_blank">GitHub</a>
+        <a href="mailto:noe@jupiterapp.io">noe@jupiterapp.io</a>
+      </div>
+    </div>
+    <div class="foot-fine">A program on AI-native engineering. Start free, go deep when you want to.</div>
+  </div>
+</footer>
+
+<script>
+const phases=[
+  {no:'Phase 01',tag:'Foundation',name:'Mental model rewire',
+   cap:'Make the coding agent your main interface rather than a fancy autocomplete.',
+   learn:'How to think in structured context instead of line-by-line code, and the review-first mindset.',
+   apply:'Get a coding agent running on your project and merge your first agent-built change.',
+   ship:'A working agent setup and your first reviewed, merged PR.'},
+  {no:'Phase 02',tag:'Leverage',name:'Context engineering',
+   cap:'Make agents project-aware from a cold start, every time.',
+   learn:'Context files, a skills library, and hooks. This is the gap between 1.5x and 10x agent leverage.',
+   apply:'Build the full context system for your project and benchmark cold-start quality against a warm session.',
+   ship:'A context system that makes any fresh agent session productive immediately.'},
+  {no:'Phase 03',tag:'Workflow',name:'AI-native dev workflow',
+   cap:'Orchestrate more than one agent at a time.',
+   learn:'Multi-agent patterns: one agent per stage, run in parallel where it makes sense.',
+   apply:'Build a real multi-step feature in your project using orchestrated agents you review.',
+   ship:'A non-trivial feature, agent-built across stages, reviewed by you.'},
+  {no:'Phase 04',tag:'Architecture',name:'Architecture in the AI era',
+   cap:'Design so agents stay coherent as the codebase grows.',
+   learn:'Domain-driven design and bounded contexts that make a codebase agent-readable by design.',
+   apply:'Define your domain language and bounded contexts; write your first real ADRs.',
+   ship:'A documented domain model and a set of architecture decision records.'},
+  {no:'Phase 05',tag:'Quality',name:'Engineering excellence',
+   cap:'Make quality deliberate: tests first, even when agents write the code.',
+   learn:'TDD where you write the specs and agents implement, with quality gates baked into the loop.',
+   apply:'Build your most critical service test-first, with a review checklist as a reusable skill.',
+   ship:'A fully test-covered core service and a quality gate on every change.'},
+  {no:'Phase 06',tag:'Infra',name:'Cloud and platform',
+   cap:'Treat infrastructure as code you review, not config you fear.',
+   learn:'How to design infrastructure and review infrastructure-as-code the way you review app code.',
+   apply:'Get your project deployed with agent-written IaC, CI/CD, and basic observability.',
+   ship:'A live deployment with a real pipeline and dashboards, every piece of it reviewed by you.'},
+  {no:'Phase 07',tag:'Operating',name:'Beyond the solo build',
+   cap:'Make agentic development hold up with a team, not just solo.',
+   learn:'The grounded side of leading this: what a feature actually costs, what agents are allowed to touch, how to measure honestly, and how to keep yourself from being the review bottleneck.',
+   apply:'Onboard one real teammate to your workflow and write the playbook for your setup, watching where it breaks.',
+   ship:'A one-page team playbook covering cost, guardrails, metrics, and limits, ready to hand to a real team.'},
+];
+const ol=document.getElementById('outline-list');
+phases.forEach(p=>{
+  const el=document.createElement('div');
+  el.className='phase';
+  el.innerHTML=`
+    <div class="ph-meta">
+      <div class="ph-no">${p.no}</div>
+      <h3>${p.name}</h3>
+      <span class="ph-tag">${p.tag}</span>
+    </div>
+    <div class="ph-body">
+      <div class="ph-cap">${p.cap}</div>
+      <div class="ph-cols">
+        <div class="ph-col"><h4>The learning</h4><p>${p.learn}</p></div>
+        <div class="ph-col"><h4>Apply to your project</h4><p>${p.apply}</p></div>
+      </div>
+      <div class="ship"><svg class="si" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><div><b>You ship:</b> ${p.ship}</div></div>
+    </div>`;
+  ol.appendChild(el);
+});
+
+const fits=[
+  'You want to learn to build with coding agents from scratch.',
+  'You have been using one and want a serious level-up.',
+  'You want to run several agents at once and make architecture decisions that hold.',
+  'You want to ship a real project, not follow along with demos.',
+  'You learn by applying things to your own work.',
+];
+const fl=document.getElementById('foryou-list');
+fits.forEach(f=>{
+  const el=document.createElement('div');
+  el.className='fy';
+  el.innerHTML=`<svg class="fyi" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="8.5 12 11 14.5 15.5 9.5"/></svg><span>${f}</span>`;
+  fl.appendChild(el);
+});
+
+const faqs=[
+  {q:'What does it cost?',a:'Coding Agents 101 is free. Tech Lead 2.0 is 690 dollars for the first cohort and 890 after that. The founding price is held for anyone on the workshop list.'},
+  {q:'When does Tech Lead 2.0 start?',a:'No dates yet. The workshop list hears first, and the founding price is held for them. The free workshop runs before any of that, so start there.'},
+  {q:'Can I get a refund?',a:'Yes. Thirty days on Tech Lead 2.0, no questions. Email noe@jupiterapp.io and I will sort it out.'},
+  {q:'Is this self-paced or scheduled?',a:'The course itself is self-paced: everything is recorded and written, so you start, pause, and resume on your own time. Office hours are live but optional, and those get recorded too.'},
+  {q:'Do I need to know how to code?',a:'Some engineering experience helps. This is for people who already build software and want to lead with agents instead of typing everything. The free workshop is the gentlest on-ramp; if you finish it comfortably, the deep track is for you.'},
+  {q:'Do I have to build the same app as the worked example?',a:'No. The worked example is one AI-powered app built throughout so you always have a reference for what good looks like. You apply each phase to an AI app idea of your own, on your own stack.'},
+  {q:'What if I do not have a project idea?',a:'Bring anything real: a side project, a tool for your team, an idea you have been sitting on. The free workshop works even without one; the deep track is where having your own project pays off most.'},
+  {q:'Which coding agent do I need?',a:'The course is built around a primary coding agent and the workflow around it. You can follow along with the agent you already use; the principles transfer.'},
+  {q:'Is the free workshop just a teaser?',a:'No. Coding Agents 101 stands on its own: you finish it with a working agent setup and a merged change. It also happens to be a solid foundation if you decide to go deeper.'},
+];
+const ql=document.getElementById('faq-list');
+faqs.forEach(f=>{
+  const el=document.createElement('div');
+  el.className='q';
+  el.innerHTML=`<div class="qh" role="button" tabindex="0">${f.q}<svg class="qx" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div><div class="qb">${f.a}</div>`;
+  const head=el.querySelector('.qh');
+  const toggle=()=>el.classList.toggle('open');
+  head.addEventListener('click',toggle);
+  head.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle();}});
+  ql.appendChild(el);
+});
+
+// SIGNUP — posts to the same Google Apps Script web app as the workshop pages.
+// Paste the /exec URL from your deployment here. See apps-script/README.md.
+const SIGNUP_ENDPOINT='https://script.google.com/macros/s/AKfycbyk628U2RLrqQqawB9xZEgO-jV8gRen4WjQ5YBDJB0Ko1DO40ycOkVv1wq3rHFdSYTG/exec';
+const EMAIL_RE=/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/;
+// ca101_signed_up is the key d/dayevent.html already uses, so a visitor who
+// signed up there arrives here already marked as in.
+const SOURCES={
+  workshop:{key:'ca101_signed_up',ok:"You're in. Check your inbox for the session details."},
+  techlead2:{key:'tl2_waitlist',ok:"You're on the list. I'll email you first when dates go out."},
+};
+const COPY={
+  sending:'Sending…',
+  invalid:"That email address doesn't look right.",
+  failed:"Something went wrong. Email noe@jupiterapp.io and I'll add you by hand.",
+};
+
+const signups=[...document.querySelectorAll('form[data-source]')].map(form=>{
+  const source=form.dataset.source;
+  const conf=SOURCES[source]||SOURCES.techlead2;
+  const msg=form.parentElement.querySelector('.signup-msg');
+  const say=(text,cls='')=>{ if(msg){ msg.textContent=text; msg.className='signup-msg '+cls; } };
+  const markDone=()=>{ form.hidden=true; say(conf.ok,'ok'); };
+  return {form,source,conf,say,markDone};
+});
+
+// One success hides every form for that source, so the page stops asking.
+const markAll=source=>{
+  const conf=SOURCES[source];
+  try{ if(conf) localStorage.setItem(conf.key,'1'); }catch(e){}
+  signups.filter(s=>s.source===source).forEach(s=>s.markDone());
+};
+
+signups.forEach(({form,source,conf,say,markDone})=>{
+  try{ if(localStorage.getItem(conf.key)==='1') markDone(); }catch(e){}
+
+  form.addEventListener('submit',ev=>{
+    ev.preventDefault();
+    const input=form.querySelector('input[name="email"]');
+    const button=form.querySelector('button');
+    const email=(input.value||'').trim().toLowerCase();
+
+    if(!EMAIL_RE.test(email)){ say(COPY.invalid,'err'); input.focus(); return; }
+
+    const label=button.textContent;
+    button.disabled=true; button.textContent=COPY.sending;
+    say('');
+
+    const payload=JSON.stringify({
+      email,
+      source,
+      lang:'en',
+      page:location.pathname,
+      referrer:document.referrer,
+      utm:location.search,
+      ua:navigator.userAgent,
+      company:form.querySelector('input[name="company"]').value,
+    });
+
+    const done=()=>markAll(source);
+    const reset=()=>{ button.disabled=false; button.textContent=label; };
+    const fail=()=>{ reset(); say(COPY.failed,'err'); };
+
+    // text/plain keeps this a "simple" request, so the browser skips the CORS
+    // preflight that Apps Script can't answer.
+    fetch(SIGNUP_ENDPOINT,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:payload})
+      .then(r=>r.json())
+      .then(res=>{
+        if(res&&res.ok) done();
+        else if(res&&res.error==='invalid_email'){ reset(); say(COPY.invalid,'err'); }
+        else fail();
+      })
+      .catch(()=>{
+        // Opaque fallback: the request still reaches the script, we just can't read the reply.
+        fetch(SIGNUP_ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:payload})
+          .then(done).catch(fail);
+      });
+  });
+});
+</script>
+</body>
 </html>
