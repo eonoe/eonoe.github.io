@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Coding Agents 101 — Free live workshop, August 17</title>
-<link rel="canonical" href="https://eonoe.github.io/">
-<link rel="alternate" hreflang="es" href="https://eonoe.github.io/es.html">
+<link rel="canonical" href="https://eonoe.github.io/es.html">
 <link rel="alternate" hreflang="en" href="https://eonoe.github.io/">
+<link rel="alternate" hreflang="es" href="https://eonoe.github.io/es.html">
+<title>Coding Agents 101 — Taller en vivo gratuito, 17 de agosto</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -19,7 +19,7 @@
   --maxw:1080px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-/* .signup sets display:flex, which would otherwise beat the UA rule for [hidden]. */
+/* .signup usa display:flex, que si no ganaría a la regla del navegador para [hidden]. */
 [hidden]{display:none!important;}
 html{scroll-behavior:smooth;}
 body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;}
@@ -61,14 +61,14 @@ h1,h2,h3{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:-
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
 .hero h1{font-size:clamp(46px,8vw,86px);margin-bottom:18px;}
 .hero h1 .hl{color:var(--pop);-webkit-text-stroke:1.6px var(--ink);paint-order:stroke fill;}
-.hero .sub{font-size:18px;color:var(--ink2);max-width:46ch;line-height:1.55;margin-bottom:28px;}
+.hero .sub{font-size:18px;color:var(--ink2);max-width:48ch;line-height:1.55;margin-bottom:28px;}
 
 /* SIGNUP */
 .signup{display:flex;flex-wrap:wrap;gap:10px;align-items:center;max-width:520px;}
 .signup input{flex:1;min-width:200px;font-family:'Inter',sans-serif;font-size:15px;padding:13px 15px;border:2px solid var(--ink);border-radius:10px;}
 .signup input:focus{outline:none;box-shadow:3px 3px 0 var(--blue);}
 .signup button[disabled]{opacity:.6;cursor:default;}
-/* Honeypot: off-screen rather than display:none, which some bots skip. */
+/* Honeypot: fuera de pantalla en vez de display:none, que algunos bots ignoran. */
 .signup .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0;}
 .signup-msg{font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.5;margin-top:12px;max-width:520px;}
 .signup-msg.ok{color:var(--blue-ink);font-weight:700;}
@@ -82,10 +82,10 @@ h1,h2,h3{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:-
 .term-bar .r{background:#ff5f57;}.term-bar .y{background:#febc2e;}.term-bar .g{background:#28c840;}
 .term-bar .ttl{font-family:'JetBrains Mono',monospace;font-size:11px;color:#8a8a99;margin-left:8px;}
 .term-body{padding:18px 18px 22px;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.85;color:#d6d6e0;}
-.term-body .c1{color:#7c83ff;}   /* prompt */
-.term-body .c2{color:#5a5a6e;}   /* muted */
-.term-body .c3{color:#28c840;}   /* ok */
-.term-body .c4{color:var(--pop);}/* highlight */
+.term-body .c1{color:#7c83ff;}
+.term-body .c2{color:#5a5a6e;}
+.term-body .c3{color:#28c840;}
+.term-body .c4{color:var(--pop);}
 .term-body .you{color:#fff;}
 .cursor{display:inline-block;width:8px;height:15px;background:var(--pop);vertical-align:-2px;animation:cb 1.1s steps(1) infinite;}
 @keyframes cb{0%,50%{opacity:1}51%,100%{opacity:0}}
@@ -107,7 +107,7 @@ h1,h2,h3{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:-
 .stat{padding:40px 24px;border-right:3px solid var(--ink);}
 .stat:last-child{border-right:none;}
 @media(max-width:680px){.stat:nth-child(2){border-right:none;}.stat:nth-child(1),.stat:nth-child(2){border-bottom:3px solid var(--ink);}}
-.stat .n{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(40px,6vw,58px);letter-spacing:-.04em;line-height:.9;margin-bottom:10px;}
+.stat .n{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(36px,5.4vw,56px);letter-spacing:-.04em;line-height:.9;margin-bottom:10px;}
 .stat:nth-child(1) .n{color:var(--blue);}
 .stat:nth-child(3) .n{color:var(--blue);}
 .stat .l{font-size:14px;color:var(--ink2);line-height:1.4;font-weight:500;}
@@ -117,7 +117,7 @@ h1,h2,h3{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:-
 .sec{padding:74px 0;}
 .sec-line{border-bottom:3px solid var(--ink);}
 .eyebrow{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px;}
-.sec h2{font-size:clamp(30px,4.6vw,46px);margin-bottom:14px;max-width:18ch;}
+.sec h2{font-size:clamp(30px,4.6vw,46px);margin-bottom:14px;max-width:20ch;}
 .sec .lead{font-size:17px;color:var(--ink2);max-width:58ch;line-height:1.55;}
 .sec-head{margin-bottom:38px;}
 
@@ -145,9 +145,9 @@ h1,h2,h3{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:-
 /* VALUE BAND */
 .band{background:var(--ink);color:#fff;border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);}
 .band-in{padding:84px 0;}
-.band h2{font-size:clamp(32px,5.4vw,58px);max-width:16ch;margin-bottom:18px;color:#fff;}
+.band h2{font-size:clamp(32px,5.4vw,58px);max-width:18ch;margin-bottom:18px;color:#fff;}
 .band h2 .hl{color:var(--pop);}
-.band p{font-size:18px;color:#b9b9c6;max-width:54ch;line-height:1.6;}
+.band p{font-size:18px;color:#b9b9c6;max-width:56ch;line-height:1.6;}
 
 /* FAQ */
 .faq .q{border-bottom:2px solid var(--line);}
@@ -161,7 +161,7 @@ h1,h2,h3{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:-
 .closer{background:var(--blue);border-bottom:3px solid var(--ink);color:#fff;text-align:center;}
 .closer-in{padding:84px 0;}
 .closer h2{font-size:clamp(34px,5vw,56px);margin-bottom:16px;color:#fff;}
-.closer p{font-size:18px;color:#dcdbff;max-width:48ch;margin:0 auto 28px;}
+.closer p{font-size:18px;color:#dcdbff;max-width:50ch;margin:0 auto 28px;}
 .closer .signup{margin:0 auto;justify-content:center;}
 .closer .signup input{border-color:#fff;}
 .closer .note{color:#cfceff;text-align:center;}
@@ -181,7 +181,7 @@ footer{padding:34px 0;}
 <!-- MARQUEE -->
 <div class="marq" aria-hidden="true">
   <div class="marq-track">
-    <span>Coding Agents 101</span>·<span>Free live workshop</span>·<span>Aug 17 – 20, 2026</span>·<span>4 sessions × 2 hours</span>·<span>Bring your own repo</span>·<span>Live Q&amp;A</span>·<span>Coding Agents 101</span>·<span>Free live workshop</span>·<span>Aug 17 – 20, 2026</span>·<span>4 sessions × 2 hours</span>·<span>Bring your own repo</span>·<span>Live Q&amp;A</span>·
+    <span>Coding Agents 101</span>·<span>Taller en vivo gratuito</span>·<span>17 – 20 ago 2026</span>·<span>4 sesiones × 2 horas</span>·<span>Trae tu repositorio</span>·<span>Preguntas en vivo</span>·<span>Coding Agents 101</span>·<span>Taller en vivo gratuito</span>·<span>17 – 20 ago 2026</span>·<span>4 sesiones × 2 horas</span>·<span>Trae tu repositorio</span>·<span>Preguntas en vivo</span>·
   </div>
 </div>
 
@@ -189,10 +189,10 @@ footer{padding:34px 0;}
 <header class="bar">
   <div class="wrap bar-in">
     <a href="#top" class="logo">Coding Agents <span class="b">101</span></a>
-    <a href="#inside" class="barlink">What's inside</a>
-    <a href="#resources" class="barlink">Resources</a>
-    <a href="#faq" class="barlink">FAQ</a>
-    <a href="#get" class="btn btn-cta btn-sm">Get free access</a>
+    <a href="#inside" class="barlink">Qué incluye</a>
+    <a href="#resources" class="barlink">Recursos</a>
+    <a href="#faq" class="barlink">Preguntas</a>
+    <a href="#get" class="btn btn-cta btn-sm">Apúntate gratis</a>
   </div>
 </header>
 
@@ -202,26 +202,26 @@ footer{padding:34px 0;}
   <section class="hero">
     <div class="wrap hero-grid">
       <div>
-        <div class="tag"><span class="dot"></span> Free · live · starts Mon, Aug 17</div>
-        <h1>Build with <span class="hl">coding&nbsp;agents</span> for real.</h1>
-        <p class="sub">A free, hands-on workshop. Four live sessions across one week, two hours each. You build alongside on a repo of your own and walk away having shipped a real change with an agent.</p>
+        <div class="tag"><span class="dot"></span> Gratis · en vivo · empieza el lun 17 ago</div>
+        <h1>Construye con <span class="hl">agentes&nbsp;de&nbsp;código</span> de verdad.</h1>
+        <p class="sub">Un taller práctico y gratuito. Cuatro sesiones en vivo en una semana, dos horas cada una. Construyes en paralelo sobre un repositorio tuyo y te vas habiendo enviado un cambio real con un agente.</p>
         <!-- The id lives on this wrapper, not on the form. The form gets [hidden]
              once someone has signed up, and a display:none anchor target cannot be
              scrolled to, which would kill inbound #get links. The form, note and
              message stay siblings here because msgFor() walks nextElementSibling. -->
         <div id="get">
           <form class="signup" data-source="workshop" novalidate>
-            <input type="email" name="email" placeholder="you@email.com" aria-label="Email address" required autocomplete="email">
+            <input type="email" name="email" placeholder="tu@correo.com" aria-label="Correo electrónico" required autocomplete="email">
             <input type="text" class="hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
-            <button type="submit" class="btn btn-cta">Get free access →</button>
+            <button type="submit" class="btn btn-cta">Apúntate gratis →</button>
           </form>
-          <div class="note">// just your email · no card · recordings if you miss one</div>
+          <div class="note">// solo tu correo · sin tarjeta · grabaciones si te pierdes una</div>
           <div class="signup-msg" role="status" aria-live="polite"></div>
         </div>
       </div>
 
       <!-- TERMINAL ART -->
-      <div class="term" role="img" aria-label="Example coding agent session in a terminal">
+      <div class="term" role="img" aria-label="Sesión de ejemplo de un agente de código en una terminal">
         <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="ttl">~/your-repo — agent session</span></div>
         <div class="term-body">
 <span class="c1">you ▸</span> add input validation to checkout<br>
@@ -240,14 +240,14 @@ footer{padding:34px 0;}
   <section class="cband">
     <div class="wrap cband-in">
       <div>
-        <div class="cls">Spots are limited · enroll now</div>
-        <div class="cl">First session: Monday, August 17 · 6:00 PM</div>
+        <div class="cls">Plazas limitadas · apúntate ya</div>
+        <div class="cl">Primera sesión: lunes 17 de agosto · 6:00 PM</div>
       </div>
       <div class="count" id="count" aria-live="polite">
-        <div class="cu"><div class="cn" id="c-d">--</div><div class="cs">Days</div></div>
+        <div class="cu"><div class="cn" id="c-d">--</div><div class="cs">Días</div></div>
         <div class="cu"><div class="cn" id="c-h">--</div><div class="cs">Hrs</div></div>
         <div class="cu"><div class="cn" id="c-m">--</div><div class="cs">Min</div></div>
-        <div class="cu"><div class="cn" id="c-s">--</div><div class="cs">Sec</div></div>
+        <div class="cu"><div class="cn" id="c-s">--</div><div class="cs">Seg</div></div>
       </div>
     </div>
   </section>
@@ -256,89 +256,89 @@ footer{padding:34px 0;}
   <div class="stats-wrap">
     <div class="wrap">
       <div class="stats">
-        <div class="stat"><div class="n">4</div><div class="l">live sessions, hands-on</div></div>
-        <div class="stat"><div class="n">2h</div><div class="l">each · eight hours total</div></div>
-        <div class="stat"><div class="n">Live</div><div class="l">Q&amp;A with your own repo</div></div>
-        <div class="stat"><div class="n">$0</div><div class="l">free, just your email</div></div>
+        <div class="stat"><div class="n">4</div><div class="l">sesiones en vivo, prácticas</div></div>
+        <div class="stat"><div class="n">2 h</div><div class="l">cada una · ocho horas en total</div></div>
+        <div class="stat"><div class="n">En vivo</div><div class="l">preguntas con tu repositorio</div></div>
+        <div class="stat"><div class="n">Gratis</div><div class="l">solo tu correo, sin tarjeta</div></div>
       </div>
     </div>
   </div>
 
-  <!-- WHAT'S INSIDE -->
+  <!-- SESIONES -->
   <section class="sec sec-line" id="inside">
     <div class="wrap">
       <div class="sec-head">
-        <div class="eyebrow">// the workshop</div>
-        <h2>Four live sessions. One real change shipped.</h2>
-        <p class="lead">Two hours each, live and hands-on. You build alongside on a repo of your own and ask questions as you go. By the last session you have merged a change an agent wrote, and you know why it worked.</p>
+        <div class="eyebrow">// el taller</div>
+        <h2>Cuatro sesiones en vivo. Un cambio real, enviado.</h2>
+        <p class="lead">Dos horas cada una, en vivo y prácticas. Construyes en paralelo sobre un repositorio tuyo y preguntas sobre la marcha. Para la última sesión habrás fusionado un cambio escrito por un agente, y sabrás por qué funcionó.</p>
       </div>
       <div class="sessions">
         <div class="scard">
-          <div class="badge">SESSION 1</div>
-          <div class="when">Mon, Aug 17 · 6:00 PM</div>
-          <h3>Get an agent doing real work</h3>
-          <p>Install a coding agent and run a real session together, not a toy demo. Learn the loop every agent runs on: gather context, act, then verify, and put it to work on an actual task.</p>
-          <div class="out">You leave with: an agent running on your own repo, doing something useful.</div>
+          <div class="badge">SESIÓN 1</div>
+          <div class="when">Lun, 17 ago · 6:00 PM</div>
+          <h3>Pon un agente a trabajar de verdad</h3>
+          <p>Instala un agente de código y corremos juntos una sesión real, no un ejemplo de juguete. Aprendes el ciclo que sigue todo agente: reunir contexto, actuar y verificar, y lo pones a trabajar en una tarea real.</p>
+          <div class="out">Te llevas: un agente corriendo en tu propio repositorio, haciendo algo útil.</div>
         </div>
         <div class="scard">
-          <div class="badge">SESSION 2</div>
-          <div class="when">Tue, Aug 18 · 6:00 PM</div>
-          <h3>Context that makes it click</h3>
-          <p>The difference between a vague agent and a sharp one is mostly context. Write your first AGENTS.md so the agent stops guessing and starts using your project's real conventions.</p>
-          <div class="out">You leave with: an AGENTS.md the agent visibly follows.</div>
+          <div class="badge">SESIÓN 2</div>
+          <div class="when">Mar, 18 ago · 6:00 PM</div>
+          <h3>El contexto que lo cambia todo</h3>
+          <p>La diferencia entre un agente impreciso y uno afilado es, sobre todo, el contexto. Escribes tu primer AGENTS.md para que el agente deje de adivinar y empiece a usar las convenciones reales de tu proyecto.</p>
+          <div class="out">Te llevas: un AGENTS.md que el agente sigue de verdad.</div>
         </div>
         <div class="scard">
-          <div class="badge">SESSION 3</div>
-          <div class="when">Wed, Aug 19 · 6:00 PM</div>
-          <h3>Review like you mean it</h3>
-          <p>The real skill is not prompting, it's reading what the agent wrote and pushing back. Review a change live, reject the part that's wrong, and merge the rest. This is the habit that keeps quality from sliding.</p>
-          <div class="out">You leave with: your first agent-built change, reviewed and merged.</div>
+          <div class="badge">SESIÓN 3</div>
+          <div class="when">Mié, 19 ago · 6:00 PM</div>
+          <h3>Revisa como se debe</h3>
+          <p>La habilidad de verdad no es escribir prompts, es leer lo que el agente escribió y cuestionarlo. Revisamos un cambio en vivo, rechazas lo que está mal y fusionas el resto. Este es el hábito que evita que la calidad se caiga.</p>
+          <div class="out">Te llevas: tu primer cambio hecho por un agente, revisado y fusionado.</div>
         </div>
         <div class="scard">
-          <div class="badge">SESSION 4</div>
-          <div class="when">Thu, Aug 20 · 6:00 PM</div>
-          <h3>Make it stick</h3>
-          <p>Turn a workflow you just did into something reusable, and learn when reaching for an agent is the wrong call. Then we open the floor: bring your repo and questions, and we work through them live.</p>
-          <div class="out">You leave with: a reusable workflow, a sense of the limits, and your questions answered.</div>
+          <div class="badge">SESIÓN 4</div>
+          <div class="when">Jue, 20 ago · 6:00 PM</div>
+          <h3>Que perdure</h3>
+          <p>Conviertes un flujo de trabajo que acabas de hacer en algo reutilizable, y aprendes cuándo recurrir a un agente es mala idea. Después abrimos el espacio: trae tu repositorio y tus preguntas, y las resolvemos en vivo.</p>
+          <div class="out">Te llevas: un flujo reutilizable, claridad sobre los límites, y tus preguntas resueltas.</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- RESOURCES -->
+  <!-- RECURSOS -->
   <section class="sec sec-line" id="resources">
     <div class="wrap">
       <div class="sec-head">
-        <div class="eyebrow">// templates and resources</div>
-        <h2>Things you keep when it's over.</h2>
-        <p class="lead">Not slideware. The actual files you'll reuse on every project after.</p>
+        <div class="eyebrow">// plantillas y recursos</div>
+        <h2>Lo que te queda cuando termina.</h2>
+        <p class="lead">Nada de presentaciones. Los archivos reales que vas a reutilizar en cada proyecto después.</p>
       </div>
       <div class="res">
         <div class="rc">
           <svg class="ri" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v5h5M8 13h8M8 17h6"/></svg>
-          <h3>An AGENTS.md starter</h3>
-          <p>A template you fill in for your own project, so your agent starts every session already knowing the rules.</p>
+          <h3>Un AGENTS.md de inicio</h3>
+          <p>Una plantilla que completas para tu propio proyecto, para que tu agente empiece cada sesión sabiendo ya las reglas.</p>
         </div>
         <div class="rc">
           <svg class="ri" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h11"/></svg>
-          <h3>A code-review checklist</h3>
-          <p>What to look for when reading an agent's work, so you catch the wrong things before they ship.</p>
+          <h3>Una lista de revisión de código</h3>
+          <p>En qué fijarte al leer el trabajo de un agente, para detectar lo que está mal antes de que llegue a producción.</p>
         </div>
         <div class="rc">
           <svg class="ri" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7l-2 5 2 5M20 7l2 5-2 5M14 4l-4 16"/></svg>
-          <h3>A starter prompt set</h3>
-          <p>The small set of prompts actually worth saving, instead of a giant library you never open twice.</p>
+          <h3>Un conjunto de prompts para empezar</h3>
+          <p>El puñado de prompts que de verdad vale la pena guardar, en lugar de una biblioteca enorme que no vuelves a abrir.</p>
         </div>
       </div>
-      <p class="res-note">// download them at session 1 · yours whether you make every session or not</p>
+      <p class="res-note">// los descargas en la sesión 1 · son tuyos aunque no asistas a todas</p>
     </div>
   </section>
 
   <!-- VALUE BAND -->
   <section class="band">
     <div class="wrap band-in">
-      <h2>Most people use agents like <span class="hl">autocomplete</span>. By Thursday, you won't.</h2>
-      <p>The jump to real leverage isn't talent or a secret prompt. It's a few habits: giving the agent real context, reading its output like a reviewer, and knowing when to stop. That's the whole workshop. Four sessions, no padding.</p>
+      <h2>La mayoría usa los agentes como <span class="hl">autocompletado</span>. Para el jueves, tú no.</h2>
+      <p>El salto a sacarle partido de verdad no es cuestión de talento ni de un prompt secreto. Son unos pocos hábitos: darle al agente contexto real, leer lo que produce como un revisor, y saber cuándo parar. Eso es todo el taller. Cuatro sesiones, sin relleno.</p>
     </div>
   </section>
 
@@ -346,29 +346,29 @@ footer{padding:34px 0;}
   <section class="sec sec-line faq" id="faq">
     <div class="wrap">
       <div class="sec-head">
-        <div class="eyebrow">// faq</div>
-        <h2>Questions, answered.</h2>
+        <div class="eyebrow">// preguntas frecuentes</div>
+        <h2>Preguntas, resueltas.</h2>
       </div>
-      <div class="q"><div class="qh" role="button" tabindex="0">Is it really free?<span class="qx">+</span></div><div class="qb">Yes. Your email is the only thing it costs. No card, no trial that quietly converts, no upsell wall in the middle.</div></div>
-      <div class="q"><div class="qh" role="button" tabindex="0">Do I need to know how to code?<span class="qx">+</span></div><div class="qb">Some. You should be comfortable in at least one language and able to find your way around the command line and Git. If you already write code, you're set.</div></div>
-      <div class="q"><div class="qh" role="button" tabindex="0">Which coding agent do I need?<span class="qx">+</span></div><div class="qb">Any current coding agent works. The habits transfer between them, so use the one you already have access to. Having access to one is the only hard requirement.</div></div>
-      <div class="q"><div class="qh" role="button" tabindex="0">What if I miss a session?<span class="qx">+</span></div><div class="qb">Every session is recorded. If you can't make one live, you'll get the recording, and you can still bring your questions to the next session.</div></div>
-      <div class="q"><div class="qh" role="button" tabindex="0">How much time is it?<span class="qx">+</span></div><div class="qb">Four live sessions of two hours each, eight hours total, across the launch week. Recordings are there if you need to catch up between sessions.</div></div>
-      <div class="q"><div class="qh" role="button" tabindex="0">Does this lead into a paid course?<span class="qx">+</span></div><div class="qb">It's the on-ramp. If 101 clicks for you, the deep Tech Lead 2.0 track picks up where it leaves off and applies the same ideas to a real project. There's no pressure to continue, and 101 is built to be worth your time on its own.</div></div>
+      <div class="q"><div class="qh" role="button" tabindex="0">¿De verdad es gratis?<span class="qx">+</span></div><div class="qb">Sí. Tu correo es lo único que cuesta. Sin tarjeta, sin prueba que se cobra sola, sin muro de pago a mitad de camino.</div></div>
+      <div class="q"><div class="qh" role="button" tabindex="0">¿Necesito saber programar?<span class="qx">+</span></div><div class="qb">Un poco. Deberías manejarte en al menos un lenguaje y moverte con soltura en la línea de comandos y en Git. Si ya escribes código, estás listo.</div></div>
+      <div class="q"><div class="qh" role="button" tabindex="0">¿Qué agente de código necesito?<span class="qx">+</span></div><div class="qb">Sirve cualquier agente de código actual. Los hábitos se trasladan entre ellos, así que usa el que ya tengas a mano. Tener acceso a uno es el único requisito imprescindible.</div></div>
+      <div class="q"><div class="qh" role="button" tabindex="0">¿Y si me pierdo una sesión?<span class="qx">+</span></div><div class="qb">Cada sesión se graba. Si no puedes asistir a una en vivo, recibes la grabación, y puedes llevar tus preguntas a la siguiente sesión.</div></div>
+      <div class="q"><div class="qh" role="button" tabindex="0">¿Cuánto tiempo es?<span class="qx">+</span></div><div class="qb">Cuatro sesiones en vivo de dos horas cada una, ocho horas en total, durante la semana de lanzamiento. Tienes las grabaciones por si necesitas ponerte al día entre sesiones.</div></div>
+      <div class="q"><div class="qh" role="button" tabindex="0">¿Esto lleva a un curso de pago?<span class="qx">+</span></div><div class="qb">Es la puerta de entrada. Si 101 te engancha, el programa profundo de Tech Lead 2.0 retoma donde este termina y aplica las mismas ideas a un proyecto real. No hay presión por continuar, y 101 está pensado para valer tu tiempo por sí solo.</div></div>
     </div>
   </section>
 
   <!-- CLOSER -->
   <section class="closer">
     <div class="wrap closer-in">
-      <h2>Save your spot.</h2>
-      <p>Four live sessions, free, starting Monday, August 17. Bring a repo you already work in.</p>
+      <h2>Aparta tu lugar.</h2>
+      <p>Cuatro sesiones en vivo, gratis, desde el lunes 17 de agosto. Trae un repositorio en el que ya trabajes.</p>
       <form class="signup" data-source="workshop" novalidate>
-        <input type="email" name="email" placeholder="you@email.com" aria-label="Email address" required autocomplete="email">
+        <input type="email" name="email" placeholder="tu@correo.com" aria-label="Correo electrónico" required autocomplete="email">
         <input type="text" class="hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <button type="submit" class="btn btn-pop">Get free access →</button>
+        <button type="submit" class="btn btn-pop">Apúntate gratis →</button>
       </form>
-      <div class="note" id="closer-note">// just your email</div>
+      <div class="note" id="closer-note">// solo tu correo</div>
       <div class="signup-msg" role="status" aria-live="polite"></div>
     </div>
   </section>
@@ -380,19 +380,19 @@ footer{padding:34px 0;}
     <div class="foot">
       <div class="logo">Coding Agents <span class="b">101</span></div>
       <div class="foot-links">
-        <a href="/course/">Full course</a>
-        <a href="#inside">What's inside</a>
-        <a href="#faq">FAQ</a>
-        <a href="#get">Get access</a>
+        <a href="/course/">Curso completo</a>
+        <a href="#inside">Qué incluye</a>
+        <a href="#faq">Preguntas</a>
+        <a href="#get">Acceso</a>
       </div>
     </div>
-    <div class="foot-fine">Coding Agents 101 is the free on-ramp to Tech Lead 2.0 · live and hands-on.</div>
+    <div class="foot-fine">Coding Agents 101 es la puerta de entrada gratuita a Tech Lead 2.0 · en vivo y práctico.</div>
   </div>
 </footer>
 
 <script>
-// Countdown to the first session: Mon, Aug 17, 2026, 6:00 PM local
-var target = new Date(2026, 7, 17, 18, 0, 0).getTime(); // first session: Tue Aug 17, 6:00 PM local (month 0-indexed: 6 = August)
+// Cuenta regresiva a la primera sesión: lun 17 ago 2026, 6:00 PM hora local
+var target = new Date(2026, 7, 17, 18, 0, 0).getTime(); // mes 0-indexado: 7 = agosto
 var elD=document.getElementById('c-d'),elH=document.getElementById('c-h'),
     elM=document.getElementById('c-m'),elS=document.getElementById('c-s'),
     countEl=document.getElementById('count'),closerNote=document.getElementById('closer-note');
@@ -400,18 +400,18 @@ function pad(n){return (n<10?'0':'')+n;}
 function tick(){
   var diff=target-Date.now();
   if(diff<=0){
-    countEl.innerHTML='<div class="count-live">The workshop has started — grab your spot above.</div>';
-    if(closerNote) closerNote.textContent='// the first session has started';
+    countEl.innerHTML='<div class="count-live">El taller ya empezó — aparta tu lugar arriba.</div>';
+    if(closerNote) closerNote.textContent='// la primera sesión ya empezó';
     clearInterval(timer); return;
   }
   var s=Math.floor(diff/1000),d=Math.floor(s/86400);s-=d*86400;
   var h=Math.floor(s/3600);s-=h*3600;var m=Math.floor(s/60);s-=m*60;
   elD.textContent=d;elH.textContent=pad(h);elM.textContent=pad(m);elS.textContent=pad(s);
-  if(closerNote) closerNote.textContent='// '+d+' days until the first session';
+  if(closerNote) closerNote.textContent='// faltan '+d+' '+(d===1?'día':'días')+' para la primera sesión';
 }
 tick(); var timer=setInterval(tick,1000);
 
-// FAQ toggles
+// FAQ
 var heads=document.querySelectorAll('.qh');
 for(var i=0;i<heads.length;i++){(function(head){
   function t(){head.parentElement.classList.toggle('open');}
@@ -419,17 +419,17 @@ for(var i=0;i<heads.length;i++){(function(head){
   head.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();t();}});
 })(heads[i]);}
 
-// SIGNUP — posts to a Google Apps Script web app that appends to a Sheet.
-// Paste the /exec URL from your deployment here. See apps-script/README.md.
+// SIGNUP — envía a un web app de Google Apps Script que escribe en una hoja de cálculo.
+// Pega aquí la URL /exec de tu deployment. Ver apps-script/README.md.
 var SIGNUP_ENDPOINT='https://script.google.com/macros/s/AKfycbyk628U2RLrqQqawB9xZEgO-jV8gRen4WjQ5YBDJB0Ko1DO40ycOkVv1wq3rHFdSYTG/exec';
-var SIGNUP_LANG='en';
+var SIGNUP_LANG='es';
 var SIGNUP_KEY='ca101_signed_up';
 
 var COPY={
-  sending:'Sending…',
-  ok:"You're in — check your inbox for the session details.",
-  invalid:'That email address doesn\'t look right.',
-  failed:'Something went wrong. Email noe@jupiterapp.io and I\'ll add you by hand.'
+  sending:'Enviando…',
+  ok:'Ya estás dentro — revisa tu correo para los detalles de las sesiones.',
+  invalid:'Ese correo no parece válido.',
+  failed:'Algo falló. Escríbeme a noe@jupiterapp.io y te apunto a mano.'
 };
 var EMAIL_RE=/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/;
 
@@ -451,7 +451,7 @@ function markDone(form){
   say(form,COPY.ok,'ok');
 }
 
-// Someone who already signed up sees the confirmed state instead of an empty form.
+// Quien ya se apuntó ve el estado confirmado en vez de un formulario vacío.
 try{ if(localStorage.getItem(SIGNUP_KEY)==='1'){ for(var f=0;f<forms.length;f++) markDone(forms[f]); } }catch(e){}
 
 for(var s=0;s<forms.length;s++){(function(form){
@@ -487,8 +487,8 @@ for(var s=0;s<forms.length;s++){(function(form){
       say(form,COPY.failed,'err');
     }
 
-    // text/plain keeps this a "simple" request, so the browser skips the CORS
-    // preflight that Apps Script can't answer.
+    // text/plain mantiene la petición "simple", así el navegador se salta el
+    // preflight CORS que Apps Script no sabe responder.
     fetch(SIGNUP_ENDPOINT,{
       method:'POST',
       headers:{'Content-Type':'text/plain;charset=utf-8'},
@@ -496,7 +496,7 @@ for(var s=0;s<forms.length;s++){(function(form){
     }).then(function(r){ return r.json(); })
       .then(function(res){ if(res&&res.ok){ done(); } else if(res&&res.error==='invalid_email'){ button.disabled=false; button.textContent=label; say(form,COPY.invalid,'err'); } else { fail(); } })
       .catch(function(){
-        // Opaque fallback: the request still reaches the script, we just can't read the reply.
+        // Fallback opaco: la petición llega igual, solo que no podemos leer la respuesta.
         fetch(SIGNUP_ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:payload})
           .then(done).catch(fail);
       });
