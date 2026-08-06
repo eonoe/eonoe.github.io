@@ -7,8 +7,11 @@ The whole site. Static HTML, no framework and no build step. The only external d
 | `index.html` | <https://eonoe.github.io/> | **Coding Agents 101** — the free live workshop. This is the landing page. |
 | `es.html` | <https://eonoe.github.io/es.html> | Same workshop page, Spanish |
 | `course/index.html` | <https://eonoe.github.io/course/> | **Tech Lead 2.0** — the deeper, project-based course |
+| `apps-script/Code.gs` | — | the Google Apps Script web app that receives signups |
 
-The workshop page is the front door; the course page is where people go when they want the deep track. All three post signups to the same Google Apps Script endpoint, whose source lives in [eonoe/ai-tech-lead](https://github.com/eonoe/ai-tech-lead) under `apps-script/`. That repo now holds nothing but that script and redirect stubs for the old URLs.
+The workshop page is the front door; the course page is where people go when they want the deep track. All three post signups to the same Google Apps Script endpoint — its source is `apps-script/Code.gs`, with setup notes in [`apps-script/README.md`](apps-script/README.md). The script is deployed from your Google account, not from this repo.
+
+[eonoe/ai-tech-lead](https://github.com/eonoe/ai-tech-lead) served these pages until they moved here. It now holds only redirect stubs so the old URLs still work.
 
 Internal links between the pages are path-absolute (`/course/`, `/#get`), so they only resolve correctly when served from a web root — not over `file://`.
 
