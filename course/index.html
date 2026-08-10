@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tech Lead 2.0 — Go from 1.5x to 10x with coding agents</title>
-<meta name="description" content="You plugged in a coding agent and got faster. Somewhat. Coding Agents 101 is a free live workshop, and Tech Lead 2.0 is the deep track where you rebuild how you work.">
+<title>Tech Lead 2.0 — Lead the build. Let agents code.</title>
+<meta name="description" content="Seven phases that rebuild how you work with coding agents, applied to a project you actually ship. You hold the structure. The agent fills it in. Waitlist open for cohort 1.">
 <link rel="canonical" href="https://eonoe.github.io/course/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://eonoe.github.io/course/">
-<meta property="og:title" content="Tech Lead 2.0 — Go from 1.5x to 10x with coding agents">
-<meta property="og:description" content="Free live workshop first. Then seven phases applied to a project you actually ship.">
+<meta property="og:title" content="Tech Lead 2.0 — Lead the build. Let agents code.">
+<meta property="og:description" content="Seven phases applied to a project you actually ship. You hold the structure. The agent fills it in.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Tech Lead 2.0 — Go from 1.5x to 10x with coding agents">
-<meta name="twitter:description" content="Free live workshop first. Then seven phases applied to a project you actually ship.">
+<meta name="twitter:title" content="Tech Lead 2.0 — Lead the build. Let agents code.">
+<meta name="twitter:description" content="Seven phases applied to a project you actually ship. You hold the structure. The agent fills it in.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23ffd400'/%3E%3Ctext x='16' y='23' font-family='monospace' font-size='19' font-weight='700' text-anchor='middle' fill='%230b0b10'%3E2%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -52,6 +52,8 @@ code{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:.88em;backgro
 .bar-in{height:64px;display:flex;align-items:center;gap:18px;}
 .logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;letter-spacing:-.02em;margin-right:auto;}
 .logo .b{background:var(--pop);padding:0 7px;border-radius:5px;}
+.logo-tag{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;color:var(--muted);letter-spacing:.02em;margin-left:12px;display:none;}
+@media(min-width:980px){.logo-tag{display:inline;}}
 .barlink{font-size:14px;color:var(--ink2);font-weight:500;display:none;}
 .barlink:hover{color:var(--ink);}
 @media(min-width:840px){.barlink{display:inline;}}
@@ -259,14 +261,14 @@ footer{padding:34px 0;}
 <!-- MARQUEE -->
 <div class="marq" aria-hidden="true">
   <div class="marq-track">
-    <span>Free live workshop</span>·<span>Coding Agents 101</span>·<span>Starts Mon Aug 17</span>·<span>4 sessions × 2 hours</span>·<span>Bring a repo you already work in</span>·<span>Free live workshop</span>·<span>Coding Agents 101</span>·<span>Starts Mon Aug 17</span>·<span>4 sessions × 2 hours</span>·<span>Bring a repo you already work in</span>·
+    <span>Lead the build · let agents code</span>·<span>Tech Lead 2.0</span>·<span>Seven phases, your own project</span>·<span>Waitlist open for cohort 1</span>·<span>Lead the build · let agents code</span>·<span>Tech Lead 2.0</span>·<span>Seven phases, your own project</span>·<span>Waitlist open for cohort 1</span>·
   </div>
 </div>
 
 <!-- NAV -->
 <header class="bar">
   <div class="wrap bar-in">
-    <a href="#top" class="logo">Tech Lead <span class="b">2.0</span></a>
+    <a href="#top" class="logo">Tech Lead <span class="b">2.0</span><span class="logo-tag">lead the build · let agents code</span></a>
     <a href="#shift" class="barlink">The shift</a>
     <a href="#outline" class="barlink">Outline</a>
     <a href="#about" class="barlink">About</a>
@@ -280,25 +282,24 @@ footer{padding:34px 0;}
   <!-- HERO -->
   <section class="hero">
     <div class="wrap">
-      <!-- The date below is duplicated from the countdown target on the workshop page (/index.html).
-           Keep the two in sync when the session moves. -->
-      <div class="tag"><span class="dot"></span> Free · starts Monday Aug 17</div>
-      <h1>Stop getting <span class="hl">1.5x</span> from your coding agent.</h1>
-      <p class="sub">You plugged in a coding agent and got faster. Somewhat. Coding Agents 101 is four free live sessions where you set the thing up properly and merge a change it wrote.</p>
+      <div class="tag"><span class="dot"></span> Waitlist open · cohort 1</div>
+      <h1><span class="hl">Lead</span> the build. Let agents code.</h1>
+      <p class="sub">Seven phases that rebuild how you work, applied to a project you actually ship. You hold the structure. The agent fills it in.</p>
       <!-- The id lives on this wrapper, not on the form. The form gets [hidden]
-           after signup, and a display:none anchor target cannot be scrolled to. -->
+           after signup, and a display:none anchor target cannot be scrolled to.
+           #get-free is kept as the id because it is what shared links point at. -->
       <div id="get-free">
-        <form class="signup" data-source="workshop" novalidate>
+        <form class="signup" data-source="techlead2" novalidate>
           <input type="email" name="email" placeholder="you@email.com" aria-label="Email address" required autocomplete="email">
           <input type="text" class="hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <button type="submit" class="btn btn-cta">Save my seat →</button>
+          <button type="submit" class="btn btn-cta">Get notified →</button>
         </form>
-        <div class="hint">// just your email. every session is recorded. <a href="/">full workshop details →</a></div>
+        <div class="hint">// just your email. dates and the founding rate go to this list first.</div>
         <div class="signup-msg" role="status" aria-live="polite"></div>
       </div>
       <div class="byline">
         <span class="av">N</span>
-        <span>Taught by <a href="#about">Noe</a>. Going deeper? <a href="#waitlist">Tech Lead 2.0 →</a></span>
+        <span>Taught by <a href="#about">Noe</a>. New to agents? <a href="/">Start with the free workshop →</a></span>
       </div>
     </div>
   </section>
@@ -585,14 +586,14 @@ footer{padding:34px 0;}
   <!-- CLOSER -->
   <section class="closer">
     <div class="wrap closer-in">
-      <h2>Lead the build. Let agents type.</h2>
-      <p>Four live sessions, free, starting Monday, August 17. Bring a repo you already work in.</p>
-      <form class="signup" data-source="workshop" novalidate>
+      <h2>Ready to lead the build?</h2>
+      <p>Cohort 1 has not opened yet. The waitlist gets the dates first, and the founding rate with them.</p>
+      <form class="signup" data-source="techlead2" novalidate>
         <input type="email" name="email" placeholder="you@email.com" aria-label="Email address" required autocomplete="email">
         <input type="text" class="hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <button type="submit" class="btn btn-white">Save my seat →</button>
+        <button type="submit" class="btn btn-white">Get notified →</button>
       </form>
-      <div class="hint">// just your email</div>
+      <div class="hint">// just your email · <a href="/">the free workshop runs first →</a></div>
       <div class="signup-msg" role="status" aria-live="polite"></div>
     </div>
   </section>
