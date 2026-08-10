@@ -142,6 +142,9 @@ code{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:.88em;backgro
 .tk h3{font-size:22px;margin-bottom:8px;}
 .tk-price{display:flex;align-items:baseline;gap:10px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:36px;letter-spacing:-.04em;line-height:1;}
 .tk-price .was{font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:400;color:var(--muted);text-decoration:line-through;letter-spacing:0;}
+/* Sits in the same slot as .tk-price, so it carries the card the way a number
+   would. Sentence-length, hence the smaller size and the wrapping. */
+.tk-wait{display:block;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:29px;letter-spacing:-.03em;line-height:1.08;}
 .tk-sub{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);margin-top:8px;}
 .tk.deep .tk-sub{color:var(--blue-ink);font-weight:700;}
 .tk ul{list-style:none;display:flex;flex-direction:column;gap:10px;margin:18px 0 0;flex:1;}
@@ -295,7 +298,7 @@ footer{padding:34px 0;}
       </div>
       <div class="byline">
         <span class="av">N</span>
-        <span>Taught by <a href="#about">Noe</a>. Going deeper? <a href="#pricing">Tech Lead 2.0 →</a></span>
+        <span>Taught by <a href="#about">Noe</a>. Going deeper? <a href="#waitlist">Tech Lead 2.0 →</a></span>
       </div>
     </div>
   </section>
@@ -365,10 +368,10 @@ footer{padding:34px 0;}
           <a href="/#get" class="btn btn-cta" style="margin-top:22px;">Save my seat →</a>
         </div>
         <div class="tk deep">
-          <span class="tk-flag">Next step</span>
+          <span class="tk-flag">Waitlist open</span>
           <h3>Tech Lead 2.0</h3>
-          <div class="tk-price">$690 <span class="was">$890</span></div>
-          <div class="tk-sub">founding price, cohort 1</div>
+          <div class="tk-wait">Be first in line</div>
+          <div class="tk-sub">cohort 1 · founding rate held for the list</div>
           <p class="tk-desc">You apply every phase to a real product you choose, with a full worked example to follow alongside.</p>
           <ul>
             <li><svg class="chk" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Seven phases, applied to your own project</li>
@@ -376,7 +379,7 @@ footer{padding:34px 0;}
             <li><svg class="chk" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Every phase ends in something that ships</li>
             <li><svg class="chk" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> A team playbook you could roll out on Monday</li>
           </ul>
-          <a href="#pricing" class="btn" style="margin-top:22px;">See the deep track</a>
+          <a href="#waitlist" class="btn" style="margin-top:22px;">Join the waitlist</a>
         </div>
       </div>
     </div>
@@ -515,10 +518,13 @@ footer{padding:34px 0;}
   </section>
 
   <!-- PRICING -->
-  <section class="sec sec-line sec-panel" id="pricing">
+  <!-- #pricing is kept as an alias: links to /ai-tech-lead/#pricing redirect here
+       carrying their hash, and the section used to own that id. -->
+  <span id="pricing" aria-hidden="true"></span>
+  <section class="sec sec-line sec-panel" id="waitlist">
     <div class="wrap">
       <div class="sec-head">
-        <div class="eyebrow">Pricing</div>
+        <div class="eyebrow">Sign up</div>
         <h2>Start here.</h2>
         <p class="lead">Coding Agents 101 is free and worth doing on its own. Tech Lead 2.0 is the next step if you want it.</p>
       </div>
@@ -543,10 +549,10 @@ footer{padding:34px 0;}
           <div class="signup-msg" role="status" aria-live="polite"></div>
         </div>
         <div class="tk deep">
-          <span class="tk-flag">Next step</span>
+          <span class="tk-flag">Waitlist open</span>
           <h3>Tech Lead 2.0</h3>
-          <div class="tk-price">$690 <span class="was">$890</span></div>
-          <div class="tk-sub">founding price, cohort 1</div>
+          <div class="tk-wait">Be first in line</div>
+          <div class="tk-sub">cohort 1 · founding rate held for the list</div>
           <ul>
             <li><svg class="chk" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> All seven phases, on your own project</li>
             <li><svg class="chk" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Live office hours and a private community</li>
@@ -555,12 +561,11 @@ footer{padding:34px 0;}
             <li><svg class="chk" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> A team playbook ready to roll out</li>
             <li><svg class="chk" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Lifetime access</li>
           </ul>
-          <div class="tk-guarantee">30-day refund, no questions.</div>
-          <div class="tk-hint">not open yet. the workshop list hears about dates first, and keeps this price.</div>
+          <div class="tk-hint">// dates go to this list first · founding rate held · just your email</div>
           <form class="signup" data-source="techlead2" novalidate>
             <input type="email" name="email" placeholder="you@email.com" aria-label="Email address" required autocomplete="email">
             <input type="text" class="hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
-            <button type="submit" class="btn">Join the waitlist</button>
+            <button type="submit" class="btn">Get notified →</button>
           </form>
           <div class="signup-msg" role="status" aria-live="polite"></div>
         </div>
@@ -604,7 +609,7 @@ footer{padding:34px 0;}
         <a href="#shift">The shift</a>
         <a href="#outline">Outline</a>
         <a href="#about">About</a>
-        <a href="#pricing">Pricing</a>
+        <a href="#waitlist">The deep track</a>
         <a href="#faq">FAQ</a>
         <a href="https://github.com/eonoe" rel="noopener" target="_blank">GitHub</a>
         <a href="mailto:noe@jupiterapp.io">noe@jupiterapp.io</a>
@@ -689,8 +694,8 @@ fits.forEach(f=>{
 });
 
 const faqs=[
-  {q:'What does it cost?',a:'Coding Agents 101 is free. Tech Lead 2.0 is 690 dollars for the first cohort and 890 after that. The founding price is held for anyone on the workshop list.'},
-  {q:'When does Tech Lead 2.0 start?',a:'No dates yet. The workshop list hears first, and the founding price is held for them. The free workshop runs before any of that, so start there.'},
+  {q:'What does it cost?',a:'Coding Agents 101 is free, in full. Tech Lead 2.0 is paid, and the founding rate goes to the waitlist before anyone else sees it.'},
+  {q:'When does Tech Lead 2.0 start?',a:'Cohort 1 dates go to the waitlist first, along with the founding rate. The free workshop runs before any of that, so start there.'},
   {q:'Can I get a refund?',a:'Yes. Thirty days on Tech Lead 2.0, no questions. Email noe@jupiterapp.io and I will sort it out.'},
   {q:'Is this self-paced or scheduled?',a:'The course itself is self-paced: everything is recorded and written, so you start, pause, and resume on your own time. Office hours are live but optional, and those get recorded too.'},
   {q:'Do I need to know how to code?',a:'Some engineering experience helps. This is for people who already build software and want to lead with agents instead of typing everything. The free workshop is the gentlest on-ramp; if you finish it comfortably, the deep track is for you.'},
