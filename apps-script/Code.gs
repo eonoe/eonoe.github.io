@@ -101,7 +101,7 @@ function getSheet() {
 
 /**
  * Deduped on (email, source) rather than email alone, so someone who joined the
- * workshop can still add themselves to the Tech Lead 2.0 waitlist.
+ * workshop can still add themselves to the AI Tech Lead waitlist.
  */
 function isKnownSignup(sheet, email, source) {
   var lastRow = sheet.getLastRow();
@@ -179,13 +179,13 @@ var CONFIRMATION = {
   }
 };
 
-/** Tech Lead 2.0 isn't open yet — these signups are a waitlist, not an enrolment. */
+/** AI Tech Lead isn't open yet — these signups are a waitlist, not an enrolment. */
 var WAITLIST = {
   en: {
-    from: 'Tech Lead 2.0',
-    subject: "You're on the Tech Lead 2.0 list",
+    from: 'AI Tech Lead',
+    subject: "You're on the AI Tech Lead list",
     body: [
-      "Thanks for your interest in Tech Lead 2.0 — the deep, project-based track.",
+      "Thanks for your interest in AI Tech Lead — the deep, project-based track.",
       '',
       "It isn't open yet. You're on the list, and you'll hear from me first when dates go out.",
       '',
@@ -196,10 +196,10 @@ var WAITLIST = {
     ].join('\n')
   },
   es: {
-    from: 'Tech Lead 2.0',
-    subject: 'Estás en la lista de Tech Lead 2.0',
+    from: 'AI Tech Lead',
+    subject: 'Estás en la lista de AI Tech Lead',
     body: [
-      'Gracias por tu interés en Tech Lead 2.0, el programa completo basado en proyecto.',
+      'Gracias por tu interés en AI Tech Lead, el programa completo basado en proyecto.',
       '',
       'Todavía no está abierto. Estás en la lista y serás de los primeros en saber las fechas.',
       '',
