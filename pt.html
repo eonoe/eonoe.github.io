@@ -1,22 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <script>
-(function(){
-  try{
-    var q=/[?&]lang=([a-z]{2})/.exec(location.search);
-    if(q){localStorage.setItem('lang',q[1]);return;}
-    if(localStorage.getItem('lang'))return;
-    var l=(navigator.language||'').slice(0,2).toLowerCase();
-    var to=l==='es'?'/es.html':l==='pt'?'/pt.html':'';
-    if(to) location.replace(to+'?lang='+l+location.hash);
-  }catch(e){}
-})();
+(function(){ try{ var q=/[?&]lang=([a-z]{2})/.exec(location.search); if(q) localStorage.setItem('lang',q[1]); }catch(e){} })();
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Coding Agents 101 — Free live workshop, September 28</title>
-<link rel="canonical" href="https://eonoe.github.io/">
+<title>Coding Agents 101 — Workshop ao vivo e gratuito, 28 de setembro</title>
+<link rel="canonical" href="https://eonoe.github.io/pt.html">
 <link rel="alternate" hreflang="en" href="https://eonoe.github.io/">
 <link rel="alternate" hreflang="es" href="https://eonoe.github.io/es.html">
 <link rel="alternate" hreflang="pt" href="https://eonoe.github.io/pt.html">
@@ -200,7 +191,7 @@ footer{padding:34px 0;}
 <!-- MARQUEE -->
 <div class="marq" aria-hidden="true">
   <div class="marq-track">
-    <span>Coding Agents 101</span>·<span>Free live workshop</span>·<span>Sep 28 – Oct 1, 2026</span>·<span>4 sessions × 2 hours</span>·<span>Bring your own repo</span>·<span>Live Q&amp;A</span>·<span>Coding Agents 101</span>·<span>Free live workshop</span>·<span>Sep 28 – Oct 1, 2026</span>·<span>4 sessions × 2 hours</span>·<span>Bring your own repo</span>·<span>Live Q&amp;A</span>·
+    <span>Coding Agents 101</span>·<span>Workshop ao vivo e gratuito</span>·<span>28 set – 1 out 2026</span>·<span>4 sessões × 2 horas</span>·<span>Traga o seu repo</span>·<span>Perguntas ao vivo</span>·<span>Coding Agents 101</span>·<span>Workshop ao vivo e gratuito</span>·<span>28 set – 1 out 2026</span>·<span>4 sessões × 2 horas</span>·<span>Traga o seu repo</span>·<span>Perguntas ao vivo</span>·
   </div>
 </div>
 
@@ -208,11 +199,11 @@ footer{padding:34px 0;}
 <header class="bar">
   <div class="wrap bar-in">
     <a href="#top" class="logo">Coding Agents <span class="b">101</span></a>
-    <a href="#inside" class="barlink">What's inside</a>
-    <a href="#resources" class="barlink">Resources</a>
-    <a href="#faq" class="barlink">FAQ</a>
-    <span class="langs"><a href="/?lang=en" aria-current="true">EN</a><a href="/es.html?lang=es">ES</a><a href="/pt.html?lang=pt">PT</a></span>
-    <a href="#get" class="btn btn-cta btn-sm">Get free access</a>
+    <a href="#inside" class="barlink">O que tem dentro</a>
+    <a href="#resources" class="barlink">Materiais</a>
+    <a href="#faq" class="barlink">Dúvidas</a>
+    <span class="langs"><a href="/?lang=en">EN</a><a href="/es.html?lang=es">ES</a><a href="/pt.html?lang=pt" aria-current="true">PT</a></span>
+    <a href="#get" class="btn btn-cta btn-sm">Quero acesso grátis</a>
   </div>
 </header>
 
@@ -222,27 +213,27 @@ footer{padding:34px 0;}
   <section class="hero">
     <div class="wrap hero-grid">
       <div>
-        <div class="tag"><span class="dot"></span> Free · live · starts Mon, Sep 28</div>
-        <h1>Build with <span class="hl">coding&nbsp;agents</span> for real.</h1>
-        <p class="sub">A free, hands-on workshop. Four live sessions across one week, two hours each. You build alongside on a repo of your own and walk away having shipped a real change with an agent.</p>
+        <div class="tag"><span class="dot"></span> Grátis · ao vivo · começa seg, 28 set</div>
+        <h1>Construa com <span class="hl">coding&nbsp;agents</span> de verdade.</h1>
+        <p class="sub">Um workshop gratuito e mão na massa. Quatro sessões ao vivo em uma semana, duas horas cada. Você constrói junto em um repo seu e sai de lá tendo colocado no ar uma mudança de verdade feita com um agente.</p>
         <!-- The id lives on this wrapper, not on the form. The form gets [hidden]
              once someone has signed up, and a display:none anchor target cannot be
              scrolled to, which would kill inbound #get links. The form, note and
              message stay siblings here because msgFor() walks nextElementSibling. -->
         <div id="get">
           <form class="signup" data-source="workshop" novalidate>
-            <input type="email" name="email" placeholder="you@email.com" aria-label="Email address" required autocomplete="email">
+            <input type="email" name="email" placeholder="voce@email.com" aria-label="Endereço de email" required autocomplete="email">
             <input type="text" class="hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
-            <button type="submit" class="btn btn-cta">Get free access →</button>
+            <button type="submit" class="btn btn-cta">Quero acesso grátis →</button>
           </form>
-          <div class="note">// just your email · no card · recordings if you miss one</div>
+          <div class="note">// só o seu email · sem cartão · gravação se você perder alguma</div>
           <div class="signup-msg" role="status" aria-live="polite"></div>
         </div>
       </div>
 
       <!-- TERMINAL ART -->
-      <div class="term" role="img" aria-label="Example coding agent session in a terminal">
-        <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="ttl">~/your-repo — agent session</span></div>
+      <div class="term" role="img" aria-label="Exemplo de sessão com um coding agent no terminal">
+        <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="ttl">~/seu-repo — sessão do agente</span></div>
         <div class="term-body">
 <span class="c1">you ▸</span> add input validation to checkout<br>
 <span class="c2">↳ reading AGENTS.md, scanning 4 files…</span><br>
@@ -260,14 +251,14 @@ footer{padding:34px 0;}
   <section class="cband">
     <div class="wrap cband-in">
       <div>
-        <div class="cls">Spots are limited · enroll now</div>
-        <div class="cl">First session: Monday, September 28 · 6:00 PM</div>
+        <div class="cls">Vagas limitadas · garanta a sua</div>
+        <div class="cl">Primeira sessão: segunda, 28 de setembro · 18:00</div>
       </div>
       <div class="count" id="count" aria-live="polite">
-        <div class="cu"><div class="cn" id="c-d">--</div><div class="cs">Days</div></div>
+        <div class="cu"><div class="cn" id="c-d">--</div><div class="cs">Dias</div></div>
         <div class="cu"><div class="cn" id="c-h">--</div><div class="cs">Hrs</div></div>
         <div class="cu"><div class="cn" id="c-m">--</div><div class="cs">Min</div></div>
-        <div class="cu"><div class="cn" id="c-s">--</div><div class="cs">Sec</div></div>
+        <div class="cu"><div class="cn" id="c-s">--</div><div class="cs">Seg</div></div>
       </div>
     </div>
   </section>
@@ -276,10 +267,10 @@ footer{padding:34px 0;}
   <div class="stats-wrap">
     <div class="wrap">
       <div class="stats">
-        <div class="stat"><div class="n">4</div><div class="l">live sessions, hands-on</div></div>
-        <div class="stat"><div class="n">2h</div><div class="l">each · eight hours total</div></div>
-        <div class="stat"><div class="n">Live</div><div class="l">Q&amp;A with your own repo</div></div>
-        <div class="stat"><div class="n">Free</div><div class="l">just your email</div></div>
+        <div class="stat"><div class="n">4</div><div class="l">sessões ao vivo, mão na massa</div></div>
+        <div class="stat"><div class="n">2h</div><div class="l">cada uma · oito horas no total</div></div>
+        <div class="stat"><div class="n">Ao vivo</div><div class="l">perguntas com o seu repo</div></div>
+        <div class="stat"><div class="n">Grátis</div><div class="l">só o seu email</div></div>
       </div>
     </div>
   </div>
@@ -288,38 +279,38 @@ footer{padding:34px 0;}
   <section class="sec sec-line" id="inside">
     <div class="wrap">
       <div class="sec-head">
-        <div class="eyebrow">// the workshop</div>
-        <h2>Four live sessions. One real change shipped.</h2>
-        <p class="lead">Two hours each, live and hands-on. You build alongside on a repo of your own and ask questions as you go. By the last session you have merged a change an agent wrote, and you know why it worked.</p>
+        <div class="eyebrow">// o workshop</div>
+        <h2>Quatro sessões ao vivo. Uma mudança real no ar.</h2>
+        <p class="lead">Duas horas cada, ao vivo e mão na massa. Você constrói junto em um repo seu e pergunta enquanto avança. Na última sessão você já deu merge em uma mudança escrita por um agente, e sabe por que ela funcionou.</p>
       </div>
       <div class="sessions">
         <div class="scard">
-          <div class="badge">SESSION 1</div>
-          <div class="when">Mon, Sep 28 · 6:00 PM</div>
-          <h3>Get an agent doing real work</h3>
-          <p>Install a coding agent and run a real session together, not a toy demo. Learn the loop every agent runs on: gather context, act, then verify, and put it to work on an actual task.</p>
-          <div class="out">You leave with: an agent running on your own repo, doing something useful.</div>
+          <div class="badge">SESSÃO 1</div>
+          <div class="when">Seg, 28 set · 18:00</div>
+          <h3>Bote um agente para trabalhar de verdade</h3>
+          <p>Instale um coding agent e rode uma sessão real junto, não uma demo de brinquedo. Entenda o loop que todo agente segue: juntar contexto, agir e verificar, e coloque isso para funcionar em uma tarefa de verdade.</p>
+          <div class="out">Você sai com: um agente rodando no seu próprio repo, fazendo algo útil.</div>
         </div>
         <div class="scard">
-          <div class="badge">SESSION 2</div>
-          <div class="when">Tue, Sep 29 · 6:00 PM</div>
-          <h3>Context that makes it click</h3>
-          <p>The difference between a vague agent and a sharp one is mostly context. Write your first AGENTS.md so the agent stops guessing and starts using your project's real conventions.</p>
-          <div class="out">You leave with: an AGENTS.md the agent visibly follows.</div>
+          <div class="badge">SESSÃO 2</div>
+          <div class="when">Ter, 29 set · 18:00</div>
+          <h3>O contexto que faz a ficha cair</h3>
+          <p>A diferença entre um agente vago e um agente afiado é quase toda contexto. Escreva seu primeiro AGENTS.md para o agente parar de adivinhar e passar a usar as convenções reais do seu projeto.</p>
+          <div class="out">Você sai com: um AGENTS.md que o agente visivelmente segue.</div>
         </div>
         <div class="scard">
-          <div class="badge">SESSION 3</div>
-          <div class="when">Wed, Sep 30 · 6:00 PM</div>
-          <h3>Review like you mean it</h3>
-          <p>The real skill is not prompting, it's reading what the agent wrote and pushing back. Review a change live, reject the part that's wrong, and merge the rest. This is the habit that keeps quality from sliding.</p>
-          <div class="out">You leave with: your first agent-built change, reviewed and merged.</div>
+          <div class="badge">SESSÃO 3</div>
+          <div class="when">Qua, 30 set · 18:00</div>
+          <h3>Revise pra valer</h3>
+          <p>A habilidade que importa não é escrever prompt, é ler o que o agente escreveu e discordar quando precisa. Revise uma mudança ao vivo, recuse a parte errada e dê merge no resto. É esse hábito que impede a qualidade de escorregar.</p>
+          <div class="out">Você sai com: sua primeira mudança feita por agente, revisada e com merge.</div>
         </div>
         <div class="scard">
-          <div class="badge">SESSION 4</div>
-          <div class="when">Thu, Oct 1 · 6:00 PM</div>
-          <h3>Make it stick</h3>
-          <p>Turn a workflow you just did into something reusable, and learn when reaching for an agent is the wrong call. Then we open the floor: bring your repo and questions, and we work through them live.</p>
-          <div class="out">You leave with: a reusable workflow, a sense of the limits, and your questions answered.</div>
+          <div class="badge">SESSÃO 4</div>
+          <div class="when">Qui, 1 out · 18:00</div>
+          <h3>Faça isso pegar</h3>
+          <p>Transforme um fluxo que você acabou de fazer em algo reutilizável, e descubra quando chamar um agente é a escolha errada. Depois abrimos para perguntas: traga seu repo e suas dúvidas, e resolvemos ao vivo.</p>
+          <div class="out">Você sai com: um fluxo reutilizável, noção dos limites e suas dúvidas respondidas.</div>
         </div>
       </div>
     </div>
@@ -329,36 +320,36 @@ footer{padding:34px 0;}
   <section class="sec sec-line" id="resources">
     <div class="wrap">
       <div class="sec-head">
-        <div class="eyebrow">// templates and resources</div>
-        <h2>Things you keep when it's over.</h2>
-        <p class="lead">Not slideware. The actual files you'll reuse on every project after.</p>
+        <div class="eyebrow">// templates e materiais</div>
+        <h2>Coisas que ficam com você depois.</h2>
+        <p class="lead">Nada de slide bonito. Os arquivos que você vai reusar em todo projeto daqui pra frente.</p>
       </div>
       <div class="res">
         <div class="rc">
           <svg class="ri" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v5h5M8 13h8M8 17h6"/></svg>
-          <h3>An AGENTS.md starter</h3>
-          <p>A template you fill in for your own project, so your agent starts every session already knowing the rules.</p>
+          <h3>Um AGENTS.md inicial</h3>
+          <p>Um template que você preenche para o seu projeto, para o agente começar toda sessão já sabendo as regras.</p>
         </div>
         <div class="rc">
           <svg class="ri" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h11"/></svg>
-          <h3>A code-review checklist</h3>
-          <p>What to look for when reading an agent's work, so you catch the wrong things before they ship.</p>
+          <h3>Um checklist de code review</h3>
+          <p>O que procurar ao ler o trabalho de um agente, para pegar o que está errado antes de subir.</p>
         </div>
         <div class="rc">
           <svg class="ri" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7l-2 5 2 5M20 7l2 5-2 5M14 4l-4 16"/></svg>
-          <h3>A starter prompt set</h3>
-          <p>The small set of prompts actually worth saving, instead of a giant library you never open twice.</p>
+          <h3>Um conjunto inicial de prompts</h3>
+          <p>O punhado de prompts que vale mesmo a pena guardar, em vez de uma biblioteca gigante que você nunca abre duas vezes.</p>
         </div>
       </div>
-      <p class="res-note">// download them at session 1 · yours whether you make every session or not</p>
+      <p class="res-note">// download na sessão 1 · são seus mesmo que você não vá a todas</p>
     </div>
   </section>
 
   <!-- VALUE BAND -->
   <section class="band">
     <div class="wrap band-in">
-      <h2>Most people use agents like <span class="hl">autocomplete</span>. By Thursday, you won't.</h2>
-      <p>The jump to real leverage isn't talent or a secret prompt. It's a few habits: giving the agent real context, reading its output like a reviewer, and knowing when to stop. That's the whole workshop. Four sessions, no padding.</p>
+      <h2>A maioria usa agente como <span class="hl">autocomplete</span>. Na quinta, você não usa mais.</h2>
+      <p>O salto para ganho real não é talento nem prompt secreto. São alguns hábitos: dar contexto de verdade ao agente, ler a saída dele como revisor e saber a hora de parar. É isso o workshop inteiro. Quatro sessões, sem enrolação.</p>
     </div>
   </section>
 
@@ -366,29 +357,29 @@ footer{padding:34px 0;}
   <section class="sec sec-line faq" id="faq">
     <div class="wrap">
       <div class="sec-head">
-        <div class="eyebrow">// faq</div>
-        <h2>Questions, answered.</h2>
+        <div class="eyebrow">// dúvidas</div>
+        <h2>Perguntas, respondidas.</h2>
       </div>
-      <div class="q"><div class="qh" role="button" tabindex="0">Is it really free?<span class="qx">+</span></div><div class="qb">Yes. Your email is the only thing it costs. No card, no trial that quietly converts, no upsell wall in the middle.</div></div>
-      <div class="q"><div class="qh" role="button" tabindex="0">Do I need to know how to code?<span class="qx">+</span></div><div class="qb">Some. You should be comfortable in at least one language and able to find your way around the command line and Git. If you already write code, you're set.</div></div>
-      <div class="q"><div class="qh" role="button" tabindex="0">Which coding agent do I need?<span class="qx">+</span></div><div class="qb">Any current coding agent works. The habits transfer between them, so use the one you already have access to. Having access to one is the only hard requirement.</div></div>
-      <div class="q"><div class="qh" role="button" tabindex="0">What if I miss a session?<span class="qx">+</span></div><div class="qb">Every session is recorded. If you can't make one live, you'll get the recording, and you can still bring your questions to the next session.</div></div>
-      <div class="q"><div class="qh" role="button" tabindex="0">How much time is it?<span class="qx">+</span></div><div class="qb">Four live sessions of two hours each, eight hours total, across the launch week. Recordings are there if you need to catch up between sessions.</div></div>
-      <div class="q"><div class="qh" role="button" tabindex="0">Does this lead into a paid course?<span class="qx">+</span></div><div class="qb">It's the on-ramp. If 101 clicks for you, the deep AI Tech Lead track picks up where it leaves off and applies the same ideas to a real project. There's no pressure to continue, and 101 is built to be worth your time on its own.</div></div>
+      <div class="q"><div class="qh" role="button" tabindex="0">É gratuito mesmo?<span class="qx">+</span></div><div class="qb">Sim. O único custo é o seu email. Sem cartão, sem teste que vira cobrança no silêncio, sem parede de venda no meio.</div></div>
+      <div class="q"><div class="qh" role="button" tabindex="0">Preciso saber programar?<span class="qx">+</span></div><div class="qb">Um pouco. Você precisa se virar bem em pelo menos uma linguagem e se achar no terminal e no Git. Se você já escreve código, está pronto.</div></div>
+      <div class="q"><div class="qh" role="button" tabindex="0">Qual coding agent eu preciso ter?<span class="qx">+</span></div><div class="qb">Qualquer coding agent atual serve. Os hábitos passam de um para o outro, então use o que você já tem acesso. Ter acesso a um é o único requisito de verdade.</div></div>
+      <div class="q"><div class="qh" role="button" tabindex="0">E se eu perder uma sessão?<span class="qx">+</span></div><div class="qb">Todas as sessões são gravadas. Se você não conseguir ir a uma ao vivo, recebe a gravação e ainda pode levar suas dúvidas para a sessão seguinte.</div></div>
+      <div class="q"><div class="qh" role="button" tabindex="0">Quanto tempo toma?<span class="qx">+</span></div><div class="qb">Quatro sessões ao vivo de duas horas cada, oito horas no total, ao longo da semana. As gravações ficam disponíveis se você precisar correr atrás entre uma sessão e outra.</div></div>
+      <div class="q"><div class="qh" role="button" tabindex="0">Isso leva a um curso pago?<span class="qx">+</span></div><div class="qb">Ele é a porta de entrada. Se o 101 fizer sentido para você, a trilha profunda AI Tech Lead continua de onde ele para e aplica as mesmas ideias a um projeto real. Não há pressão para continuar, e o 101 foi feito para valer o seu tempo sozinho.</div></div>
     </div>
   </section>
 
   <!-- CLOSER -->
   <section class="closer">
     <div class="wrap closer-in">
-      <h2>Save your spot.</h2>
-      <p>Four live sessions, free, starting Monday, September 28. Bring a repo you already work in.</p>
+      <h2>Garanta sua vaga.</h2>
+      <p>Quatro sessões ao vivo, de graça, a partir de segunda, 28 de setembro. Traga um repo em que você já trabalha.</p>
       <form class="signup" data-source="workshop" novalidate>
-        <input type="email" name="email" placeholder="you@email.com" aria-label="Email address" required autocomplete="email">
+        <input type="email" name="email" placeholder="voce@email.com" aria-label="Endereço de email" required autocomplete="email">
         <input type="text" class="hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <button type="submit" class="btn btn-pop">Get free access →</button>
+        <button type="submit" class="btn btn-pop">Quero acesso grátis →</button>
       </form>
-      <div class="note" id="closer-note">// just your email</div>
+      <div class="note" id="closer-note">// só o seu email</div>
       <div class="signup-msg" role="status" aria-live="polite"></div>
     </div>
   </section>
@@ -400,18 +391,18 @@ footer{padding:34px 0;}
     <div class="foot">
       <div class="logo">Coding Agents <span class="b">101</span></div>
       <div class="foot-links">
-        <a href="/course/">Full course</a>
-        <a href="#inside">What's inside</a>
-        <a href="#faq">FAQ</a>
-        <a href="#get">Get access</a>
+        <a href="/course/">Curso completo</a>
+        <a href="#inside">O que tem dentro</a>
+        <a href="#faq">Dúvidas</a>
+        <a href="#get">Quero acesso</a>
       </div>
     </div>
-    <div class="foot-fine">Coding Agents 101 is the free on-ramp to AI Tech Lead · live and hands-on.</div>
+    <div class="foot-fine">Coding Agents 101 é a porta de entrada gratuita para o AI Tech Lead · ao vivo e mão na massa.</div>
   </div>
 </footer>
 
 <script>
-// Countdown to the first session: Mon, Sep 28, 2026, 6:00 PM local
+// Contagem regressiva para a primeira sessão: seg, 28 set 2026, 18:00 no horário local
 var target = new Date(2026, 8, 28, 18, 0, 0).getTime(); // month is 0-indexed: 8 = September
 var elD=document.getElementById('c-d'),elH=document.getElementById('c-h'),
     elM=document.getElementById('c-m'),elS=document.getElementById('c-s'),
@@ -420,14 +411,14 @@ function pad(n){return (n<10?'0':'')+n;}
 function tick(){
   var diff=target-Date.now();
   if(diff<=0){
-    countEl.innerHTML='<div class="count-live">The workshop has started — grab your spot above.</div>';
-    if(closerNote) closerNote.textContent='// the first session has started';
+    countEl.innerHTML='<div class="count-live">O workshop já começou — garanta sua vaga acima.</div>';
+    if(closerNote) closerNote.textContent='// a primeira sessão já começou';
     clearInterval(timer); return;
   }
   var s=Math.floor(diff/1000),d=Math.floor(s/86400);s-=d*86400;
   var h=Math.floor(s/3600);s-=h*3600;var m=Math.floor(s/60);s-=m*60;
   elD.textContent=d;elH.textContent=pad(h);elM.textContent=pad(m);elS.textContent=pad(s);
-  if(closerNote) closerNote.textContent='// '+d+' days until the first session';
+  if(closerNote) closerNote.textContent='// faltam '+d+' dias para a primeira sessão';
 }
 tick(); var timer=setInterval(tick,1000);
 
@@ -442,7 +433,7 @@ for(var i=0;i<heads.length;i++){(function(head){
 // SIGNUP — posts to a Google Apps Script web app that appends to a Sheet.
 // Paste the /exec URL from your deployment here. See apps-script/README.md.
 var SIGNUP_ENDPOINT='https://script.google.com/macros/s/AKfycbyk628U2RLrqQqawB9xZEgO-jV8gRen4WjQ5YBDJB0Ko1DO40ycOkVv1wq3rHFdSYTG/exec';
-var SIGNUP_LANG='en';
+var SIGNUP_LANG='pt';
 var SIGNUP_KEY='ca101_signed_up';
 
 var COPY={

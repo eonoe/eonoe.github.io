@@ -2,10 +2,15 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<script>
+(function(){ try{ var q=/[?&]lang=([a-z]{2})/.exec(location.search); if(q) localStorage.setItem('lang',q[1]); }catch(e){} })();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="canonical" href="https://eonoe.github.io/es.html">
 <link rel="alternate" hreflang="en" href="https://eonoe.github.io/">
 <link rel="alternate" hreflang="es" href="https://eonoe.github.io/es.html">
+<link rel="alternate" hreflang="pt" href="https://eonoe.github.io/pt.html">
+<link rel="alternate" hreflang="x-default" href="https://eonoe.github.io/">
 <title>Coding Agents 101 — Taller en vivo gratuito, 28 de septiembre</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23ffd400'/%3E%3Ctext x='16' y='21' font-family='monospace' font-size='14' font-weight='700' text-anchor='middle' fill='%230b0b10'%3ETL%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,6 +49,10 @@ h1,h2,h3{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:-
 .logo .b{background:var(--pop);padding:0 7px;border-radius:5px;}
 .barlink{font-size:14px;color:var(--ink2);font-weight:500;display:none;}
 .barlink:hover{color:var(--ink);}
+.langs{display:inline-flex;gap:3px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.04em;}
+.langs a{padding:3px 7px;border-radius:5px;color:var(--muted);border:1px solid transparent;}
+.langs a:hover{color:var(--ink);border-color:var(--line2);}
+.langs a[aria-current]{background:var(--ink);color:#fff;}
 @media(min-width:840px){.barlink{display:inline;}}
 .btn{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;padding:12px 22px;border:2px solid var(--ink);border-radius:10px;cursor:pointer;display:inline-flex;align-items:center;gap:9px;transition:transform .12s,box-shadow .12s,background .15s,color .15s;background:#fff;color:var(--ink);}
 .btn-cta{background:var(--blue);color:#fff;border-color:var(--blue);box-shadow:4px 4px 0 var(--ink);}
@@ -193,6 +202,7 @@ footer{padding:34px 0;}
     <a href="#inside" class="barlink">Qué incluye</a>
     <a href="#resources" class="barlink">Recursos</a>
     <a href="#faq" class="barlink">Preguntas</a>
+    <span class="langs"><a href="/?lang=en">EN</a><a href="/es.html?lang=es" aria-current="true">ES</a><a href="/pt.html?lang=pt">PT</a></span>
     <a href="#get" class="btn btn-cta btn-sm">Apúntate gratis</a>
   </div>
 </header>

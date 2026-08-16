@@ -176,6 +176,26 @@ var CONFIRMATION = {
       '',
       'Nos vemos el lunes.'
     ].join('\n')
+  },
+  pt: {
+    from: 'Coding Agents 101',
+    subject: 'Você está dentro — Coding Agents 101 começa seg, 28 de setembro',
+    body: [
+      'Sua vaga no Coding Agents 101 está garantida. Por enquanto não precisa fazer mais nada.',
+      '',
+      'Quatro sessões ao vivo, duas horas cada, às 18:00:',
+      '  Seg, 28 set — Bote um agente para trabalhar de verdade',
+      '  Ter, 29 set — O contexto que faz a ficha cair',
+      '  Qua, 30 set — Revise pra valer',
+      '  Qui, 1 out — Faça isso pegar',
+      '',
+      'Traga um repo em que você já trabalha: você constrói em cima do seu próprio código.',
+      'Todas as sessões são gravadas, então perder uma não é problema.',
+      '',
+      'Eu envio o link de acesso antes da primeira sessão.',
+      '',
+      'Até segunda.'
+    ].join('\n')
   }
 };
 
@@ -190,7 +210,7 @@ var WAITLIST = {
       "It isn't open yet. You're on the list, and you'll hear from me first when dates go out.",
       '',
       'In the meantime, Coding Agents 101 is the free on-ramp and it runs live Sep 28 – Oct 1:',
-      'https://eonoe.github.io/ai-tech-lead/d/dayevent.html',
+      'https://eonoe.github.io/',
       '',
       'It covers the same foundations, and it stands on its own whether you go deeper or not.'
     ].join('\n')
@@ -204,9 +224,23 @@ var WAITLIST = {
       'Todavía no está abierto. Estás en la lista y serás de los primeros en saber las fechas.',
       '',
       'Mientras tanto, Coding Agents 101 es la puerta de entrada gratuita, en directo del 28 de septiembre al 1 de octubre:',
-      'https://eonoe.github.io/ai-tech-lead/d/dayevent_es.html',
+      'https://eonoe.github.io/es.html',
       '',
       'Cubre las mismas bases y merece la pena por sí solo, sigas o no después.'
+    ].join('\n')
+  },
+  pt: {
+    from: 'AI Tech Lead',
+    subject: 'Você está na lista do AI Tech Lead',
+    body: [
+      'Obrigado pelo interesse no AI Tech Lead, a trilha completa baseada em projeto.',
+      '',
+      'Ela ainda não abriu. Você está na lista e vai saber das datas antes de todo mundo.',
+      '',
+      'Enquanto isso, o Coding Agents 101 é a porta de entrada gratuita, ao vivo de 28 de setembro a 1 de outubro:',
+      'https://eonoe.github.io/pt.html',
+      '',
+      'Ele cobre as mesmas bases e vale por si só, você seguindo adiante ou não.'
     ].join('\n')
   }
 };
