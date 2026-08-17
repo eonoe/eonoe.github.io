@@ -176,26 +176,6 @@ var CONFIRMATION = {
       '',
       'Nos vemos el lunes.'
     ].join('\n')
-  },
-  pt: {
-    from: 'Coding Agents 101',
-    subject: 'Você está dentro — Coding Agents 101 começa seg, 21 de setembro',
-    body: [
-      'Sua vaga no Coding Agents 101 está garantida. Por enquanto não precisa fazer mais nada.',
-      '',
-      'Quatro sessões ao vivo, duas horas cada, às 18:00:',
-      '  Seg, 21 set — Bote um agente para trabalhar de verdade',
-      '  Ter, 22 set — O contexto que faz a ficha cair',
-      '  Qua, 23 set — Revise pra valer',
-      '  Qui, 24 set — Faça isso pegar',
-      '',
-      'Traga um repo em que você já trabalha: você constrói em cima do seu próprio código.',
-      'Todas as sessões são gravadas, então perder uma não é problema.',
-      '',
-      'Eu envio o link de acesso antes da primeira sessão.',
-      '',
-      'Até segunda.'
-    ].join('\n')
   }
 };
 
@@ -227,20 +207,6 @@ var WAITLIST = {
       'https://eonoe.github.io/es.html',
       '',
       'Cubre las mismas bases y merece la pena por sí solo, sigas o no después.'
-    ].join('\n')
-  },
-  pt: {
-    from: 'AI Tech Lead',
-    subject: 'Você está na lista do AI Tech Lead',
-    body: [
-      'Obrigado pelo interesse no AI Tech Lead, a trilha completa baseada em projeto.',
-      '',
-      'Ela ainda não abriu. Você está na lista e vai saber das datas antes de todo mundo.',
-      '',
-      'Enquanto isso, o Coding Agents 101 é a porta de entrada gratuita, ao vivo de 21 a 24 de setembro:',
-      'https://eonoe.github.io/pt.html',
-      '',
-      'Ele cobre as mesmas bases e vale por si só, você seguindo adiante ou não.'
     ].join('\n')
   }
 };

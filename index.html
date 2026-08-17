@@ -7,12 +7,12 @@
   try{
     // A stored preference wins over the browser's; ?lang= writes it and wins over
     // both, so every switcher link is also a way to change your mind. Only this
-    // page redirects — /es.html and /pt.html are choices already made, and moving
-    // those visitors would break links people share in their own language.
+    // page redirects — /es.html is a choice already made, and moving that
+    // visitor would break links people share in their own language.
     var q=/[?&]lang=([a-z]{2})/.exec(location.search);
     if(q) localStorage.setItem('lang',q[1]);
     var pref=q?q[1]:(localStorage.getItem('lang')||(navigator.language||'').slice(0,2).toLowerCase());
-    var to=pref==='es'?'/es.html':pref==='pt'?'/pt.html':'';
+    var to=pref==='es'?'/es.html':'';
     if(to) location.replace(to+'?lang='+pref+location.hash);
   }catch(e){}
 })();
@@ -22,7 +22,6 @@
 <link rel="canonical" href="https://eonoe.github.io/">
 <link rel="alternate" hreflang="en" href="https://eonoe.github.io/">
 <link rel="alternate" hreflang="es" href="https://eonoe.github.io/es.html">
-<link rel="alternate" hreflang="pt" href="https://eonoe.github.io/pt.html">
 <link rel="alternate" hreflang="x-default" href="https://eonoe.github.io/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23ffd400'/%3E%3Ctext x='16' y='21' font-family='monospace' font-size='14' font-weight='700' text-anchor='middle' fill='%230b0b10'%3ETL%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -214,7 +213,7 @@ footer{padding:34px 0;}
     <a href="#inside" class="barlink">What's inside</a>
     <a href="#resources" class="barlink">Resources</a>
     <a href="#faq" class="barlink">FAQ</a>
-    <span class="langs"><a href="/?lang=en" aria-current="true">EN</a><a href="/es.html?lang=es">ES</a><a href="/pt.html?lang=pt">PT</a></span>
+    <span class="langs"><a href="/?lang=en" aria-current="true">EN</a><a href="/es.html?lang=es">ES</a></span>
     <a href="#get" class="btn btn-cta btn-sm">Get free access</a>
   </div>
 </header>
