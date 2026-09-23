@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<script>try{var q=/[?&]lang=([a-z]{2})/.exec(location.search);if(q)localStorage.setItem('lang',q[1]);}catch(e){}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coding Agents 101: el arte de que las cosas salgan</title>
+<meta name="description" content="Una guía práctica, agnóstica de herramienta, para trabajar con coding agents: cómo pedirles, qué delegarles, cómo revisarlos y dónde no usarlos.">
+<link rel="canonical" href="https://eonoe.github.io/guides/intro-coding-agents/es.html">
+<link rel="alternate" hreflang="en" href="https://eonoe.github.io/guides/intro-coding-agents/">
+<link rel="alternate" hreflang="es" href="https://eonoe.github.io/guides/intro-coding-agents/es.html">
+<link rel="alternate" hreflang="x-default" href="https://eonoe.github.io/guides/intro-coding-agents/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b0b10'/%3E%3Ctext x='16' y='21' font-family='monospace' font-size='14' font-weight='700' text-anchor='middle' fill='%23ffffff'%3E101%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* Los mismos tokens que la landing (index.html). Lo que cambia aquí es la
+     tipografía de lectura: cuerpo más grande, interlineado más alto, medida
+     de 66 caracteres. Los acentos de la marca (amarillo, azul, bordes negros)
+     van en los bloques, no en el texto corrido. */
+  :root{
+    --bg:#ffffff;--ink:#0b0b10;--ink2:#41444d;--muted:#6b7280;
+    --line:#e7e8ec;--line2:#d4d6dc;
+    --blue:#3531ff;--blue-ink:#1f1ce0;--blue-soft:#edecff;
+    --pop:#ffd400;--dark:#0b0b10;
+    --maxw:1080px;--measure:66ch;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  h1,h2,h3{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:-.03em;line-height:1.05;}
+  code{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:.88em;background:var(--blue-soft);color:var(--blue-ink);padding:1px 6px;border-radius:5px;}
+  :focus-visible{outline:3px solid var(--blue);outline-offset:3px;}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important;}}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 26px;}
+
+  /* NAV: la misma barra que la landing */
+  .bar{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+  .bar-in{height:64px;display:flex;align-items:center;gap:18px;}
+  .logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;letter-spacing:-.02em;margin-right:auto;}
+  .logo .b{background:var(--pop);padding:0 7px;border-radius:5px;}
+  .barlink{font-size:14px;color:var(--ink2);font-weight:500;}
+  .barlink:hover{color:var(--ink);}
+  .langs{display:inline-flex;gap:3px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.04em;}
+  .langs a{padding:3px 7px;border-radius:5px;color:var(--muted);border:1px solid transparent;}
+  .langs a:hover{color:var(--ink);border-color:var(--line2);}
+  .langs a[aria-current]{background:var(--ink);color:#fff;}
+
+  /* LAYOUT: índice fijo a la izquierda, artículo a la derecha */
+  .page{display:grid;grid-template-columns:230px minmax(0,1fr);gap:64px;}
+  .side{position:sticky;top:64px;align-self:start;max-height:calc(100vh - 64px);padding:48px 0 32px;overflow-y:auto;}
+  .side ol{list-style:none;}
+  .side li{margin:0;}
+  .side a{display:block;font-size:14px;color:var(--ink2);padding:6px 0 6px 14px;border-left:2px solid var(--line);line-height:1.35;}
+  .side a:hover{color:var(--ink);border-left-color:var(--line2);}
+  .side a.on{color:var(--ink);border-left-color:var(--blue);font-weight:600;}
+  .side .grp{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);padding:20px 0 6px 14px;}
+  .side .grp:first-of-type{padding-top:0;}
+
+  .art{padding:56px 0 96px;max-width:720px;}
+  .meta{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:flex;flex-wrap:wrap;gap:0 10px;margin-bottom:22px;}
+  .meta span+span::before{content:"·";margin-right:10px;}
+  h1{font-size:clamp(36px,4.8vw,56px);margin-bottom:26px;max-width:16ch;}
+  .art p{max-width:var(--measure);margin-bottom:20px;color:var(--ink2);}
+  .art p.lede{font-size:20px;color:var(--ink);line-height:1.55;}
+  .art p a,.art li a,.notas a,.cierre a{color:var(--blue-ink);border-bottom:2px solid var(--blue-soft);}
+  .art p a:hover,.art li a:hover{border-bottom-color:var(--blue);}
+  .art strong{color:var(--ink);font-weight:600;}
+  .art ul,.art ol{max-width:var(--measure);margin:0 0 20px 24px;color:var(--ink2);}
+  .art li{margin-bottom:8px;}
+
+  /* "Sobre esta guía": tres columnas */
+  .about{border-top:3px solid var(--ink);border-bottom:1px solid var(--line);padding:22px 0 10px;margin:36px 0 44px;}
+  .about .lbl{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--blue);margin-bottom:16px;}
+  .about .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .about h4{font-family:'Space Grotesk',sans-serif;font-size:16px;letter-spacing:-.01em;color:var(--ink);margin-bottom:6px;}
+  .about p{font-size:14.5px;line-height:1.55;margin:0;}
+
+  /* Secciones y tips */
+  .sec{padding-top:52px;margin-top:44px;border-top:1px solid var(--line);}
+  .tier{font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--blue);margin-bottom:12px;}
+  .tier::before{content:"// ";}
+  h2{font-size:clamp(28px,3.4vw,38px);margin-bottom:18px;}
+  h3{font-size:21px;line-height:1.25;margin:36px 0 10px;}
+
+  /* Ejemplo: el callout azul de la landing / el kit */
+  .ej{max-width:var(--measure);border-left:5px solid var(--blue);background:var(--blue-soft);padding:14px 18px;border-radius:0 10px 10px 0;margin:0 0 22px;font-size:15.5px;color:var(--ink2);}
+  .ej b{font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--blue-ink);display:block;margin-bottom:5px;}
+  .ej p{margin:0;font-size:inherit;}
+  .ej p+p{margin-top:8px;}
+  .ej code{background:#fff;}
+  /* Aviso: amarillo con borde negro, como los avisos del kit */
+  .stop{max-width:var(--measure);border:2px solid var(--ink);background:#fff;padding:14px 18px;border-radius:10px;margin:0 0 22px;font-size:15.5px;color:var(--ink2);}
+  .stop b{font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);display:block;margin-bottom:5px;}
+  .stop p{margin:0;font-size:inherit;}
+  pre{font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.65;background:var(--dark);color:#f4f4f6;border:2px solid var(--ink);padding:16px 18px;border-radius:10px;overflow-x:auto;max-width:var(--measure);margin-bottom:22px;}
+  pre code{background:none;padding:0;font-size:inherit;color:inherit;}
+  .flow{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:#f4f4f6;background:var(--dark);border:2px solid var(--ink);padding:14px 18px;border-radius:10px;max-width:var(--measure);margin-bottom:22px;overflow-x:auto;white-space:nowrap;}
+
+  /* Tabla: como la del kit */
+  .scroll{overflow-x:auto;margin-bottom:22px;max-width:var(--measure);}
+  table{width:100%;border-collapse:collapse;font-size:14.5px;line-height:1.5;border:2px solid var(--ink);}
+  th{background:var(--ink);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:13px;text-transform:uppercase;letter-spacing:.04em;text-align:left;padding:10px 12px;}
+  td{padding:11px 12px;border-top:1px solid var(--line);vertical-align:top;color:var(--ink2);}
+  tr:nth-child(even) td{background:#fafafb;}
+  td:first-child{color:var(--ink);font-weight:600;white-space:nowrap;}
+
+  /* Notas al pie */
+  .fn{font-size:.72em;vertical-align:super;line-height:0;margin-left:1px;}
+  .fn a{color:var(--blue-ink);font-weight:700;}
+  .notas{margin-top:64px;padding-top:22px;border-top:3px solid var(--ink);max-width:var(--measure);}
+  .notas .lbl{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--blue);margin-bottom:12px;}
+  .notas ol{margin-left:20px;font-size:14.5px;color:var(--ink2);}
+  .notas li{margin-bottom:8px;}
+  .notas li:target{background:var(--blue-soft);}
+
+  .cierre{margin-top:56px;padding:22px 0 0;border-top:1px solid var(--line);font-size:14.5px;color:var(--muted);max-width:var(--measure);}
+
+  /* Móvil: el índice se vuelve una fila de pills arriba */
+  @media(max-width:880px){
+    .page{display:block;}
+    .side{position:static;max-height:none;padding:26px 0 0;overflow:visible;border-bottom:1px solid var(--line);}
+    .side ol{display:flex;flex-wrap:wrap;gap:6px 8px;padding-bottom:18px;}
+    .side .grp{display:none;}
+    .side a{font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;border:2px solid var(--ink);border-radius:7px;padding:5px 10px;background:#fff;color:var(--ink);}
+    .side a:hover,.side a.on{background:var(--pop);border-color:var(--ink);}
+    .art{padding-top:36px;}
+    .about .cols{grid-template-columns:1fr;gap:16px;}
+  }
+</style>
+</head>
+<body>
+<div class="bar">
+  <div class="wrap bar-in">
+    <a class="logo" href="/">Coding Agents <span class="b">101</span></a>
+    <a class="barlink" href="/#guides">Guías</a>
+    <span class="langs"><a href="./?lang=en">EN</a><a href="es.html?lang=es" aria-current="true">ES</a></span>
+  </div>
+</div>
+<div class="wrap page">
+
+<aside class="side" aria-label="Índice">
+  <ol>
+    <li><a href="#intro">Introducción</a></li>
+    <li class="grp">Para empezar</li>
+    <li><a href="#pedir">Cómo pedirle</a></li>
+    <li><a href="#diario">En tu día a día</a></li>
+    <li class="grp">Delegar más</li>
+    <li><a href="#grandes">Tareas grandes</a></li>
+    <li><a href="#context">Context y sesiones</a></li>
+    <li class="grp">Automatizar</li>
+    <li><a href="#workflows">Workflows</a></li>
+    <li><a href="#entorno">Entorno y conocimiento</a></li>
+    <li class="grp">En la práctica</li>
+    <li><a href="#limites">Límites</a></li>
+    <li><a href="#tiempo">Perder menos tiempo</a></li>
+    <li><a href="#seguridad">Seguridad y permisos</a></li>
+    <li><a href="#cierre">Lo que viene</a></li>
+  </ol>
+</aside>
+
+<main class="art" id="top">
+
+  <div class="meta"><span>Coding Agents 101</span><span>Septiembre 2026</span><span>15 minutos de lectura</span></div>
+  <h1>Coding Agents 101: el arte de que las cosas salgan.</h1>
+
+  <p class="lede" id="intro">Un coding agent no es magia, pero es lo más parecido que hay ahora mismo. Y aun así hay gente que le saca el doble de trabajo que la persona de al lado, con la misma herramienta. Esto es lo que esa gente hace distinto: cómo le pide, qué le delega, cómo lee lo que le devuelve y cuándo para.</p>
+
+  <div class="about">
+    <div class="lbl">Sobre esta guía</div>
+    <div class="cols">
+      <div><h4>Agnóstica</h4><p>Lo que dice aquí sirve con cualquier coding agent de hoy: Claude Code, Codex, Antigravity, Cursor, opencode o el que salga el mes que viene.</p></div>
+      <div><h4>Táctica</h4><p>Consejos que puedes probar esta tarde, con un ejemplo concreto para cada uno. La teoría, la mínima.</p></div>
+      <div><h4>Técnica</h4><p>Está escrita para gente que escribe código y ya se mueve con Git y una terminal.</p></div>
+    </div>
+  </div>
+
+  <p>Las herramientas para escribir código con AI han cambiado cuatro veces en diez años. Primero fue el autocomplete: nombres de métodos, imports, refactors mecánicos. Después los copilots, que escribían las próximas líneas. Después los chats, que generaban archivos enteros para copiar y pegar. Hoy son los agents: programas que reciben una descripción, leen tu repo, editan, corren comandos, ven el error, lo corrigen y te entregan un cambio listo para revisar.<span class="fn"><a href="#n1">1</a></span></p>
+
+  <p>Lo que cambió en cada paso no fue cuánto código escribe la herramienta. Fue <strong>quién corre el loop</strong>. Con un agent, el loop de leer, hacer y comprobar lo corre él, y tú entras cuando termina o cuando pide permiso. Eso convierte a cada ingeniero en algo parecido a un manager de un equipo pequeño: tareas en paralelo, revisiones, decisiones de alcance.</p>
+
+  <p>Adaptarse toma su tiempo. La gente que más rápido le agarra el truco, por lo que he visto, no es la que más sabe de AI. Es la que mejor conoce su propio código y ya está acostumbrada a delegar y a revisar: ingenieros senior, tech leads. Esta guía junta lo que ellos hacen, para que no tengas que descubrirlo a golpes.</p>
+
+  <!-- ══════════════════ PARA EMPEZAR ══════════════════ -->
+  <section class="sec" id="pedir">
+    <div class="tier">Para empezar</div>
+    <h2>Cómo pedirle las cosas</h2>
+    <p>Si de esta guía te llevas una sola sección, que sea esta. Un prompt es el briefing que le darías a alguien que entró al equipo hoy y no ha visto tu código. Escríbelo así.</p>
+
+    <h3>Dile cómo, no solo qué</h3>
+    <p>Piensa en el agent como un junior muy rápido cuyo criterio no siempre es confiable. Las tareas simples se describen directo. Para las que no son simples, dale el enfoque de entrada: la arquitectura, la lógica, dónde va cada cosa. No solo sube la probabilidad de que salga bien; también te ahorra tiempo de revisión, porque ya conoces el plan que estás leyendo.</p>
+    <div class="ej"><b>Ejemplo</b><p>En vez de "agrega tests", di qué funcionalidad probar, qué casos borde importan y qué hay que mockear, si algo.</p></div>
+
+    <h3>Dile por dónde empezar</h3>
+    <p>Piensa por dónde empezarías tú. Aunque no recuerdes el nombre exacto del archivo, menciona el módulo, la documentación relevante y las piezas involucradas. Cada pista que das es una búsqueda que se ahorra y un enfoque inventado que evitas.</p>
+    <div class="ej"><b>Ejemplo</b><p>"Agrega soporte para los modelos de Google. Mira la documentación en este link y crea la implementación en la carpeta de proveedores, siguiendo el patrón del archivo de OpenAI."</p></div>
+
+    <h3>Anticipa dónde se va a confundir</h3>
+    <p>Imagina que le das el mismo prompt a alguien que entró la semana pasada. ¿Dónde se perdería? ¿Qué daría por hecho que no es así? Todo lo que tú sabes y no está escrito, el agent lo va a adivinar, y adivina rápido y con seguridad. Escríbelo antes de que lo adivine.</p>
+    <div class="ej"><b>Ejemplo</b><p>"Arregla los bindings de C++ del módulo de búsqueda para que pasen los tests nuevos. Ojo: hay que recompilar los bindings cada vez que cambies el código antes de probar."</p></div>
+
+    <h3>Dale una forma de comprobarse</h3>
+    <p>Buena parte de la magia de un agent está en que corrige sus propios errores iterando contra un mensaje de error. Todo lo que le dé feedback rápido lo hace mejor: tipos, linter, tests, un comando que levanta el proyecto. Enséñale a correr las verificaciones del equipo y asegúrate de que tiene los paquetes y los permisos para hacerlo. Si puede abrir un browser, dile cómo levantar el frontend.</p>
+    <div class="ej"><b>Ejemplo</b><p>Pasar un SDK de Python sin tipos a Python tipado es una mejora que el agent aprovecha en cada tarea siguiente. Esa migración, de paso, es una buena tarea para dársela a él.</p></div>
+
+    <h3>Dale un lugar donde poner lo que no sabe</h3>
+    <p>Un agent que no sabe algo te lo escribe igual, con el mismo tono seguro con el que escribe lo que sí sabe. Si no le das un sitio para la duda, la mete en medio del texto normal y ahí ya no la distingues. Pídele que lo separe.</p>
+    <div class="ej"><b>Ejemplo</b><p>"Solo afirma cosas que puedas verificar leyendo el repo. Si no estás seguro, ponlo bajo una sección <code>## Sin confirmar</code> en vez de inventarlo." No le quita la maña de inventar; mueve el invento a donde lo ves hoy y no en producción.</p></div>
+
+    <h3>Usa lo que tú sabes</h3>
+    <p>Todo lo anterior es más fácil cuando conoces el código. Hasta las tareas simples salen mejor si puedes verificar la lógica y el resultado. Y hay algo que no cambia por mucho que mejoren las herramientas: <strong>la responsabilidad por lo que se mergea es tuya.</strong> Ser dueño del código y verificarlo va a seguir siendo trabajo de humanos, y probablemente el más importante.</p>
+  </section>
+
+  <section class="sec" id="diario">
+    <div class="tier">Para empezar</div>
+    <h2>El agent en tu día a día</h2>
+    <p>Cuando ya sabes hablarle, toca meterlo en la rutina. Estas son las formas que más rápido se pagan.</p>
+
+    <h3>Empieza por lo que aburre</h3>
+    <p>Renombrar algo en cuarenta archivos, actualizar la documentación después de un cambio, escribir los tests que nadie escribió, buscar en qué commit se rompió algo. Son tareas donde el resultado se verifica corriendo un comando y equivocarse cuesta poco. Ahí un agent te devuelve horas enteras, y tú te quedas con el trabajo que sí requiere cabeza.</p>
+    <div class="ej"><b>Ejemplo</b><p>Un patrón común: el ingeniero manda el cambio y un agent actualiza toda la documentación y los textos de la interfaz que ese cambio afecta.</p></div>
+
+    <h3>Atiende lo que llega de golpe</h3>
+    <p>Alguien del equipo escribe "¿podemos hacer X rápido?" o "hay que ajustar Y". En vez de dejar que te saque de lo que estabas haciendo, mándale la investigación o el cambio a un agent y sigue en lo tuyo. Vuelves cuando termine. Lo mismo con esa idea de proyecto, ese prototipo o ese script para bajar unos datos: delega y revisa después.</p>
+
+    <h3>Sal del análisis parálisis</h3>
+    <p>¿No sabes si un refactor de verdad simplifica las cosas? ¿Dudas entre dos enfoques de arquitectura? Pídele que implemente los dos. Comparar dos implementaciones concretas es mucho más fácil que discutir dos ideas, y descartar una no le hiere los sentimientos a nadie.</p>
+    <div class="ej"><b>Ejemplo</b><p>Dudando entre dos librerías para un editor de texto, un equipo hizo que un agent implementara cada una. Ganó la que dio mejor resultado final. No era la que había sonado mejor en la reunión.</p></div>
+
+    <h3>Ten un comando que levante todo</h3>
+    <p>Si cada pull request produce un ambiente donde ver el cambio corriendo, revisar el trabajo de un agent pasa de leer un diff a usar el producto. Para cambios de frontend es la diferencia entre "parece bien" y "está bien". Si no tienes preview deployments, al menos ten un solo comando que levante el proyecto en local, y enséñaselo al agent.</p>
+  </section>
+
+  <!-- ══════════════════ DELEGAR MÁS ══════════════════ -->
+  <section class="sec" id="grandes">
+    <div class="tier">Delegar más</div>
+    <h2>Tareas grandes</h2>
+    <p>Cuando la tarea deja de caber en unos pocos archivos, hacerla de una sola pasada deja de funcionar. Y sin embargo, las tareas medianas y grandes, de una a seis horas de trabajo, son donde un agent rinde más. Dejas de ahorrar minutos y empiezas a recuperar tardes.</p>
+
+    <h3>Que haga el primer borrador</h3>
+    <p>Para una tarea sustancial, un primer borrador hecho por el agent arranca el trabajo y recorta la mayor parte del esfuerzo. La condición es comunicar el enfoque de entrada. Piénsalo como el arquitecto que dirige a un desarrollador junior: instrucciones claras y detalladas evitan pasar la tarde corrigiendo un malentendido de base.</p>
+
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Oficio</th><th>El borrador</th><th>El refinado</th></tr></thead>
+        <tbody>
+          <tr><td>Periodismo</td><td>El reportero junta la información y escribe la primera versión.</td><td>El editor verifica hechos, corta lo que sobra y decide qué se publica.</td></tr>
+          <tr><td>Cocina</td><td>El ayudante prepara los ingredientes y monta el plato.</td><td>El chef prueba, ajusta y decide si sale a la mesa.</td></tr>
+          <tr><td>Código</td><td>El agent arranca desde el plan y escribe el primer borrador del cambio.</td><td>Tú revisas el diff, das feedback y haces los retoques antes de mergear.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="stop"><b>Ojo</b><p>Las tareas grandes no son "manos libres" todavía. Cuenta con dos o tres vueltas de feedback y un retoque final tuyo. Una meta realista es ahorrarte algo así como el ochenta por ciento del trabajo. Tu criterio sigue verificando y firmando.</p></div>
+
+    <h3>Planea con él antes de que escriba</h3>
+    <p>Para tareas complejas o mal definidas, armar el plan junto con el agent funciona muy bien. No pasa nada si al principio no conoces todos los requisitos. Empieza con preguntas de descubrimiento: "¿cómo funciona la autenticación aquí?", "¿qué servicios se verían afectados?". Pídele que identifique los archivos concretos que tocaría, para que los confirmes tú antes de que escriba una línea.</p>
+    <p>Casi todos los agents tienen un modo que solo lee y propone, sin tocar nada; suele llamarse <strong>plan mode</strong>. Es el sitio correcto para empezar cualquier tarea que no cabe en una frase.</p>
+
+    <h3>Ponle paradas</h3>
+    <p>Para trabajo en varias partes, sobre todo si cruza varias capas o varios repos, define paradas explícitas:</p>
+    <div class="flow">plan → un pedazo → probar → corregir → tú revisas → el siguiente pedazo</div>
+    <p>Pide una pausa después de cada fase importante. Usa esa pausa para confirmar que va por donde esperabas, aclarar dudas ("explícame el flujo de auth y confírmame que es seguro") y corregir el rumbo temprano, antes de que un error de base se propague a todo lo demás.</p>
+    <div class="ej"><b>Ejemplo</b><p>"Esta feature toca base de datos, backend y dos interfaces. Primero planea el cambio de schema y avísame cuando esté, para aplicar yo la migración." → "Ahora el backend, con tests que cubran X e Y. Avísame cuando termines." → "Ahora las dos interfaces, llamando al endpoint nuevo."</p></div>
+
+    <h3>Enséñale a verificar su propio trabajo</h3>
+    <p>Cuando des feedback, no te quedes en "esto no funciona". Explica cómo lo probaste, para que la próxima vez pueda probarlo él. Y si es un procedimiento que vas a repetir, escríbelo donde el agent lo lea siempre (ver <a href="#entorno">Entorno y conocimiento</a>).</p>
+
+    <h3>Pon tests donde el agent más toca</h3>
+    <p>Hoy un agent no prueba de forma interactiva todos los escenarios. Subir la cobertura justo en las zonas que más modifica te compra confianza barata: con tests sólidos, el código que parece correcto se puede mergear sin ese nudo en el estómago. Los tests felices ya los escribe él; los tuyos son los de error, los vacíos, los negativos.</p>
+    <div class="ej"><b>Ejemplo</b><p>Antes de delegarle a un agent traducir una parte crítica de Python a C, un equipo reforzó primero los tests unitarios de esa parte. La traducción después fue aburrida. Aburrida era la meta.</p></div>
+  </section>
+
+  <section class="sec" id="context">
+    <div class="tier">Delegar más</div>
+    <h2>Context y sesiones</h2>
+    <p>La palabra que más explica el comportamiento de un agent es <strong>context</strong>: lo que puede ver en este momento. Que no es lo mismo que lo que hay en tu repo: es solo lo que de verdad leyó. La distancia entre esas dos cosas explica casi todas las respuestas malas que te va a dar.</p>
+
+    <h3>Pregúntale qué leyó</h3>
+    <p>Cuando te contesta algo flojo, la reacción natural es pensar que el modelo es tonto. Casi nunca es eso: contestó sin abrir el archivo que de verdad manda. Una línea al final del prompt ayuda mucho aquí: <em>"al terminar, lista los archivos que abriste para responder"</em>. Te enseña qué entró al context y, lo más útil, qué se quedó afuera. Cuando empecé, la lista me sorprendía cada vez.</p>
+
+    <h3>Una sesión es todo lo que lleva acumulado</h3>
+    <p>Cada archivo que leyó, cada cosa que dijiste, cada error que vio. Eso es bueno al principio y malo después: una sesión larga y confundida no se arregla explicándole mejor. <strong>Si lo corregiste tres veces y sigue igual, no discutas: sesión nueva</strong>, diciéndole exactamente qué leer y cuál es el objetivo. Casi nadie lo hace, y funciona mejor que cualquier otra cosa que conozca.</p>
+    <div class="ej"><b>Ejemplo</b><p>"Empecemos de cero. Solo lee estos archivos: [lista]. El objetivo es [una frase]. No toques nada más."</p></div>
+
+    <h3>Lo que quieres que sepa siempre, escríbelo</h3>
+    <p>Como cada sesión empieza en cero, todo lo que quieres que sepa <em>siempre</em> tiene que estar en un archivo que lea al arrancar. Casi todos los agents tienen uno: <code>AGENTS.md</code>, <code>CLAUDE.md</code>, un archivo de reglas.<span class="fn"><a href="#n2">2</a></span> La dificultad no es escribirlo, es mantenerlo corto: solo lo que no se puede deducir del código, y solo líneas que cambien lo que hace. Si puedes borrar una línea sin que el agent se equivoque, bórrala.</p>
+  </section>
+
+  <!-- ══════════════════ AUTOMATIZAR ══════════════════ -->
+  <section class="sec" id="workflows">
+    <div class="tier">Automatizar</div>
+    <h2>Workflows que corren solos</h2>
+    <p>Un agent reacciona a lo que pasa mucho más rápido que una persona, y está bastante más dispuesto a hacer trabajo aburrido y repetitivo que cualquiera de tus compañeros.</p>
+
+    <h3>Lo que repites dos veces, déjalo escrito</h3>
+    <p>Todo equipo tiene tareas rutinarias que vuelven cada semana: quitar un feature flag, subir dependencias, agregar tests a los PRs nuevos. Esas son las candidatas. Alguien con experiencia escribe una vez un prompt reutilizable y robusto,<span class="fn"><a href="#n3">3</a></span> y de ahí en adelante se corre en vez de reescribirse.</p>
+    <div class="ej"><b>Ejemplo</b><p>Hay equipos que disparan automáticamente varios agents dedicados a escribir tests cada vez que se abre un PR con una feature nueva.</p></div>
+
+    <h3>Revisión con tus propios errores</h3>
+    <p>Hay herramientas especializadas en revisar PRs rápido. Pero un agent que ya conoce tu repo puede darte algo más útil: revisar contra los errores que <em>tu</em> equipo comete de verdad.</p>
+    <div class="ej"><b>Ejemplo</b><p>Mantén en el repo una lista de los errores más comunes del equipo, esos que no se pueden atrapar con un linter. Un agent la lee y revisa cada PR nuevo contra ella.</p></div>
+
+    <h3>Reaccionar a alertas e incidentes</h3>
+    <p>Un agent también puede dispararse solo cuando pasa algo: un error nuevo en producción, una alerta, un ticket. Casi todos exponen un CLI o un API para integrarlos a un workflow, y con MCP pueden leer los logs de servicios externos.</p>
+    <div class="stop"><b>Ojo</b><p>Para triaje en producción, un agent debuggeando es flojo. En vez de pedirle que arregle bugs de punta a punta según llegan, pídele que marque los errores y cambios más sospechosos. Tú decides.</p></div>
+  </section>
+
+  <section class="sec" id="entorno">
+    <div class="tier">Automatizar</div>
+    <h2>Entorno y conocimiento</h2>
+
+    <h3>El mismo entorno que el equipo</h3>
+    <p>Nada frena más a un agent que un entorno incompleto o distinto al tuyo. Alinéalo con el del equipo: versiones de lenguaje, dependencias, checks automáticos. Los hooks de pre-commit instalados, los secretos y las variables cargadas solas, el mismo linter que corres tú.</p>
+    <div class="ej"><b>Ejemplo</b><p>Un browser con las sesiones ya iniciadas le ahorra al agent, y a ti, cada login manual al probar.</p></div>
+
+    <h3>Scripts propios y MCP</h3>
+    <p>MCP es la forma estándar de conectarle herramientas externas: tu base de datos, Jira, Sentry, tu correo.<span class="fn"><a href="#n4">4</a></span> Es rápido de probar y hay servidores para casi todo. Pero mucha gente pasa por alto algo más simple: un script de CLI. Un script que baja la info de un ticket dado su ID. Un script que reinicia el entorno local. Herramientas chicas y aburridas para las partes del workflow que se repiten.</p>
+    <div class="ej"><b>Ejemplo</b><p>Un equipo escribió un script que muestra solo el primer test que falla, con el detalle completo de ese error. El agent se enfoca en uno a la vez en vez de ahogarse en cien líneas de output, y termina las tareas largas más rápido y con más éxito.</p></div>
+
+    <h3>Alimenta su base de conocimiento</h3>
+    <p>Si el agent comete el mismo error dos veces, es momento de escribir el feedback donde lo lea siempre. No le des solo las reglas del framework: cuéntale la arquitectura del proyecto, qué tipo de tests se esperan para cada tipo de tarea, cómo se corren los comandos importantes y qué herramientas prefieres.</p>
+    <div class="ej"><b>Ejemplo</b><p>Documentar el procedimiento exacto para agregar una ruta nueva, con cada sitio donde va boilerplate en frontend y backend, convierte esa tarea en algo que se delega sin pensarlo.</p></div>
+  </section>
+
+  <!-- ══════════════════ EN LA PRÁCTICA ══════════════════ -->
+  <section class="sec" id="limites">
+    <div class="tier">En la práctica</div>
+    <h2>Lo que todavía hace mal</h2>
+
+    <h3>Debuggear</h3>
+    <p>Un reporte de bug se ve simple y casi nunca lo es. Muchos bugs necesitan acceso a logs y bases de datos, y un nivel de olfato que la mayoría de los agents no tiene hoy. Si lo usas para debuggear, pídele una lista de <strong>causas probables</strong> en vez de que arregle todo él. Tú escoges la real; el sistema lo conoces tú. Con la causa en la mano, el arreglo sí vuelve al agent.</p>
+
+    <h3>Lo visual fino</h3>
+    <p>Los modelos de hoy no tienen el razonamiento visual para cuadrar un diseño con un screenshot o un mockup de Figma al nivel de detalle que hace falta. Les va bien cuando lo visual se puede describir como código: componentes, un sistema de diseño, clases con nombre. Si quieres que respete tu estilo, dale un sistema de diseño del que partir, mejor que una imagen.</p>
+
+    <h3>Lo que salió después de su entrenamiento</h3>
+    <p>Cuando trabajes con una librería nueva o una versión reciente, pásale el link a la documentación actual. Si no, asume los patrones viejos, porque no sabe que hay una versión nueva. Un buen agent lo supera si le das la doc; ninguno la busca solo.</p>
+  </section>
+
+  <section class="sec" id="tiempo">
+    <div class="tier">En la práctica</div>
+    <h2>Perder menos tiempo</h2>
+    <p>No todas las veces que usas un agent salen bien. Hay variación real en los resultados, y parte del trabajo es aprender a usarlo de forma que maximice las veces que sale bien y minimice el tiempo perdido cuando no.</p>
+
+    <h3>Corta pérdidas temprano</h3>
+    <p>El error más común de quien empieza es empeñarse en que una conversación salga bien cuando el agent ya se desvió. Si te descubres pensando "está ignorando lo que le dije" o "está dando vueltas", esa es la señal. Mandar más mensajes casi nunca lo arregla: lo que dice es que la tarea es más grande que lo que el agent puede hoy. Cierra y toma el control a mano.</p>
+
+    <h3>Diversifica al principio</h3>
+    <p>Si estás empezando, reparte las apuestas. Prueba tareas y prompts distintos. Descubres rápido en qué es bueno con <em>tu</em> código y en qué no. Dobla la apuesta en lo primero y suelta lo segundo. No le debes a la herramienta que funcione todas las veces.</p>
+
+    <h3>Empieza de nuevo más de lo que lo harías con una persona</h3>
+    <p>Con un humano, reiniciar la conversación es grosero. Con un agent es la herramienta más efectiva que tienes. Si le diste una tarea y le cuesta corregir el rumbo, una sesión limpia con todas las instrucciones de entrada llega más lejos que una larga llena de correcciones. Un agent arregla un entorno enredado mucho peor de lo que escribe código desde cero.</p>
+  </section>
+
+  <section class="sec" id="seguridad">
+    <div class="tier">En la práctica</div>
+    <h2>Seguridad y permisos</h2>
+
+    <h3>Empieza preguntando todo</h3>
+    <p>Cada agent tiene un <strong>permission mode</strong>: cuánto puede hacer sin consultarte, desde pedir permiso para cada comando hasta no pedir nada. Es más un dial que un interruptor, y dónde lo pones depende de cuánto confías en la tarea, más que en la herramienta. El primer mes, que pregunte todo. Cada permiso que apruebas te enseña qué está a punto de hacer, y saltarse los permisos con una bandera de "no preguntes nada" es la forma más rápida de aprender la lección cara.</p>
+
+    <h3>Branch antes de tocar</h3>
+    <p>Antes de dejarlo editar en un repo que importa, un branch nuevo. Es la red que convierte "tocó archivos que no esperaba" en un no-evento: descartas y sigues.</p>
+
+    <h3>Cuentas propias para el agent</h3>
+    <p>Un correo desechable sirve para probar sitios sin riesgo. Si necesita recursos en la nube, dale un rol propio con lo mínimo que necesite. Nunca tus credenciales.</p>
+
+    <h3>Nada de producción</h3>
+    <p>El agent trabaja donde pruebas tú: local, dev, staging. Idealmente con el mismo setup de pruebas que el resto del equipo. Evita darle acceso a servicios de producción por completo. Con agents remotos, aprovecha que pueden correr un entorno de prueba aislado en su propia máquina.</p>
+
+    <h3>Keys de solo lectura</h3>
+    <p>Donde se pueda, acceso de solo lectura. Y cualquier script que hable con un servicio de afuera, lo corres tú a mano aunque lo haya escrito él. Una regla aburrida. La vas a agradecer la única vez que importe.</p>
+  </section>
+
+  <section class="sec" id="cierre">
+    <div class="tier">En la práctica</div>
+    <h2>Lo que viene</h2>
+    <p>Los ingenieros no van a ninguna parte. Mientras los agents siguen mejorando, saber de verdad cómo funciona tu sistema vale más, no menos. Ser dueño de tus proyectos y tener criterio sobre ellos es lo que convierte a un agent de un generador de texto en un multiplicador.</p>
+    <p>Lo que sí cambia es la forma del trabajo. Supervisar varias tareas en paralelo, revisar más de lo que escribes, decidir alcances en vez de teclear implementaciones. En los equipos que van adelante, ese ya es el trabajo. Esta guía es lo que he aprendido preparándome para eso. Ojalá te ahorre algunos golpes.</p>
+  </section>
+
+  <div class="notas">
+    <div class="lbl">Notas</div>
+    <ol>
+      <li id="n1">Ejemplos de agents autónomos hoy: Claude Code, Codex, Antigravity, Devin, Jules, Cursor en modo agent, opencode. Los locales se pueden correr en varias copias del repo a la vez para lograr el mismo efecto de paralelismo que los remotos.</li>
+      <li id="n2">El nombre cambia por herramienta: <code>AGENTS.md</code> es el más extendido, Claude Code usa <code>CLAUDE.md</code>, Cursor tiene sus <em>rules</em>, Copilot sus <em>instructions</em>. El contenido que va dentro es el mismo.</li>
+      <li id="n3">Cada herramienta le pone su nombre: <em>skills</em>, <em>playbooks</em>, <em>slash commands</em>. Todos son un prompt guardado con un nombre, que se invoca en vez de reescribirse.</li>
+      <li id="n4">MCP, Model Context Protocol, es el estándar abierto para conectar herramientas externas a un agent. Cada servidor conectado le cuesta context al agent en cada sesión, así que conecta los que usas, no los que existen.</li>
+    </ol>
+  </div>
+
+  <div class="cierre">
+    Coding Agents 101 es también un workshop de cuatro días. Los materiales, el kit de instalación y los archivos para descargar están en <a href="/coding-agents-101/">eonoe.github.io/coding-agents-101</a>. Más guías como esta en <a href="/#guides">eonoe.github.io</a>.
+  </div>
+
+</main>
+</div>
+
+<script>
+// Resalta en el índice la sección que está en pantalla. Sin JS el índice
+// sigue funcionando como una lista de links; esto solo le pone el énfasis.
+(function(){
+  var links = Array.prototype.slice.call(document.querySelectorAll('.side a[href^="#"]'));
+  var targets = links.map(function(a){ return document.getElementById(a.getAttribute('href').slice(1)); }).filter(Boolean);
+  if (!('IntersectionObserver' in window) || !targets.length) return;
+  var on = null;
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if (e.isIntersecting) on = e.target.id; });
+    links.forEach(function(a){ a.classList.toggle('on', a.getAttribute('href') === '#' + on); });
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  targets.forEach(function(t){ io.observe(t); });
+})();
+</script>
+</body>
+</html>
