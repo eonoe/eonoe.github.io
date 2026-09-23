@@ -139,42 +139,42 @@ function sendConfirmation(email, lang, source) {
 var CONFIRMATION = {
   en: {
     from: 'Coding Agents 101',
-    subject: "You're in — Coding Agents 101 starts Mon, Oct 12",
+    subject: "You're in — Coding Agents 101 starts Tue, Oct 13",
     body: [
       "You're signed up for Coding Agents 101. Nothing else to do for now.",
       '',
       'Four live sessions, two hours each, 6:00 PM:',
-      '  Mon, Oct 12 — Get an agent doing real work',
-      '  Tue, Oct 13 — Context that makes it click',
-      '  Wed, Oct 14 — Review like you mean it',
-      '  Thu, Oct 15 — Make it stick',
+      '  Tue, Oct 13 — Get an agent doing real work',
+      '  Thu, Oct 15 — Context that makes it click',
+      '  Tue, Oct 20 — Review like you mean it',
+      '  Thu, Oct 22 — Make it stick',
       '',
       'Bring a repo you already work in — you build alongside on your own code.',
       'Every session is recorded, so a missed one is not a problem.',
       '',
       "I'll email the join link before the first session.",
       '',
-      'See you Monday.'
+      'See you Tuesday.'
     ].join('\n')
   },
   es: {
     from: 'Coding Agents 101',
-    subject: 'Ya estás dentro — Coding Agents 101 empieza el lun 12 de octubre',
+    subject: 'Ya estás dentro — Coding Agents 101 empieza el mar 13 de octubre',
     body: [
       'Estás apuntado a Coding Agents 101. Por ahora no tienes que hacer nada más.',
       '',
       'Cuatro sesiones en directo, dos horas cada una, a las 18:00:',
-      '  Lun 12 oct — Pon un agente a trabajar de verdad',
-      '  Mar 13 oct — El contexto que lo cambia todo',
-      '  Mié 14 oct — Revisar en serio',
-      '  Jue 15 oct — Que se quede contigo',
+      '  Mar 13 oct — Pon un agente a trabajar de verdad',
+      '  Jue 15 oct — El contexto que lo cambia todo',
+      '  Mar 20 oct — Revisar en serio',
+      '  Jue 22 oct — Que se quede contigo',
       '',
       'Trae un repo en el que ya trabajes: vas construyendo sobre tu propio código.',
       'Todas las sesiones se graban, así que si te pierdes una no pasa nada.',
       '',
       'Te enviaré el enlace antes de la primera sesión.',
       '',
-      'Nos vemos el lunes.'
+      'Nos vemos el martes.'
     ].join('\n')
   }
 };
@@ -189,7 +189,7 @@ var WAITLIST = {
       '',
       "It isn't open yet. You're on the list, and you'll hear from me first when dates go out.",
       '',
-      'In the meantime, Coding Agents 101 is the free on-ramp and it runs live Oct 12 – 15:',
+      'In the meantime, Coding Agents 101 is the free on-ramp and it runs live Oct 13 – 22, Tuesdays and Thursdays:',
       'https://eonoe.github.io/',
       '',
       'It covers the same foundations, and it stands on its own whether you go deeper or not.'
@@ -203,7 +203,7 @@ var WAITLIST = {
       '',
       'Todavía no está abierto. Estás en la lista y serás de los primeros en saber las fechas.',
       '',
-      'Mientras tanto, Coding Agents 101 es la puerta de entrada gratuita, en directo del 12 al 15 de octubre:',
+      'Mientras tanto, Coding Agents 101 es la puerta de entrada gratuita, en directo del 13 al 22 de octubre, martes y jueves:',
       'https://eonoe.github.io/es.html',
       '',
       'Cubre las mismas bases y merece la pena por sí solo, sigas o no después.'
