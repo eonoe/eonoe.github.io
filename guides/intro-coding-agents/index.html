@@ -178,146 +178,146 @@
   <div class="meta"><span>Coding Agents 101</span><span>September 2026</span><span>15 minute read</span></div>
   <h1>Coding Agents 101: the art of getting things to ship.</h1>
 
-  <p class="lede" id="intro">A coding agent is not magic, but it is the closest thing we have. And still, some people get twice the work out of the same tool as others. What follows is what those people do differently: how they brief it, what they hand it, how they review it, and when they turn it off.</p>
+  <p class="lede" id="intro">A coding agent isn't magic, but it's the closest thing we have right now. And still, some people get twice the work out of the same tool as the person sitting next to them. This is what those people do differently: how they brief it, what they hand it, how they read what comes back, and when they stop.</p>
 
   <div class="about">
     <div class="lbl">About this guide</div>
     <div class="cols">
       <div><h4>Tool-agnostic</h4><p>Everything here works with any current coding agent: Claude Code, Codex, Antigravity, Cursor, opencode, or whatever ships next month.</p></div>
-      <div><h4>Tactical</h4><p>Advice you can apply this afternoon, each with a concrete example. Not much theory.</p></div>
-      <div><h4>Technical</h4><p>Written for people who write code and already get around with Git and a terminal. Nothing more is assumed.</p></div>
+      <div><h4>Tactical</h4><p>Advice you can try this afternoon, with a concrete example for each. Theory kept to a minimum.</p></div>
+      <div><h4>Technical</h4><p>Written for people who write code and already get around with Git and a terminal.</p></div>
     </div>
   </div>
 
-  <p>Tools for writing code with AI have changed four times in ten years. First came autocomplete: method names, imports, mechanical refactors. Then copilots, which wrote the next few lines. Then chats, which generated whole files to copy and paste. Today it is agents: programs that take a description, read your repo, edit, run commands, see the error, fix it, and hand you a change ready for review.<span class="fn"><a href="#n1">1</a></span></p>
+  <p>Tools for writing code with AI have changed four times in ten years. First came autocomplete: method names, imports, mechanical refactors. Then copilots, which wrote the next few lines. Then chats, which generated whole files to copy and paste. Today it's agents: programs that take a description, read your repo, edit, run commands, see the error, fix it, and hand you a change ready for review.<span class="fn"><a href="#n1">1</a></span></p>
 
-  <p>What changed at each step was not how much code the tool writes. It was <strong>who runs the loop</strong>. With an agent, the loop of reading, doing and checking is run by the agent, and you step in when it finishes or when it asks for permission. That turns every engineer into something like the manager of a small team: tasks in parallel, reviews, scope decisions.</p>
+  <p>The thing that changed at each step wasn't how much code the tool writes. It was <strong>who runs the loop</strong>. With an agent, the reading, doing and checking happens on its side, and you step in when it finishes or when it asks for permission. That turns every engineer into something like the manager of a small team, with tasks running in parallel and a lot more reviewing than typing.</p>
 
-  <p>Adapting takes time. Curiously, the people who get the hang of it fastest are not the ones who know the most about AI, but the ones who know the most about their own code: senior engineers, tech leads, people used to delegating and reviewing. This guide collects what they do, so you do not have to find it out the hard way.</p>
+  <p>Adapting takes a while. The people who get the hang of it fastest, in my experience, aren't the ones who know the most about AI. They're the ones who know their own code best and are already used to delegating and reviewing: senior engineers, tech leads. This guide collects what they do, so you don't have to find it out the hard way.</p>
 
   <!-- ══════════════════ GETTING STARTED ══════════════════ -->
   <section class="sec" id="pedir">
     <div class="tier">Getting started</div>
     <h2>How to brief it</h2>
-    <p>If you take one section away from this guide, make it this one. A prompt is not a wish: it is the briefing you would give someone who joined the team today and has never seen your code.</p>
+    <p>If you take one section away from this guide, make it this one. A prompt is the briefing you'd give someone who joined the team today and has never seen your code. Write it like that.</p>
 
     <h3>Say how, not just what</h3>
-    <p>Think of the agent as a very fast junior whose judgment is not always reliable. Simple tasks can be described directly. For anything that is not simple, give it the approach up front: the architecture, the logic, where each piece goes. That does more than raise the odds it comes out right; it also cuts your review time, because you already know the plan you are reading.</p>
+    <p>Think of the agent as a very fast junior whose judgment isn't always reliable. Simple tasks can be described directly. For anything that isn't simple, give it the approach up front: the architecture, the logic, where each piece goes. It raises the odds it comes out right, and it also cuts your review time, because you already know the plan you're reading.</p>
     <div class="ej"><b>Example</b><p>Instead of "add tests", say which functionality to test, which edge cases matter, and what to mock, if anything.</p></div>
 
     <h3>Tell it where to start</h3>
-    <p>Think about where you would start. Even if you do not remember the exact file name, mention the module, the relevant docs and the pieces involved. Every hint you give is a search it skips and an invented approach you avoid.</p>
+    <p>Think about where you'd start. Even if you don't remember the exact file name, mention the module, the relevant docs and the pieces involved. Every hint you give is a search it skips, and often an invented approach you avoid.</p>
     <div class="ej"><b>Example</b><p>"Add support for Google's models. Look at the docs at this link and create the implementation in the providers folder, following the pattern of the OpenAI file."</p></div>
 
     <h3>Anticipate where it will get confused</h3>
-    <p>Imagine handing the same prompt to someone who joined last week. Where would they get lost? What would they assume that is not true? Everything you know that is not written down, the agent will guess, and it guesses fast and confidently. Write it down before it guesses.</p>
+    <p>Imagine handing the same prompt to someone who joined last week. Where would they get lost? What would they assume that isn't true? Anything you know that isn't written down, the agent will guess, fast and with total confidence. Write it down first.</p>
     <div class="ej"><b>Example</b><p>"Fix the C++ bindings for the search module so the new tests pass. Heads up: you need to recompile the bindings every time you change the code before testing."</p></div>
 
     <h3>Give it a way to check itself</h3>
     <p>A large part of the magic of an agent is that it fixes its own mistakes by iterating against an error message. Anything that gives it fast feedback makes it better: types, a linter, tests, a command that starts the project. Teach it to run the team's checks and make sure it has the packages and permissions to do so. If it can open a browser, tell it how to start the frontend.</p>
-    <div class="ej"><b>Example</b><p>Moving an untyped Python SDK to typed Python is an improvement the agent benefits from on every task after. And it is a good task to hand it, by the way.</p></div>
+    <div class="ej"><b>Example</b><p>Moving an untyped Python SDK to typed Python is an improvement the agent benefits from on every task after. That migration is a good task to hand it, by the way.</p></div>
 
-    <h3>Give it a place to put what it does not know</h3>
-    <p>An agent that does not know something writes it anyway, in the same confident tone it uses for what it does know. If you do not give it a place for doubt, it buries the doubt in the normal text, and then you cannot tell them apart. Ask it to separate them.</p>
-    <div class="ej"><b>Example</b><p>"Only state things you can verify by reading the repo. If you are not sure, put it under a <code>## Unconfirmed</code> section instead of making it up." This does not cure the habit of inventing; it moves the invention to where you see it today and not in production.</p></div>
+    <h3>Give it a place to put what it doesn't know</h3>
+    <p>An agent that doesn't know something writes it anyway, in the same confident tone it uses for what it does know. If you don't give it a place for doubt, it buries the doubt in the normal text, and then you can't tell them apart. Ask it to separate them.</p>
+    <div class="ej"><b>Example</b><p>"Only state things you can verify by reading the repo. If you aren't sure, put it under a <code>## Unconfirmed</code> section instead of making it up." This doesn't cure the habit of inventing; it moves the invention to where you see it today and not in production.</p></div>
 
     <h3>Use what you know</h3>
-    <p>All of the above is easier when you know the code. Even simple tasks come out better if you can verify the logic and the result. And one thing does not change no matter how much the tools improve: <strong>responsibility for what gets merged is yours.</strong> Owning the code and verifying it will keep being human work, and probably the most important kind.</p>
+    <p>All of the above is easier when you know the code. Even simple tasks come out better if you can verify the logic and the result. And one thing doesn't change no matter how much the tools improve: <strong>responsibility for what gets merged is yours.</strong> Owning the code and checking it stays human work, probably the most important kind there's.</p>
   </section>
 
   <section class="sec" id="diario">
     <div class="tier">Getting started</div>
     <h2>The agent in your day to day</h2>
-    <p>Once you know how to talk to it, it is time to fold it into the routine. These are the uses that pay off fastest.</p>
+    <p>Once you know how to talk to it, it's time to fold it into the routine. These are the uses that pay off fastest.</p>
 
     <h3>Start with the boring stuff</h3>
-    <p>Renaming something across forty files, updating docs after a change, writing the tests nobody wrote, finding which commit broke something. These are tasks where the result is verified by running a command and getting it wrong is cheap. Here an agent gives you back hours, not minutes, and you keep the work that actually needs a brain.</p>
+    <p>Renaming something across forty files, updating docs after a change, writing the tests nobody wrote, finding which commit broke something. These are tasks where the result is verified by running a command and getting it wrong is cheap. This is where an agent gives you back whole hours, and you keep the work that needs a brain.</p>
     <div class="ej"><b>Example</b><p>A common pattern: the engineer ships the change and an agent updates every doc and every piece of interface copy that change touches.</p></div>
 
     <h3>Handle what lands on you out of nowhere</h3>
     <p>Someone on the team writes "can we do X real quick?" or "Y needs a tweak". Instead of letting it pull you out of what you were doing, send the investigation or the change to an agent and stay on your task. Come back when it finishes. Same for that side-project idea, that prototype, or that script to pull some data: delegate and review later.</p>
 
     <h3>Get out of analysis paralysis</h3>
-    <p>Not sure whether a refactor actually simplifies things? Torn between two architectures? Ask it to implement both. Comparing two concrete implementations is far easier than debating two ideas, and throwing one away hurts nobody's feelings.</p>
-    <div class="ej"><b>Example</b><p>Undecided between two libraries for a text editor, a team had an agent implement each. The one that gave the better end result won, not the one that sounded better in the meeting.</p></div>
+    <p>Not sure whether a refactor actually simplifies things? Torn between two architectures? Ask it to implement both. Comparing two working implementations is far easier than debating two ideas, and nobody's feelings get hurt when you throw one away.</p>
+    <div class="ej"><b>Example</b><p>Undecided between two libraries for a text editor, a team had an agent implement each. The one with the better end result won. It wasn't the one that had sounded better in the meeting.</p></div>
 
     <h3>Have one command that brings everything up</h3>
-    <p>If every pull request produces an environment where you can see the change running, reviewing an agent's work goes from reading a diff to using the product. For frontend changes it is the difference between "looks fine" and "is fine". If you do not have preview deployments, at least have a single command that starts the project locally, and teach it to the agent.</p>
+    <p>If every pull request produces an environment where you can see the change running, reviewing an agent's work goes from reading a diff to using the product. For frontend changes that's the difference between "looks fine" and "works". If you don't have preview deployments, at least have a single command that starts the project locally, and teach it to the agent.</p>
   </section>
 
   <!-- ══════════════════ DELEGATING MORE ══════════════════ -->
   <section class="sec" id="grandes">
     <div class="tier">Delegating more</div>
     <h2>Larger tasks</h2>
-    <p>Once a task stops fitting in a handful of files, doing it in a single pass stops working. And yet learning to delegate medium and large tasks, one to six hours of work, is where an agent pays off most: there you are not saving minutes, you are getting whole afternoons back.</p>
+    <p>Once a task stops fitting in a handful of files, doing it in a single pass stops working. And yet medium and large tasks, one to six hours of work, are where an agent pays off most. You stop saving minutes and start getting afternoons back.</p>
 
     <h3>Let it write the first draft</h3>
-    <p>For a substantial task, a first draft by the agent gets the work moving and removes most of the effort. The condition is communicating the approach up front. Think of the architect directing a junior developer: clear, detailed instructions avoid spending the afternoon correcting a misunderstanding at the base.</p>
+    <p>For a substantial task, a first draft by the agent gets the work moving and removes most of the effort. The condition is communicating the approach up front. Think of an architect directing a junior developer. Clear instructions up front save you an afternoon of correcting a misunderstanding at the base.</p>
 
     <div class="scroll">
       <table>
         <thead><tr><th>Trade</th><th>The draft</th><th>The polish</th></tr></thead>
         <tbody>
-          <tr><td>Journalism</td><td>The reporter gathers the facts and writes the first version.</td><td>The editor checks facts, cuts what is not needed and decides what runs.</td></tr>
+          <tr><td>Journalism</td><td>The reporter gathers the facts and writes the first version.</td><td>The editor checks facts, cuts what isn't needed and decides what runs.</td></tr>
           <tr><td>Kitchen</td><td>The line cook preps the ingredients and plates the dish.</td><td>The chef tastes, adjusts and decides whether it goes out.</td></tr>
           <tr><td>Code</td><td>The agent starts from the plan and writes the first draft of the change.</td><td>You review the diff, give feedback and make the final touches before merging.</td></tr>
         </tbody>
       </table>
     </div>
 
-    <div class="stop"><b>Heads up</b><p>Large tasks are not hands-off yet. Expect two or three rounds of feedback and a final touch of your own. A realistic goal is saving eighty percent of the work, not a hundred. Your judgment is still the piece that verifies and signs.</p></div>
+    <div class="stop"><b>Heads up</b><p>Large tasks aren't hands-off yet. Expect two or three rounds of feedback and a final touch of your own. A realistic goal is saving something like eighty percent of the work. Your judgment still verifies and signs off.</p></div>
 
     <h3>Plan with it before it writes</h3>
-    <p>For complex or vaguely defined tasks, building the plan together with the agent works very well. It is fine if you do not know every requirement at the start. Begin with discovery questions: "how does authentication work here?", "which services would be affected?". Ask it to identify the concrete files it would touch, so you can confirm them before it writes a line.</p>
-    <p>Almost every agent has a mode that only reads and proposes, without touching anything; it is usually called <strong>plan mode</strong>. It is the right place to start any task that does not fit in one sentence.</p>
+    <p>For complex or vaguely defined tasks, building the plan together with the agent works very well. It's fine if you don't know every requirement at the start. Begin with discovery questions: "how does authentication work here?", "which services would be affected?". Ask it to identify the concrete files it would touch, so you can confirm them before it writes a line.</p>
+    <p>Almost every agent has a mode that only reads and proposes, without touching anything; it's usually called <strong>plan mode</strong>. Start there for any task that doesn't fit in one sentence.</p>
 
     <h3>Set checkpoints</h3>
     <p>For work in several parts, especially across layers or repos, define explicit stops:</p>
     <div class="flow">plan → one chunk → test → fix → you review → next chunk</div>
-    <p>Ask for a pause after each significant phase. Use it to confirm it is going where you expected, clear up doubts ("explain the auth flow and confirm it is secure") and correct course early, before a mistake at the base spreads to everything else.</p>
-    <div class="ej"><b>Example</b><p>"This feature touches the database, the backend and two interfaces. First plan the schema change and tell me when it is ready, so I can apply the migration myself." → "Now the backend, with tests covering X and Y. Tell me when you are done." → "Now both interfaces, calling the new endpoint."</p></div>
+    <p>Ask for a pause after each significant phase. Use it to confirm it's going where you expected, clear up doubts ("explain the auth flow and confirm it's secure") and correct course early, before a mistake at the base spreads to everything else.</p>
+    <div class="ej"><b>Example</b><p>"This feature touches the database, the backend and two interfaces. First plan the schema change and tell me when it's ready, so I can apply the migration myself." → "Now the backend, with tests covering X and Y. Tell me when you're done." → "Now both interfaces, calling the new endpoint."</p></div>
 
     <h3>Teach it to verify its own work</h3>
-    <p>When giving feedback, do not stop at "this does not work". Explain how you tested it, so next time it can test it itself. And if it is a procedure you will repeat, write it where the agent always reads it (see <a href="#entorno">Environment and knowledge</a>).</p>
+    <p>When giving feedback, don't stop at "this doesn't work". Explain how you tested it, so next time it can test it itself. And if it's a procedure you'll repeat, write it where the agent always reads it (see <a href="#entorno">Environment and knowledge</a>).</p>
 
     <h3>Put tests where the agent touches most</h3>
-    <p>Today an agent does not interactively test every scenario. Raising coverage exactly in the areas it modifies most buys you cheap confidence: with solid tests, code that looks correct can be merged without that knot in your stomach. It already writes the happy-path tests; yours are the error cases, the empty inputs, the negatives.</p>
-    <div class="ej"><b>Example</b><p>Before handing an agent the translation of a critical piece of Python to C, a team first strengthened the unit tests for that piece. The translation afterwards was boring, which is exactly what you want.</p></div>
+    <p>Today an agent doesn't interactively test every scenario. Raising coverage exactly in the areas it modifies most buys you cheap confidence: with solid tests, code that looks correct can be merged without that knot in your stomach. It already writes the happy-path tests; yours are the error cases, the empty inputs, the negatives.</p>
+    <div class="ej"><b>Example</b><p>Before handing an agent the translation of a critical piece of Python to C, a team first strengthened the unit tests for that piece. The translation afterwards was boring. Boring was the goal.</p></div>
   </section>
 
   <section class="sec" id="context">
     <div class="tier">Delegating more</div>
     <h2>Context and sessions</h2>
-    <p>The word that explains most of an agent's behavior is <strong>context</strong>: what it can see right now. It is not what is in your repo. It is what it read. The distance between those two explains almost every bad answer.</p>
+    <p>The word that explains most of an agent's behavior is <strong>context</strong>: what it can see right now. That's not the same as what's in your repo; it's only what it actually read. The gap between those two explains almost every bad answer you'll get.</p>
 
     <h3>Ask it what it read</h3>
-    <p>When it gives you a weak answer, the natural reaction is to think the model is dumb. It almost never is: it answered without opening the file that actually matters. One line at the end of the prompt changes everything: <em>"when you are done, list the files you opened to answer"</em>. It shows you what went into the context and, above all, what stayed out. The list almost always surprises.</p>
+    <p>When it gives you a weak answer, the natural reaction is to think the model is dumb. It almost never is. It answered without opening the file that matters. One line at the end of the prompt helps a lot here: <em>"when you're done, list the files you opened to answer"</em>. It shows you what went into the context and, more usefully, what stayed out. The list surprised me every time when I started.</p>
 
     <h3>A session is everything it has accumulated</h3>
-    <p>Every file it read, everything you said, every error it saw. That is good at first and bad later: a long, confused session is not fixed by explaining better. <strong>If you corrected it three times and it is still the same, do not argue: new session</strong>, telling it exactly what to read and what the goal is. It is the least used remedy and the one that works best.</p>
-    <div class="ej"><b>Example</b><p>"Let's start over. Only read these files: [list]. The goal is [one sentence]. Do not touch anything else."</p></div>
+    <p>Every file it read, everything you said, every error it saw. That's useful at first and a liability later. A long, confused session doesn't get fixed by explaining better. <strong>If you've corrected it three times and it's still doing the same thing, stop arguing and open a new session</strong>, telling it exactly what to read and what the goal is. Hardly anyone does this, and it works better than anything else I know.</p>
+    <div class="ej"><b>Example</b><p>"Let's start over. Only read these files: [list]. The goal is [one sentence]. Don't touch anything else."</p></div>
 
     <h3>What you want it to always know, write down</h3>
-    <p>Since every session starts from zero, anything you want it to know <em>always</em> has to live in a file it reads on startup. Almost every agent has one: <code>AGENTS.md</code>, <code>CLAUDE.md</code>, a rules file.<span class="fn"><a href="#n2">2</a></span> The hard part is not writing it, it is keeping it short: only what cannot be inferred from the code, and only lines that change what it does. If a line can be deleted without the agent making a mistake, it is not earning its place.</p>
+    <p>Since every session starts from zero, anything you want it to know <em>always</em> has to live in a file it reads on startup. Almost every agent has one: <code>AGENTS.md</code>, <code>CLAUDE.md</code>, a rules file.<span class="fn"><a href="#n2">2</a></span> The hard part isn't writing it, it's keeping it short. Only what can't be inferred from the code, and only lines that change what it does. If you can delete a line without the agent making a mistake, delete it.</p>
   </section>
 
   <!-- ══════════════════ AUTOMATING ══════════════════ -->
   <section class="sec" id="workflows">
     <div class="tier">Automating</div>
     <h2>Workflows that run on their own</h2>
-    <p>An agent reacts to events much faster than a person, and it is considerably more willing to do boring, repetitive work than any of your colleagues.</p>
+    <p>An agent reacts to events much faster than a person does, and it's a lot more willing to do boring, repetitive work than anyone on your team.</p>
 
     <h3>What you repeat twice, write down</h3>
-    <p>Every team has routine tasks that come back every week: removing a feature flag, bumping dependencies, adding tests to new PRs. They are perfect candidates. Someone experienced writes a reusable, robust prompt once,<span class="fn"><a href="#n3">3</a></span> and from then on it gets run instead of rewritten.</p>
+    <p>Every team has routine tasks that come back every week: removing a feature flag, bumping dependencies, adding tests to new PRs. Those are the candidates. Someone experienced writes a solid reusable prompt once,<span class="fn"><a href="#n3">3</a></span> and from then on it gets run instead of rewritten.</p>
     <div class="ej"><b>Example</b><p>Some teams automatically trigger several agents dedicated to writing tests every time a PR with a new feature is opened.</p></div>
 
     <h3>Review against your own mistakes</h3>
     <p>There are tools specialized in reviewing PRs fast. But an agent that already knows your repo can give you something more useful: a review against the mistakes <em>your</em> team actually makes.</p>
-    <div class="ej"><b>Example</b><p>Keep a list in the repo of the team's most common mistakes, the ones a linter cannot catch. An agent reads it and reviews every new PR against it.</p></div>
+    <div class="ej"><b>Example</b><p>Keep a list in the repo of the team's most common mistakes, the ones a linter can't catch. An agent reads it and reviews every new PR against it.</p></div>
 
     <h3>React to alerts and incidents</h3>
     <p>An agent can also trigger on its own when something happens: a new error in production, an alert, a ticket. Almost all of them expose a CLI or an API for wiring them into a workflow, and with MCP they can read logs from external services.</p>
-    <div class="stop"><b>Heads up</b><p>For production triage, an agent debugging is weak. Instead of asking it to fix bugs end to end as they arrive, ask it to flag the most suspicious errors and changes. The decision is yours.</p></div>
+    <div class="stop"><b>Heads up</b><p>For production triage, an agent debugging is weak. Instead of asking it to fix bugs end to end as they arrive, ask it to flag the most suspicious errors and changes. You make the call.</p></div>
   </section>
 
   <section class="sec" id="entorno">
@@ -329,11 +329,11 @@
     <div class="ej"><b>Example</b><p>A browser with sessions already signed in saves the agent, and you, every manual login while testing.</p></div>
 
     <h3>Your own scripts and MCP</h3>
-    <p>MCP is the standard way to connect external tools: your database, Jira, Sentry, your email.<span class="fn"><a href="#n4">4</a></span> It is quick to try and there are servers for almost everything. But many people overlook something simpler: a CLI script. A script that pulls a ticket's info given its ID. A script that restarts the local environment. Small, reliable tools for the parts of the workflow that repeat.</p>
+    <p>MCP is the standard way to connect external tools: your database, Jira, Sentry, your email.<span class="fn"><a href="#n4">4</a></span> It's quick to try and there are servers for almost everything. But many people overlook something simpler: a CLI script. A script that pulls a ticket's info given its ID. A script that restarts the local environment. Small, boring tools for the parts of the workflow that repeat.</p>
     <div class="ej"><b>Example</b><p>A team wrote a script that shows only the first failing test, with that error's full detail. The agent focuses on one at a time instead of drowning in a hundred lines of output, and finishes long tasks faster and more often.</p></div>
 
     <h3>Feed its knowledge base</h3>
-    <p>If the agent makes the same mistake twice, it is time to write the feedback where it always reads it. Do not give it only the framework's rules: tell it the project's architecture, what kind of tests are expected for each kind of task, how the important commands are run and which tools you prefer.</p>
+    <p>If the agent makes the same mistake twice, it's time to write the feedback where it always reads it. Don't give it only the framework's rules: tell it the project's architecture, what kind of tests are expected for each kind of task, how the important commands are run and which tools you prefer.</p>
     <div class="ej"><b>Example</b><p>Documenting the exact procedure for adding a new route, with every place boilerplate goes in frontend and backend, turns that task into something you delegate without thinking.</p></div>
   </section>
 
@@ -343,28 +343,28 @@
     <h2>What it still does badly</h2>
 
     <h3>Debugging</h3>
-    <p>A bug report looks simple and almost never is. Many bugs need access to logs and databases, and a level of instinct most agents do not have today. If you use it to debug, ask for a list of <strong>probable causes</strong> instead of having it fix everything itself. You pick the real one with your experience. And once the cause is known, the fix can be delegated.</p>
+    <p>A bug report looks simple and rarely is. Many bugs need access to logs and databases, and a level of instinct most agents don't have today. If you use it to debug, ask for a list of <strong>probable causes</strong> instead of having it fix everything itself. You pick the real one; you know the system. Once the cause is known, the fix itself can go back to the agent.</p>
 
     <h3>Fine visual work</h3>
-    <p>Today's models do not have the visual reasoning to match a design to a screenshot or a Figma mockup at the level of detail that is needed. They do well when the visual can be described as code: components, a design system, named classes. If you want it to respect your style, give it a reusable design system, not an image.</p>
+    <p>Today's models don't have the visual reasoning to match a design to a screenshot or a Figma mockup at the level of detail that's needed. They do well when the visual can be described as code: components, a design system, named classes. If you want it to respect your style, give it a design system to work from rather than an image.</p>
 
     <h3>Anything released after its training</h3>
-    <p>When working with a new library or a recent version, give it the link to the current docs. Otherwise it assumes the old patterns, because it does not know a new version exists. A good agent gets past this if you hand it the docs; none of them go looking on their own.</p>
+    <p>When working with a new library or a recent version, give it the link to the current docs. Otherwise it assumes the old patterns, because it doesn't know a new version exists. A good agent gets past this if you hand it the docs. None of them go looking on their own.</p>
   </section>
 
   <section class="sec" id="tiempo">
     <div class="tier">In practice</div>
     <h2>Wasting less time</h2>
-    <p>Not every time you use an agent goes well. There is real variance in the outcomes, and part of the job is learning to use it in a way that maximizes the times it works and minimizes the time lost when it does not.</p>
+    <p>Not every run goes well. There's real variance, and part of the job is learning to steer toward the runs that work and cut short the ones that don't.</p>
 
     <h3>Cut your losses early</h3>
-    <p>The most common beginner mistake is insisting a conversation succeed when the agent has already drifted. If you catch yourself thinking "it is ignoring what I said" or "it is going in circles", that is the signal. Sending more messages almost never fixes it: what it says is that the task is bigger than what the agent can do today. Close it and take over by hand. It is not a defeat.</p>
+    <p>The most common beginner mistake is insisting a conversation succeed when the agent has already drifted. If you catch yourself thinking "it's ignoring what I said" or "it's going in circles", that's the signal. Sending more messages almost never fixes it. Usually it means the task is bigger than what the agent can handle today. Close it and take over by hand.</p>
 
     <h3>Diversify at the start</h3>
-    <p>If you are just starting, spread your bets. Try different tasks and prompts. You find out fast what it is good at with <em>your</em> code and what it is not. Double down on the first and drop the second without guilt. You do not have to force it to work every time.</p>
+    <p>If you're just starting, spread your bets. Try different tasks and prompts. You find out fast what it's good at with <em>your</em> code and what it isn't. Double down on the first and drop the second. You don't owe the tool a win every time.</p>
 
     <h3>Start over more than you would with a person</h3>
-    <p>With a human, restarting the conversation is rude. With an agent it is the most effective tool you have. If you gave it a task and it struggles to correct course, a clean session with all the instructions up front gets further than a long one full of corrections. An agent fixes a tangled environment far worse than it writes code from scratch.</p>
+    <p>With a human, restarting the conversation is rude. With an agent it's the most effective tool you have. If you gave it a task and it struggles to correct course, a clean session with all the instructions up front gets further than a long one full of corrections. An agent fixes a tangled environment far worse than it writes code from scratch.</p>
   </section>
 
   <section class="sec" id="seguridad">
@@ -372,26 +372,26 @@
     <h2>Security and permissions</h2>
 
     <h3>Start by asking for everything</h3>
-    <p>Every agent has a <strong>permission mode</strong>: how much it can do without checking with you, from asking permission for every command to asking for nothing. It is a dial, not a switch, and the position depends on how much you trust the task, not the tool. For the first month, have it ask for everything. Every permission you approve teaches you what it is about to do, and skipping permissions with a "never ask" flag is the fastest way to learn the expensive lesson.</p>
+    <p>Every agent has a <strong>permission mode</strong>: how much it can do without checking with you, from asking permission for every command to asking for nothing. It's a dial rather than a switch, and where you set it depends on how much you trust the task, more than the tool. For the first month, have it ask for everything. Every permission you approve teaches you what it's about to do, and skipping permissions with a "never ask" flag is the fastest way to learn the expensive lesson.</p>
 
     <h3>Branch before touching</h3>
-    <p>Before letting it edit a repo that matters, a new branch. It is the net that turns "it touched files I did not expect" into a non-event: discard and move on.</p>
+    <p>Before letting it edit a repo that matters, a new branch. That's the net that turns "it touched files I didn't expect" into a non-event. Discard and move on.</p>
 
     <h3>Accounts of its own</h3>
-    <p>A throwaway email is fine for testing sites without risk. If it needs access to cloud resources, a role of its own with the minimum it needs, not your credentials.</p>
+    <p>A throwaway email is fine for testing sites without risk. If it needs cloud resources, give it a role of its own with the minimum it needs. Never your own credentials.</p>
 
     <h3>Nothing in production</h3>
     <p>The agent works where you test: local, dev, staging. Ideally with the same test setup as the rest of the team. Avoid giving it access to production services entirely. With remote agents, take advantage of the isolated test environment they can run on their own machine.</p>
 
     <h3>Read-only keys</h3>
-    <p>Wherever possible, read-only access. And any script that talks to an outside service, you run by hand even if it wrote it. It is a boring rule, and you will be grateful for it exactly once.</p>
+    <p>Wherever possible, read-only access. And any script that talks to an outside service, you run by hand even if it wrote it. A boring rule. You'll be glad of it the one time it matters.</p>
   </section>
 
   <section class="sec" id="cierre">
     <div class="tier">In practice</div>
     <h2>What comes next</h2>
-    <p>Engineers are not going anywhere. Even as agents keep improving, really knowing how your system and your code work is worth more than ever, not less. Owning your projects, understanding them deeply and having judgment about them is what turns an agent from a text generator into a multiplier.</p>
-    <p>What does change is the shape of the work. Overseeing several tasks in parallel, reviewing more than you write, deciding scope instead of typing implementations. That is no longer optional on the teams that are ahead. This guide is what we have learned getting ready for that shift; hopefully it spares you a few bruises.</p>
+    <p>Engineers aren't going anywhere. As agents keep improving, actually knowing how your system works is worth more, not less. Owning your projects and having judgment about them is what turns an agent from a text generator into a multiplier.</p>
+    <p>What does change is the shape of the work. Overseeing several tasks in parallel, reviewing more than you write, deciding scope instead of typing implementations. On the teams that are ahead, that's already the job. This guide is what I've learned getting ready for it. Hopefully it saves you a few bruises.</p>
   </section>
 
   <div class="notas">

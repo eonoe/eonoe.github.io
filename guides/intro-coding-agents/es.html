@@ -166,14 +166,14 @@
   <div class="meta"><span>Coding Agents 101</span><span>Septiembre 2026</span><span>15 minutos de lectura</span></div>
   <h1>Coding Agents 101: el arte de que las cosas salgan.</h1>
 
-  <p class="lede" id="intro">Un coding agent no es magia, pero es lo más parecido que hay. Y aun así hay gente que le saca el doble de trabajo que otra con la misma herramienta. Lo que sigue es lo que esa gente hace distinto: cómo le pide, qué le delega, cómo lo revisa y cuándo lo apaga.</p>
+  <p class="lede" id="intro">Un coding agent no es magia, pero es lo más parecido que hay ahora mismo. Y aun así hay gente que le saca el doble de trabajo que la persona de al lado, con la misma herramienta. Esto es lo que esa gente hace distinto: cómo le pide, qué le delega, cómo lee lo que le devuelve y cuándo para.</p>
 
   <div class="about">
     <div class="lbl">Sobre esta guía</div>
     <div class="cols">
       <div><h4>Agnóstica</h4><p>Lo que dice aquí sirve con cualquier coding agent de hoy: Claude Code, Codex, Antigravity, Cursor, opencode o el que salga el mes que viene.</p></div>
-      <div><h4>Táctica</h4><p>Consejos que puedes aplicar esta tarde, cada uno con un ejemplo concreto. Poca teoría.</p></div>
-      <div><h4>Técnica</h4><p>Está escrita para gente que escribe código y ya se mueve con Git y una terminal. No hace falta más.</p></div>
+      <div><h4>Táctica</h4><p>Consejos que puedes probar esta tarde, con un ejemplo concreto para cada uno. La teoría, la mínima.</p></div>
+      <div><h4>Técnica</h4><p>Está escrita para gente que escribe código y ya se mueve con Git y una terminal.</p></div>
     </div>
   </div>
 
@@ -181,13 +181,13 @@
 
   <p>Lo que cambió en cada paso no fue cuánto código escribe la herramienta. Fue <strong>quién corre el loop</strong>. Con un agent, el loop de leer, hacer y comprobar lo corre él, y tú entras cuando termina o cuando pide permiso. Eso convierte a cada ingeniero en algo parecido a un manager de un equipo pequeño: tareas en paralelo, revisiones, decisiones de alcance.</p>
 
-  <p>Adaptarse toma tiempo. Curiosamente, la gente que más rápido le agarra el truco no es la que más sabe de AI, sino la que más sabe de su propio código: ingenieros senior, tech leads, gente acostumbrada a delegar y a revisar. Esta guía junta lo que ellos hacen, para que no tengas que descubrirlo a golpes.</p>
+  <p>Adaptarse toma su tiempo. La gente que más rápido le agarra el truco, por lo que he visto, no es la que más sabe de AI. Es la que mejor conoce su propio código y ya está acostumbrada a delegar y a revisar: ingenieros senior, tech leads. Esta guía junta lo que ellos hacen, para que no tengas que descubrirlo a golpes.</p>
 
   <!-- ══════════════════ PARA EMPEZAR ══════════════════ -->
   <section class="sec" id="pedir">
     <div class="tier">Para empezar</div>
     <h2>Cómo pedirle las cosas</h2>
-    <p>Si de esta guía te llevas una sola sección, que sea esta. Un prompt no es un deseo: es el briefing que le darías a alguien que entró al equipo hoy y no ha visto tu código.</p>
+    <p>Si de esta guía te llevas una sola sección, que sea esta. Un prompt es el briefing que le darías a alguien que entró al equipo hoy y no ha visto tu código. Escríbelo así.</p>
 
     <h3>Dile cómo, no solo qué</h3>
     <p>Piensa en el agent como un junior muy rápido cuyo criterio no siempre es confiable. Las tareas simples se describen directo. Para las que no son simples, dale el enfoque de entrada: la arquitectura, la lógica, dónde va cada cosa. No solo sube la probabilidad de que salga bien; también te ahorra tiempo de revisión, porque ya conoces el plan que estás leyendo.</p>
@@ -203,7 +203,7 @@
 
     <h3>Dale una forma de comprobarse</h3>
     <p>Buena parte de la magia de un agent está en que corrige sus propios errores iterando contra un mensaje de error. Todo lo que le dé feedback rápido lo hace mejor: tipos, linter, tests, un comando que levanta el proyecto. Enséñale a correr las verificaciones del equipo y asegúrate de que tiene los paquetes y los permisos para hacerlo. Si puede abrir un browser, dile cómo levantar el frontend.</p>
-    <div class="ej"><b>Ejemplo</b><p>Pasar un SDK de Python sin tipos a Python tipado es una mejora que el agent aprovecha en cada tarea siguiente. Y de paso, es una buena tarea para dársela a él.</p></div>
+    <div class="ej"><b>Ejemplo</b><p>Pasar un SDK de Python sin tipos a Python tipado es una mejora que el agent aprovecha en cada tarea siguiente. Esa migración, de paso, es una buena tarea para dársela a él.</p></div>
 
     <h3>Dale un lugar donde poner lo que no sabe</h3>
     <p>Un agent que no sabe algo te lo escribe igual, con el mismo tono seguro con el que escribe lo que sí sabe. Si no le das un sitio para la duda, la mete en medio del texto normal y ahí ya no la distingues. Pídele que lo separe.</p>
@@ -219,7 +219,7 @@
     <p>Cuando ya sabes hablarle, toca meterlo en la rutina. Estas son las formas que más rápido se pagan.</p>
 
     <h3>Empieza por lo que aburre</h3>
-    <p>Renombrar algo en cuarenta archivos, actualizar la documentación después de un cambio, escribir los tests que nadie escribió, buscar en qué commit se rompió algo. Son tareas donde el resultado se verifica corriendo un comando y equivocarse cuesta poco. Ahí un agent te devuelve horas, no minutos, y tú te quedas con el trabajo que sí requiere cabeza.</p>
+    <p>Renombrar algo en cuarenta archivos, actualizar la documentación después de un cambio, escribir los tests que nadie escribió, buscar en qué commit se rompió algo. Son tareas donde el resultado se verifica corriendo un comando y equivocarse cuesta poco. Ahí un agent te devuelve horas enteras, y tú te quedas con el trabajo que sí requiere cabeza.</p>
     <div class="ej"><b>Ejemplo</b><p>Un patrón común: el ingeniero manda el cambio y un agent actualiza toda la documentación y los textos de la interfaz que ese cambio afecta.</p></div>
 
     <h3>Atiende lo que llega de golpe</h3>
@@ -227,7 +227,7 @@
 
     <h3>Sal del análisis parálisis</h3>
     <p>¿No sabes si un refactor de verdad simplifica las cosas? ¿Dudas entre dos enfoques de arquitectura? Pídele que implemente los dos. Comparar dos implementaciones concretas es mucho más fácil que discutir dos ideas, y descartar una no le hiere los sentimientos a nadie.</p>
-    <div class="ej"><b>Ejemplo</b><p>Dudando entre dos librerías para un editor de texto, un equipo hizo que un agent implementara cada una. Ganó la que dio mejor resultado final, no la que sonaba mejor en la reunión.</p></div>
+    <div class="ej"><b>Ejemplo</b><p>Dudando entre dos librerías para un editor de texto, un equipo hizo que un agent implementara cada una. Ganó la que dio mejor resultado final. No era la que había sonado mejor en la reunión.</p></div>
 
     <h3>Ten un comando que levante todo</h3>
     <p>Si cada pull request produce un ambiente donde ver el cambio corriendo, revisar el trabajo de un agent pasa de leer un diff a usar el producto. Para cambios de frontend es la diferencia entre "parece bien" y "está bien". Si no tienes preview deployments, al menos ten un solo comando que levante el proyecto en local, y enséñaselo al agent.</p>
@@ -237,7 +237,7 @@
   <section class="sec" id="grandes">
     <div class="tier">Delegar más</div>
     <h2>Tareas grandes</h2>
-    <p>Cuando la tarea deja de caber en unos pocos archivos, hacerla de una sola pasada deja de funcionar. Y sin embargo, aprender a delegar tareas medianas y grandes, de una a seis horas de trabajo, es donde un agent rinde más: ahí no ahorras minutos, recuperas tardes enteras.</p>
+    <p>Cuando la tarea deja de caber en unos pocos archivos, hacerla de una sola pasada deja de funcionar. Y sin embargo, las tareas medianas y grandes, de una a seis horas de trabajo, son donde un agent rinde más. Dejas de ahorrar minutos y empiezas a recuperar tardes.</p>
 
     <h3>Que haga el primer borrador</h3>
     <p>Para una tarea sustancial, un primer borrador hecho por el agent arranca el trabajo y recorta la mayor parte del esfuerzo. La condición es comunicar el enfoque de entrada. Piénsalo como el arquitecto que dirige a un desarrollador junior: instrucciones claras y detalladas evitan pasar la tarde corrigiendo un malentendido de base.</p>
@@ -253,7 +253,7 @@
       </table>
     </div>
 
-    <div class="stop"><b>Ojo</b><p>Las tareas grandes no son "manos libres" todavía. Cuenta con dos o tres vueltas de feedback y un retoque final tuyo. Una meta realista es ahorrarte el ochenta por ciento del trabajo, no el cien. Tu criterio sigue siendo la pieza que verifica y firma.</p></div>
+    <div class="stop"><b>Ojo</b><p>Las tareas grandes no son "manos libres" todavía. Cuenta con dos o tres vueltas de feedback y un retoque final tuyo. Una meta realista es ahorrarte algo así como el ochenta por ciento del trabajo. Tu criterio sigue verificando y firmando.</p></div>
 
     <h3>Planea con él antes de que escriba</h3>
     <p>Para tareas complejas o mal definidas, armar el plan junto con el agent funciona muy bien. No pasa nada si al principio no conoces todos los requisitos. Empieza con preguntas de descubrimiento: "¿cómo funciona la autenticación aquí?", "¿qué servicios se verían afectados?". Pídele que identifique los archivos concretos que tocaría, para que los confirmes tú antes de que escriba una línea.</p>
@@ -270,23 +270,23 @@
 
     <h3>Pon tests donde el agent más toca</h3>
     <p>Hoy un agent no prueba de forma interactiva todos los escenarios. Subir la cobertura justo en las zonas que más modifica te compra confianza barata: con tests sólidos, el código que parece correcto se puede mergear sin ese nudo en el estómago. Los tests felices ya los escribe él; los tuyos son los de error, los vacíos, los negativos.</p>
-    <div class="ej"><b>Ejemplo</b><p>Antes de delegarle a un agent traducir una parte crítica de Python a C, un equipo reforzó primero los tests unitarios de esa parte. La traducción después fue aburrida, que es exactamente lo que quieres.</p></div>
+    <div class="ej"><b>Ejemplo</b><p>Antes de delegarle a un agent traducir una parte crítica de Python a C, un equipo reforzó primero los tests unitarios de esa parte. La traducción después fue aburrida. Aburrida era la meta.</p></div>
   </section>
 
   <section class="sec" id="context">
     <div class="tier">Delegar más</div>
     <h2>Context y sesiones</h2>
-    <p>La palabra que más explica el comportamiento de un agent es <strong>context</strong>: lo que puede ver en este momento. No es lo que hay en tu repo. Es lo que leyó. La distancia entre esas dos cosas explica casi todas las respuestas malas.</p>
+    <p>La palabra que más explica el comportamiento de un agent es <strong>context</strong>: lo que puede ver en este momento. Que no es lo mismo que lo que hay en tu repo: es solo lo que de verdad leyó. La distancia entre esas dos cosas explica casi todas las respuestas malas que te va a dar.</p>
 
     <h3>Pregúntale qué leyó</h3>
-    <p>Cuando te contesta algo flojo, la reacción natural es pensar que el modelo es tonto. Casi nunca es eso: contestó sin abrir el archivo que de verdad manda. Una línea al final del prompt lo cambia todo: <em>"al terminar, lista los archivos que abriste para responder"</em>. Te enseña qué entró al context y, sobre todo, qué se quedó afuera. La lista casi siempre sorprende.</p>
+    <p>Cuando te contesta algo flojo, la reacción natural es pensar que el modelo es tonto. Casi nunca es eso: contestó sin abrir el archivo que de verdad manda. Una línea al final del prompt ayuda mucho aquí: <em>"al terminar, lista los archivos que abriste para responder"</em>. Te enseña qué entró al context y, lo más útil, qué se quedó afuera. Cuando empecé, la lista me sorprendía cada vez.</p>
 
     <h3>Una sesión es todo lo que lleva acumulado</h3>
-    <p>Cada archivo que leyó, cada cosa que dijiste, cada error que vio. Eso es bueno al principio y malo después: una sesión larga y confundida no se arregla explicándole mejor. <strong>Si lo corregiste tres veces y sigue igual, no discutas: sesión nueva</strong>, diciéndole exactamente qué leer y cuál es el objetivo. Es el remedio que menos se usa y el que más funciona.</p>
+    <p>Cada archivo que leyó, cada cosa que dijiste, cada error que vio. Eso es bueno al principio y malo después: una sesión larga y confundida no se arregla explicándole mejor. <strong>Si lo corregiste tres veces y sigue igual, no discutas: sesión nueva</strong>, diciéndole exactamente qué leer y cuál es el objetivo. Casi nadie lo hace, y funciona mejor que cualquier otra cosa que conozca.</p>
     <div class="ej"><b>Ejemplo</b><p>"Empecemos de cero. Solo lee estos archivos: [lista]. El objetivo es [una frase]. No toques nada más."</p></div>
 
     <h3>Lo que quieres que sepa siempre, escríbelo</h3>
-    <p>Como cada sesión empieza en cero, todo lo que quieres que sepa <em>siempre</em> tiene que estar en un archivo que lea al arrancar. Casi todos los agents tienen uno: <code>AGENTS.md</code>, <code>CLAUDE.md</code>, un archivo de reglas.<span class="fn"><a href="#n2">2</a></span> La dificultad no es escribirlo, es mantenerlo corto: solo lo que no se puede deducir del código, y solo líneas que cambien lo que hace. Si una línea se puede borrar sin que el agent se equivoque, sobra.</p>
+    <p>Como cada sesión empieza en cero, todo lo que quieres que sepa <em>siempre</em> tiene que estar en un archivo que lea al arrancar. Casi todos los agents tienen uno: <code>AGENTS.md</code>, <code>CLAUDE.md</code>, un archivo de reglas.<span class="fn"><a href="#n2">2</a></span> La dificultad no es escribirlo, es mantenerlo corto: solo lo que no se puede deducir del código, y solo líneas que cambien lo que hace. Si puedes borrar una línea sin que el agent se equivoque, bórrala.</p>
   </section>
 
   <!-- ══════════════════ AUTOMATIZAR ══════════════════ -->
@@ -296,7 +296,7 @@
     <p>Un agent reacciona a lo que pasa mucho más rápido que una persona, y está bastante más dispuesto a hacer trabajo aburrido y repetitivo que cualquiera de tus compañeros.</p>
 
     <h3>Lo que repites dos veces, déjalo escrito</h3>
-    <p>Todo equipo tiene tareas rutinarias que vuelven cada semana: quitar un feature flag, subir dependencias, agregar tests a los PRs nuevos. Son las candidatas perfectas. Alguien con experiencia escribe una vez un prompt reutilizable y robusto,<span class="fn"><a href="#n3">3</a></span> y de ahí en adelante se corre en vez de reescribirse.</p>
+    <p>Todo equipo tiene tareas rutinarias que vuelven cada semana: quitar un feature flag, subir dependencias, agregar tests a los PRs nuevos. Esas son las candidatas. Alguien con experiencia escribe una vez un prompt reutilizable y robusto,<span class="fn"><a href="#n3">3</a></span> y de ahí en adelante se corre en vez de reescribirse.</p>
     <div class="ej"><b>Ejemplo</b><p>Hay equipos que disparan automáticamente varios agents dedicados a escribir tests cada vez que se abre un PR con una feature nueva.</p></div>
 
     <h3>Revisión con tus propios errores</h3>
@@ -305,7 +305,7 @@
 
     <h3>Reaccionar a alertas e incidentes</h3>
     <p>Un agent también puede dispararse solo cuando pasa algo: un error nuevo en producción, una alerta, un ticket. Casi todos exponen un CLI o un API para integrarlos a un workflow, y con MCP pueden leer los logs de servicios externos.</p>
-    <div class="stop"><b>Ojo</b><p>Para triaje en producción, un agent debuggeando es flojo. En vez de pedirle que arregle bugs de punta a punta según llegan, pídele que marque los errores y cambios más sospechosos. La decisión la tomas tú.</p></div>
+    <div class="stop"><b>Ojo</b><p>Para triaje en producción, un agent debuggeando es flojo. En vez de pedirle que arregle bugs de punta a punta según llegan, pídele que marque los errores y cambios más sospechosos. Tú decides.</p></div>
   </section>
 
   <section class="sec" id="entorno">
@@ -317,7 +317,7 @@
     <div class="ej"><b>Ejemplo</b><p>Un browser con las sesiones ya iniciadas le ahorra al agent, y a ti, cada login manual al probar.</p></div>
 
     <h3>Scripts propios y MCP</h3>
-    <p>MCP es la forma estándar de conectarle herramientas externas: tu base de datos, Jira, Sentry, tu correo.<span class="fn"><a href="#n4">4</a></span> Es rápido de probar y hay servidores para casi todo. Pero mucha gente pasa por alto algo más simple: un script de CLI. Un script que baja la info de un ticket dado su ID. Un script que reinicia el entorno local. Herramientas chicas y confiables para las partes del workflow que se repiten.</p>
+    <p>MCP es la forma estándar de conectarle herramientas externas: tu base de datos, Jira, Sentry, tu correo.<span class="fn"><a href="#n4">4</a></span> Es rápido de probar y hay servidores para casi todo. Pero mucha gente pasa por alto algo más simple: un script de CLI. Un script que baja la info de un ticket dado su ID. Un script que reinicia el entorno local. Herramientas chicas y aburridas para las partes del workflow que se repiten.</p>
     <div class="ej"><b>Ejemplo</b><p>Un equipo escribió un script que muestra solo el primer test que falla, con el detalle completo de ese error. El agent se enfoca en uno a la vez en vez de ahogarse en cien líneas de output, y termina las tareas largas más rápido y con más éxito.</p></div>
 
     <h3>Alimenta su base de conocimiento</h3>
@@ -331,10 +331,10 @@
     <h2>Lo que todavía hace mal</h2>
 
     <h3>Debuggear</h3>
-    <p>Un reporte de bug se ve simple y casi nunca lo es. Muchos bugs necesitan acceso a logs y bases de datos, y un nivel de olfato que la mayoría de los agents no tiene hoy. Si lo usas para debuggear, pídele una lista de <strong>causas probables</strong> en vez de que arregle todo él. Tú escoges la real con tu experiencia. Y una vez conocida la causa, el arreglo sí se delega.</p>
+    <p>Un reporte de bug se ve simple y casi nunca lo es. Muchos bugs necesitan acceso a logs y bases de datos, y un nivel de olfato que la mayoría de los agents no tiene hoy. Si lo usas para debuggear, pídele una lista de <strong>causas probables</strong> en vez de que arregle todo él. Tú escoges la real; el sistema lo conoces tú. Con la causa en la mano, el arreglo sí vuelve al agent.</p>
 
     <h3>Lo visual fino</h3>
-    <p>Los modelos de hoy no tienen el razonamiento visual para cuadrar un diseño con un screenshot o un mockup de Figma al nivel de detalle que hace falta. Les va bien cuando lo visual se puede describir como código: componentes, un sistema de diseño, clases con nombre. Si quieres que respete tu estilo, dale un sistema de diseño reutilizable, no una imagen.</p>
+    <p>Los modelos de hoy no tienen el razonamiento visual para cuadrar un diseño con un screenshot o un mockup de Figma al nivel de detalle que hace falta. Les va bien cuando lo visual se puede describir como código: componentes, un sistema de diseño, clases con nombre. Si quieres que respete tu estilo, dale un sistema de diseño del que partir, mejor que una imagen.</p>
 
     <h3>Lo que salió después de su entrenamiento</h3>
     <p>Cuando trabajes con una librería nueva o una versión reciente, pásale el link a la documentación actual. Si no, asume los patrones viejos, porque no sabe que hay una versión nueva. Un buen agent lo supera si le das la doc; ninguno la busca solo.</p>
@@ -346,10 +346,10 @@
     <p>No todas las veces que usas un agent salen bien. Hay variación real en los resultados, y parte del trabajo es aprender a usarlo de forma que maximice las veces que sale bien y minimice el tiempo perdido cuando no.</p>
 
     <h3>Corta pérdidas temprano</h3>
-    <p>El error más común de quien empieza es empeñarse en que una conversación salga bien cuando el agent ya se desvió. Si te descubres pensando "está ignorando lo que le dije" o "está dando vueltas", esa es la señal. Mandar más mensajes casi nunca lo arregla: lo que dice es que la tarea es más grande que lo que el agent puede hoy. Cierra y toma el control a mano. No es derrota.</p>
+    <p>El error más común de quien empieza es empeñarse en que una conversación salga bien cuando el agent ya se desvió. Si te descubres pensando "está ignorando lo que le dije" o "está dando vueltas", esa es la señal. Mandar más mensajes casi nunca lo arregla: lo que dice es que la tarea es más grande que lo que el agent puede hoy. Cierra y toma el control a mano.</p>
 
     <h3>Diversifica al principio</h3>
-    <p>Si estás empezando, reparte las apuestas. Prueba tareas y prompts distintos. Descubres rápido en qué es bueno con <em>tu</em> código y en qué no. Dobla la apuesta en lo primero y suelta lo segundo sin culpa. No tienes que forzar que funcione siempre.</p>
+    <p>Si estás empezando, reparte las apuestas. Prueba tareas y prompts distintos. Descubres rápido en qué es bueno con <em>tu</em> código y en qué no. Dobla la apuesta en lo primero y suelta lo segundo. No le debes a la herramienta que funcione todas las veces.</p>
 
     <h3>Empieza de nuevo más de lo que lo harías con una persona</h3>
     <p>Con un humano, reiniciar la conversación es grosero. Con un agent es la herramienta más efectiva que tienes. Si le diste una tarea y le cuesta corregir el rumbo, una sesión limpia con todas las instrucciones de entrada llega más lejos que una larga llena de correcciones. Un agent arregla un entorno enredado mucho peor de lo que escribe código desde cero.</p>
@@ -360,26 +360,26 @@
     <h2>Seguridad y permisos</h2>
 
     <h3>Empieza preguntando todo</h3>
-    <p>Cada agent tiene un <strong>permission mode</strong>: cuánto puede hacer sin consultarte, desde pedir permiso para cada comando hasta no pedir nada. Es un dial, no un interruptor, y la posición depende de cuánto confías en la tarea, no en la herramienta. El primer mes, que pregunte todo. Cada permiso que apruebas te enseña qué está a punto de hacer, y saltarse los permisos con una bandera de "no preguntes nada" es la forma más rápida de aprender la lección cara.</p>
+    <p>Cada agent tiene un <strong>permission mode</strong>: cuánto puede hacer sin consultarte, desde pedir permiso para cada comando hasta no pedir nada. Es más un dial que un interruptor, y dónde lo pones depende de cuánto confías en la tarea, más que en la herramienta. El primer mes, que pregunte todo. Cada permiso que apruebas te enseña qué está a punto de hacer, y saltarse los permisos con una bandera de "no preguntes nada" es la forma más rápida de aprender la lección cara.</p>
 
     <h3>Branch antes de tocar</h3>
     <p>Antes de dejarlo editar en un repo que importa, un branch nuevo. Es la red que convierte "tocó archivos que no esperaba" en un no-evento: descartas y sigues.</p>
 
     <h3>Cuentas propias para el agent</h3>
-    <p>Un correo desechable sirve para probar sitios sin riesgo. Si necesita acceso a recursos en la nube, un rol propio con lo mínimo que necesita, no tus credenciales.</p>
+    <p>Un correo desechable sirve para probar sitios sin riesgo. Si necesita recursos en la nube, dale un rol propio con lo mínimo que necesite. Nunca tus credenciales.</p>
 
     <h3>Nada de producción</h3>
     <p>El agent trabaja donde pruebas tú: local, dev, staging. Idealmente con el mismo setup de pruebas que el resto del equipo. Evita darle acceso a servicios de producción por completo. Con agents remotos, aprovecha que pueden correr un entorno de prueba aislado en su propia máquina.</p>
 
     <h3>Keys de solo lectura</h3>
-    <p>Donde se pueda, acceso de solo lectura. Y cualquier script que hable con un servicio de afuera, lo corres tú a mano aunque lo haya escrito él. Es una regla aburrida, y la vas a agradecer exactamente una vez.</p>
+    <p>Donde se pueda, acceso de solo lectura. Y cualquier script que hable con un servicio de afuera, lo corres tú a mano aunque lo haya escrito él. Una regla aburrida. La vas a agradecer la única vez que importe.</p>
   </section>
 
   <section class="sec" id="cierre">
     <div class="tier">En la práctica</div>
     <h2>Lo que viene</h2>
-    <p>Los ingenieros no van a ninguna parte. Aunque los agents sigan mejorando, saber de verdad cómo funciona tu sistema y tu código vale más que nunca, no menos. Ser dueño de tus proyectos, entenderlos a fondo y tener criterio sobre ellos es lo que convierte a un agent de un generador de texto en un multiplicador.</p>
-    <p>Lo que sí cambia es la forma del trabajo. Supervisar varias tareas en paralelo, revisar más de lo que escribes, decidir alcances en vez de teclear implementaciones. Eso ya no es opcional en los equipos que van adelante. Esta guía es lo que hemos aprendido preparándonos para ese cambio; ojalá te ahorre algunos golpes.</p>
+    <p>Los ingenieros no van a ninguna parte. Mientras los agents siguen mejorando, saber de verdad cómo funciona tu sistema vale más, no menos. Ser dueño de tus proyectos y tener criterio sobre ellos es lo que convierte a un agent de un generador de texto en un multiplicador.</p>
+    <p>Lo que sí cambia es la forma del trabajo. Supervisar varias tareas en paralelo, revisar más de lo que escribes, decidir alcances en vez de teclear implementaciones. En los equipos que van adelante, ese ya es el trabajo. Esta guía es lo que he aprendido preparándome para eso. Ojalá te ahorre algunos golpes.</p>
   </section>
 
   <div class="notas">
