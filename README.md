@@ -6,7 +6,8 @@ The whole site. Static HTML, no framework and no build step. The only external d
 |---|---|---|
 | `index.html` | <https://eonoe.github.io/> | **Coding Agents 101** — the free live workshop. This is the landing page. |
 | `es.html` | <https://eonoe.github.io/es.html> | Same workshop page, Spanish |
-| `course/index.html` | <https://eonoe.github.io/course/> | **Tech Lead 2.0** — the deeper, project-based course |
+| `course/index.html` | <https://eonoe.github.io/course/> | **Tech Lead 2.0 — Founding Spanish Cohort**, the paid enrollment page (English) |
+| `course/es.html` | <https://eonoe.github.io/course/es.html> | Same enrollment page, Spanish. The link for DMs and LinkedIn |
 | `guides/intro-coding-agents/index.html` | <https://eonoe.github.io/guides/intro-coding-agents/> | **Guides** — long-form pieces, one folder each. This is the first one |
 | `guides/intro-coding-agents/es.html` | <https://eonoe.github.io/guides/intro-coding-agents/es.html> | Same guide, Spanish |
 | `guides/index.html` | <https://eonoe.github.io/guides/> | redirect stub to the Guides section on the landing page |
@@ -17,6 +18,17 @@ The workshop page is the front door; the course page is where people go when the
 [eonoe/ai-tech-lead](https://github.com/eonoe/ai-tech-lead) served these pages until they moved here. It now holds only redirect stubs so the old URLs still work.
 
 Internal links between the pages are path-absolute (`/course/`, `/#get`), so they only resolve correctly when served from a web root — not over `file://`.
+
+## Founding cohort page: what to edit
+
+Both `course/index.html` and `course/es.html` carry the same constants near the bottom of the script. Edit them in **both** files:
+
+- `PAYPAL_URL` — replace `{{PAYPAL_LINK}}`. Buttons do nothing until you do.
+- `SEATS_LEFT` — lower by hand as seats sell. The seat bar and "N of 12 left" follow it.
+- `DEADLINE` — enrollment close. After it, or at 0 seats, the page swaps the pay button for the list signup.
+- `{{KICKOFF_DATE}}` appears in the perks section and the FAQ of both files.
+
+Share links per channel: `?utm_source=dm`, `?utm_source=linkedin`, `?utm_source=workshop`.
 
 ## Run it locally
 
