@@ -233,16 +233,16 @@ function renderHtml(h) {
   var sessions = h.sessions.map(function (s) {
     return '<strong style="color:#0b0b10;">' + s[0] + '</strong> &nbsp;' + s[1];
   }).join('<br>');
-  return '<!DOCTYPE html><html><body style="margin:0;padding:0;background:#ffffff;">' +
+  return '<!DOCTYPE html><html><body style="margin:0;padding:0;background-color:#ffffff;">' +
     '<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:28px 16px;">' +
     '<table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;font-family:' + font + ';color:#0b0b10;font-size:16px;line-height:1.6;">' +
-    '<tr><td style="padding:0 0 22px;border-bottom:3px solid #0b0b10;font-family:' + head + ';font-weight:700;font-size:18px;letter-spacing:-.02em;">Coding Agents <span style="background:#ffd400;padding:0 7px;border-radius:5px;">101</span></td></tr>' +
+    '<tr><td style="padding:0 0 22px;border-bottom:3px solid #0b0b10;font-family:' + head + ';font-weight:700;font-size:18px;letter-spacing:-.02em;">Coding Agents <span style="background-color:#ffd400;padding:0 7px;border-radius:5px;">101</span></td></tr>' +
     '<tr><td style="padding:26px 0 0;">' +
     h.lines.map(p).join('') +
     '<p style="margin:0 0 12px;">' + h.when + '</p>' +
-    '<table role="presentation" cellpadding="0" cellspacing="0" style="border-left:5px solid #3531ff;background:#edecff;border-radius:0 10px 10px 0;margin:0 0 18px;width:100%;"><tr><td style="padding:14px 18px;font-family:' + mono + ';font-size:14px;line-height:1.7;color:#41444d;">' + sessions + '</td></tr></table>' +
+    '<table role="presentation" cellpadding="0" cellspacing="0" style="border-left:5px solid #3531ff;background-color:#edecff;border-radius:0 10px 10px 0;margin:0 0 18px;width:100%;"><tr><td style="padding:14px 18px;font-family:' + mono + ';font-size:14px;line-height:1.7;color:#41444d;">' + sessions + '</td></tr></table>' +
     h.after.map(p).join('') +
-    '<p style="margin:0 0 28px;"><a href="' + h.cta[1] + '" style="display:inline-block;background:#3531ff;color:#ffffff;text-decoration:none;font-family:' + head + ';font-weight:600;font-size:15px;padding:12px 22px;border:2px solid #3531ff;border-radius:10px;">' + h.cta[0] + '</a></p>' +
+    '<p style="margin:0 0 28px;"><a href="' + h.cta[1] + '" style="display:inline-block;background-color:#3531ff;color:#ffffff;text-decoration:none;font-family:' + head + ';font-weight:600;font-size:15px;padding:12px 22px;border:2px solid #3531ff;border-radius:10px;">' + h.cta[0] + '</a></p>' +
     '<p style="margin:0 0 4px;">' + h.bye + '</p><p style="margin:0;">Noe</p>' +
     '</td></tr>' +
     '<tr><td style="padding:26px 0 0;border-top:1px solid #e7e8ec;font-family:' + mono + ';font-size:12px;color:#6b7280;">// coding agents 101 · ' + h.foot[0] + ' · <a href="' + h.foot[1] + '" style="color:#6b7280;">eonoe.github.io</a></td></tr>' +
