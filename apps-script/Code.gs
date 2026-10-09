@@ -141,7 +141,7 @@ var CONFIRMATION = {
     from: 'Coding Agents 101',
     subject: "You're in — Coding Agents 101 starts Tue, Oct 13",
     body: [
-      "You're signed up for Coding Agents 101. Nothing else to do for now.",
+      "You're signed up for Coding Agents 101.",
       '',
       'Four live sessions, two hours each, 6:00 PM:',
       '  Tue, Oct 13 — Get an agent doing real work',
@@ -152,7 +152,9 @@ var CONFIRMATION = {
       'Bring a repo you already work in — you build alongside on your own code.',
       'Every session is recorded, so a missed one is not a problem.',
       '',
-      "I'll email the join link before the first session.",
+      "I'll send the join link and a short pre-work checklist before the first session.",
+      "If you want a head start, this is the 15-minute read I'd do first:",
+      'https://eonoe.github.io/guides/intro-coding-agents/',
       '',
       'See you Tuesday.'
     ].join('\n')
@@ -161,18 +163,20 @@ var CONFIRMATION = {
     from: 'Coding Agents 101',
     subject: 'Ya estás dentro — Coding Agents 101 empieza el mar 13 de octubre',
     body: [
-      'Estás apuntado a Coding Agents 101. Por ahora no tienes que hacer nada más.',
+      'Ya estás dentro de Coding Agents 101.',
       '',
-      'Cuatro sesiones en directo, dos horas cada una, a las 18:00:',
+      'Cuatro sesiones en vivo, dos horas cada una, a las 6:00 PM (GMT-4):',
       '  Mar 13 oct — Pon un agente a trabajar de verdad',
       '  Jue 15 oct — El contexto que lo cambia todo',
       '  Mar 20 oct — Revisar en serio',
       '  Jue 22 oct — Que se quede contigo',
       '',
-      'Trae un repo en el que ya trabajes: vas construyendo sobre tu propio código.',
+      'Trae un repo en el que ya trabajes: construyes sobre tu propio código.',
       'Todas las sesiones se graban, así que si te pierdes una no pasa nada.',
       '',
-      'Te enviaré el enlace antes de la primera sesión.',
+      'Antes de la primera sesión te mando el link de Meet y una lista corta de qué preparar.',
+      'Si quieres adelantar, esta es la lectura de 15 minutos con la que empezaría:',
+      'https://eonoe.github.io/guides/intro-coding-agents/es.html',
       '',
       'Nos vemos el martes.'
     ].join('\n')
