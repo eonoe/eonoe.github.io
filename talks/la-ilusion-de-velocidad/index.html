@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La ilusión de velocidad — a talk by Noe Branagan</title>
+<meta name="description" content="Speed is a number. Velocity has a direction. A talk on what coding agents did to delivery, comprehension and the people driving. DevFest Santo Domingo 2026.">
+<link rel="canonical" href="https://eonoe.github.io/talks/la-ilusion-de-velocidad/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230E1117'/%3E%3Ctext x='16' y='22' font-family='sans-serif' font-size='16' font-weight='700' text-anchor='middle' fill='%23FF6B35'%3Ev%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&family=IBM+Plex+Sans:wght@400;600&family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#0b0b10;--ink2:#41444d;--muted:#6b7280;--line:#e7e8ec;--line2:#d4d6dc;--blue:#3531ff;--pop:#ffd400;--deck:#0E1117;--orange:#FF6B35;}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:#fff;color:var(--ink);font-family:'Inter',system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 26px;}
+  /* NAV: the landing's bar */
+  .bar{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+  .bar-in{height:64px;display:flex;align-items:center;gap:18px;}
+  .logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;letter-spacing:-.02em;margin-right:auto;}
+  .logo .b{background-color:var(--pop);padding:0 7px;border-radius:5px;}
+  .barlink{font-size:14px;color:var(--ink2);font-weight:500;}
+  .barlink:hover{color:var(--ink);}
+  .btn{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px;padding:9px 16px;border:2px solid var(--ink);border-radius:10px;background:#fff;color:var(--ink);box-shadow:3px 3px 0 var(--ink);display:inline-flex;align-items:center;gap:8px;}
+  .btn:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink);}
+  /* DECK: a 1920x1080 stage scaled to fit */
+  .deckwrap{background:var(--deck);position:relative;}
+  .deck{position:relative;width:100%;aspect-ratio:16/9;max-height:calc(100vh - 64px);margin:0 auto;overflow:hidden;}
+  .stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center;}
+  .stage section{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;}
+  /* Each slide carries its own inline display (flex or grid); hiding has to outrank that. */
+  .stage section:not(.on){display:none!important;}
+  .stage h1,.stage h2,.stage h3,.stage p,.stage li{font-weight:inherit;}
+  .stage ul,.stage ol{padding-left:1.2em;}
+  .stage table{border-collapse:collapse;width:100%;}
+  .stage th,.stage td{padding:22px 24px;border-bottom:1px solid rgba(255,255,255,.12);}
+  .stage img{display:block;}
+  .hud{position:absolute;right:16px;bottom:12px;z-index:5;display:flex;gap:8px;align-items:center;font-family:'JetBrains Mono',monospace;font-size:12px;color:#9BA6B2;}
+  .hud button{font:inherit;color:#F5F4F0;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:7px;padding:5px 10px;cursor:pointer;}
+  .hud button:hover{background:rgba(255,255,255,.16);}
+  .tap{position:absolute;top:0;bottom:48px;width:50%;z-index:4;cursor:pointer;}
+  .tap.l{left:0;} .tap.r{right:0;}
+  /* BELOW */
+  .about{padding:56px 0 24px;}
+  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px;}
+  h1.t{font-family:'Space Grotesk',sans-serif;font-size:clamp(30px,4vw,44px);letter-spacing:-.03em;line-height:1.05;margin-bottom:14px;}
+  .lead{font-size:18px;color:var(--ink2);max-width:66ch;margin-bottom:18px;}
+  .meta{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 0;}
+  .chip{font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:700;border:2px solid var(--ink);border-radius:8px;padding:7px 12px;background:#fff;}
+  .chip.b{background-color:var(--blue);color:#fff;border-color:var(--blue);}
+  .sec{padding:40px 0 72px;border-top:1px solid var(--line);}
+  .sec h2{font-family:'Space Grotesk',sans-serif;font-size:26px;letter-spacing:-.02em;margin-bottom:14px;}
+  .sec p{max-width:66ch;color:var(--ink2);margin-bottom:14px;}
+  .sec ol{max-width:72ch;margin-left:22px;color:var(--ink2);font-size:15px;}
+  .sec li{margin-bottom:8px;}
+  .kbd{font-family:'JetBrains Mono',monospace;font-size:.9em;background:#f5f5f7;border:1px solid var(--line2);border-radius:5px;padding:1px 6px;}
+  footer{border-top:3px solid var(--ink);padding:28px 0;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted);}
+  footer a{color:var(--ink);}
+  @media(max-width:700px){.barlink{display:none;}.hud{right:8px;bottom:6px;}}
+</style>
+</head>
+<body>
+<div class="bar"><div class="wrap bar-in">
+  <a class="logo" href="/">Coding Agents <span class="b">101</span></a>
+  <a class="barlink" href="/talks/">Talks</a>
+  <a class="barlink" href="/#guides">Guides</a>
+  <a class="btn" href="#" id="fs">Fullscreen</a>
+</div></div>
+
+<div class="deckwrap"><div class="deck" id="deck">
+  <div class="stage" id="stage">
+<section data-i="0" id="cover" data-transition="fade" style="background:#0E1117;color:#F5F4F0;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:space-between">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;color:#FF6B35;letter-spacing:4px;text-transform:uppercase">DevFest Santo Domingo 2026</p>
+<div style="display:flex;flex-direction:column;gap:32px">
+<h1 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:200px;font-weight:700;line-height:0.92;text-transform:uppercase;letter-spacing:-2px">La ilusión<br>de velocidad</h1>
+<p style="font-size:48px;color:#9BA6B2;width:1400px">Speed is a number. Velocity has a direction.</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;font-size:26px;color:#9BA6B2">Noe Branagan</p>
+
+</section>
+<section data-i="1" id="vs1" data-transition="fade" style="background:#f5f1e8">
+  <img src="img/vs1.jpg" alt="A man walking along the Santo Domingo seafront while a cyclist rides past behind him" style="position:absolute; top:0; left:0; width:1920px; height:1080px">
+  <h2 style="position:absolute; top:120px; left:424px; width:1100px; font-family:Oswald, 'Trebuchet MS', sans-serif; font-size:104px; font-weight:600; line-height:1.04; text-transform:uppercase; color:#0e1117">Which one is faster?</h2>
+  
+</section>
+<section data-i="2" id="vs2" data-transition="fade" style="background:#f5f1e8">
+  <img src="img/vs2.jpg" alt="A cyclist on the seafront road with a car passing him" style="position:absolute; top:0; left:0; width:1920px; height:1080px">
+  <h2 style="position:absolute; top:120px; left:424px; width:1000px; font-family:Oswald, 'Trebuchet MS', sans-serif; font-size:104px; font-weight:600; line-height:1.04; text-transform:uppercase; color:#0e1117">And now?</h2>
+  
+</section>
+<section data-i="3" id="vs3" data-transition="fade" style="background:#f5f1e8">
+  <img src="img/vs3.jpg" alt="A car on the coastal road while a jet airliner climbs overhead" style="position:absolute; top:0; left:0; width:1920px; height:1080px">
+  <h2 style="position:absolute; top:120px; left:320px; width:900px; font-family:Oswald, 'Trebuchet MS', sans-serif; font-size:104px; font-weight:600; line-height:1.04; text-transform:uppercase; color:#0e1117">Obviously.</h2>
+  <p style="position:absolute; top:276px; left:320px; width:860px; font-family:'IBM Plex Sans', Arial, sans-serif; font-size:36px; line-height:1.35; color:#55606d">Nobody argues with this one.</p>
+  
+</section>
+<section data-i="4" id="zoomout" data-transition="magic" style="background:#f5f1e8">
+  <img src="img/zoomout.jpg" alt="The seafront avenue jammed with stopped cars and buses, a cyclist moving freely in the green bike lane beside them, pedestrians on the sidewalk, and a jet climbing in the distance" style="position:absolute; top:0; left:0; width:1920px; height:1080px">
+  <h2 style="position:absolute; top:112px; left:392px; width:1120px; font-family:Oswald, 'Trebuchet MS', sans-serif; font-size:128px; font-weight:700; line-height:1.02; text-transform:uppercase; color:#0e1117">How about now?</h2>
+  
+</section>
+<section data-i="5" id="velocity" data-transition="fade" style="background:#F5F4F0;color:#0E1117;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:center;gap:48px">
+<h2 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:80px;font-weight:600;line-height:1.08;text-transform:uppercase">The question was wrong. These are two different things.</h2>
+<div style="display:flex;gap:40px;align-items:stretch">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px;align-items:center;background:#FFFFFF;padding:48px;border:1px solid #DCD9D2;border-radius:16px">
+<svg aria-label="A closed loop: constant motion that returns to the start" width="300" height="180" viewBox="0 0 300 180"><ellipse cx="150" cy="90" rx="112" ry="62" fill="none" stroke="#FF6B35" stroke-width="9"/><path d="M 262 116 L 248 86 L 276 86 Z" fill="#FF6B35"/></svg>
+<h3 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:56px;font-weight:700;text-transform:uppercase;color:#FF6B35">Speed</h3>
+<p style="font-size:36px;line-height:1.35;color:#55606D;text-align:center">How hard you are moving. You can do this all day and end up exactly where you started.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:20px;align-items:center;background:#FFFFFF;padding:48px;border:1px solid #DCD9D2;border-radius:16px">
+<svg aria-label="A straight short path with real displacement" width="300" height="180" viewBox="0 0 300 180"><rect x="30" y="85" width="200" height="10" fill="#4EA8DE"/><path d="M 272 90 L 230 68 L 230 112 Z" fill="#4EA8DE"/></svg>
+<h3 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:56px;font-weight:700;text-transform:uppercase;color:#4EA8DE">Velocity</h3>
+<p style="font-size:36px;line-height:1.35;color:#55606D;text-align:center">How much closer you actually got. Less motion. Somewhere to show for it.</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;font-size:26px;color:#737D89">Your speedometer cannot tell the difference. That is the entire problem.</p>
+
+</section>
+<section data-i="6" id="agileword" data-transition="fade" style="background:#0E1117;color:#F5F4F0;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:44px">
+<h1 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:128px;font-weight:600;line-height:1.04;text-transform:uppercase;width:1660px">Our industry stole the word <span style="color:#FF6B35">velocity</span></h1>
+<p style="font-size:56px;line-height:1.35;color:#9BA6B2;width:1660px">and left the direction behind.</p>
+
+</section>
+<section data-i="7" id="driver" data-transition="fade" style="background:#0E1117;color:#F5F4F0;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;color:#4EA8DE;letter-spacing:4px;text-transform:uppercase">And there is a second question</p>
+<h1 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:124px;font-weight:600;line-height:1.04;text-transform:uppercase;width:1660px">Not how fast the car is going.</h1>
+<h1 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:124px;font-weight:700;line-height:1.04;text-transform:uppercase;width:1660px;color:#FF6B35">What is happening to the driver.</h1>
+
+</section>
+<section data-i="8" id="preai" data-transition="fade" style="background:#F5F4F0;color:#0E1117;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<h2 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:80px;font-weight:600;line-height:1.08;text-transform:uppercase">Remember how you actually got good?</h2>
+<ul style="font-size:38px;line-height:1.6;color:#0E1117">
+<li>You read the whole stack trace. Not the first line. All of it.</li>
+<li>You opened the library source, because the docs did not exist.</li>
+<li>You added print statements until you found it. Forty of them.</li>
+<li>You learned the codebase by hand, because grep was all you had.</li>
+<li>You asked online and waited two days to be told it was a duplicate.</li>
+</ul>
+<p style="font-size:44px;line-height:1.35;color:#FF6B35;width:1660px">Every one of those was slow, annoying and a little humiliating. Every one of those was the training.</p>
+
+</section>
+<section data-i="9" id="handyman3" data-transition="fade" style="background:#0E1117;color:#F5F4F0;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:48px">
+<h1 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:144px;font-weight:700;line-height:0.98;text-transform:uppercase">You were<br>the handyman.</h1>
+<p style="font-size:56px;color:#FF6B35;width:1400px">Two years ago.</p>
+
+</section>
+<section data-i="10" id="handyman1" data-transition="fade" style="background:#0E1117;color:#F5F4F0;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center">
+<h1 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:132px;font-weight:600;line-height:1.02;text-transform:uppercase">In five years<br>the rockstar<br>will be the guy<br>who can still<br><span style="color:#FF6B35">fix things.</span></h1>
+
+</section>
+<section data-i="11" id="babysitter" data-transition="fade" style="background:#0E1117;color:#F5F4F0;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:48px">
+<h1 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:144px;font-weight:700;line-height:0.98;text-transform:uppercase">You have become<br>a babysitter.</h1>
+<p style="font-size:56px;color:#FF6B35;width:1400px">Today.</p>
+
+</section>
+<section data-i="12" id="notahater" data-transition="fade" style="background:#F5F4F0;color:#0E1117;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;color:#FF6B35;letter-spacing:4px;text-transform:uppercase">Before we start</p>
+<h2 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:92px;font-weight:600;line-height:1.06;text-transform:uppercase;width:1560px">This is not a talk about stopping.</h2>
+<p style="font-size:40px;line-height:1.4;color:#55606D;width:1480px">I use agents every day. I am not going back. Nothing in the next 38 minutes is an argument for going back.</p>
+
+</section>
+<section data-i="13" id="act1" data-transition="push" style="background:#FF6B35;color:#0E1117;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:24px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:32px;letter-spacing:6px;text-transform:uppercase">Act one</p>
+<h1 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:176px;font-weight:700;line-height:0.95;text-transform:uppercase">The promise<br>is real</h1>
+
+</section>
+<section data-i="14" id="loc" data-transition="fade" style="background:#0E1117;color:#F5F4F0;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:center;gap:24px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;color:#4EA8DE;letter-spacing:4px;text-transform:uppercase">Lines of code written, with async agents</p>
+<h1 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:300px;font-weight:700;line-height:0.9;color:#FF6B35">+1,255%</h1>
+<p style="font-size:40px;color:#9BA6B2;width:1480px">Telemetry from more than 500,000 GitHub developers.</p>
+<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#6E7884">Demirer, Musolff &amp; Yang, NBER Working Paper 35275, revised September 2026</p>
+
+</section>
+<section data-i="15" id="eightx" data-transition="fade" style="background:#0E1117;color:#F5F4F0;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:center;gap:48px">
+<h2 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:88px;font-weight:600;line-height:1.08;text-transform:uppercase;width:1560px">And it is not just the tooling companies talking.</h2>
+<div style="display:flex;gap:40px;align-items:stretch">
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#171C25;padding:48px;border-radius:16px">
+<h3 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:96px;font-weight:700;color:#FF6B35">8&times;</h3>
+<p style="font-size:32px;line-height:1.35;color:#9BA6B2">more code merged daily by Anthropic engineers in Q2 2026 than in 2024.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#171C25;padding:48px;border-radius:16px">
+<h3 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:96px;font-weight:700;color:#FF6B35">79%</h3>
+<p style="font-size:32px;line-height:1.35;color:#9BA6B2">of developers now use at least one AI tool every week.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#171C25;padding:48px;border-radius:16px">
+<h3 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:96px;font-weight:700;color:#FF6B35">65%</h3>
+<p style="font-size:32px;line-height:1.35;color:#9BA6B2">of AI-generated code suggestions are accepted.</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#6E7884">Anthropic, via Addy Osmani, Sept 2026 · Faros AI, 22,000 developers, Q3 2026</p>
+
+</section>
+<section data-i="16" id="besttime" data-transition="fade" style="background:#4EA8DE;color:#0E1117;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center">
+<h1 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:140px;font-weight:700;line-height:1.0;text-transform:uppercase">This is the best<br>time in history<br>to build software.</h1>
+
+</section>
+<section data-i="17" id="tokens" data-transition="fade" style="display:flex; flex-direction:column; gap:26px; justify-content:center; padding:128px 128px 160px; background:#0e1117">
+  <p style="font-family:'JetBrains Mono', 'Courier New', monospace; font-size:26px; letter-spacing:5px; text-transform:uppercase; color:#4ea8de">One engineer · one year · MuLTI agents · paying per token</p>
+  <h1 style="font-family:Oswald, 'Trebuchet MS', sans-serif; font-size:152px; font-weight:700; line-height:1; font-variant-numeric:tabular-nums; color:#ff6b35">3,840,000,000</h1>
+  <p style="width:1660px; font-family:'IBM Plex Sans', Arial, sans-serif; font-size:38px; color:#9ba6b2">tokens. Around 2.9 billion words.</p>
+  <p style="width:1660px; font-family:'IBM Plex Sans', Arial, sans-serif; font-size:46px; line-height:1.3; color:#f5f4f0">Reading that yourself, non-stop, twenty-four hours a day, would take <span style="color:#ff6b35"><b>twenty-two years</b></span>.</p>
+  <div style="display:flex; flex-direction:row; gap:28px">
+    <div style="display:flex; flex-direction:column; gap:10px; flex:1; padding:36px; background:#171c25; border-radius:14px">
+      <h3 style="font-family:Oswald, 'Trebuchet MS', sans-serif; font-size:62px; font-weight:700; line-height:1; color:#4ea8de">$240</h3>
+      <p style="font-family:'IBM Plex Sans', Arial, sans-serif; font-size:27px; line-height:1.3; color:#9ba6b2">flat subscription, a year ago</p>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:10px; flex:1; padding:36px; background:#171c25; border-radius:14px">
+      <h3 style="font-family:Oswald, 'Trebuchet MS', sans-serif; font-size:62px; font-weight:700; line-height:1; color:#f5f4f0">$5,800</h3>
+      <p style="font-family:'IBM Plex Sans', Arial, sans-serif; font-size:27px; line-height:1.3; color:#9ba6b2">per token, one agent at a time</p>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:10px; flex:1; padding:36px; background:#171c25; border-radius:14px">
+      <h3 style="font-family:Oswald, 'Trebuchet MS', sans-serif; font-size:62px; font-weight:700; line-height:1; color:#ff6b35">~$23,000</h3>
+      <p style="font-family:'IBM Plex Sans', Arial, sans-serif; font-size:27px; line-height:1.3; color:#9ba6b2">per token, four agents, top tier</p>
+    </div>
+  </div>
+  <p style="width:1660px; font-family:'IBM Plex Sans', Arial, sans-serif; font-size:42px; line-height:1.3; color:#f5f4f0">Same engineer. Same working day. <span style="color:#ff6b35"><b>Almost a hundred times the bill.</b></span></p>
+  <p style="position:absolute; bottom:64px; left:128px; font-family:'IBM Plex Sans', Arial, sans-serif; font-size:23px; color:#6e7884">Estimates: &nbsp;20 days × &nbsp;12 months(last year) &nbsp;· verify against today's list prices</p>
+  
+</section>
+<section data-i="18" id="whoami" data-transition="fade" style="display:flex; flex-direction:row; gap:96px; align-items:center; justify-content:center; padding:128px; background:#0e1117">
+  <div style="display:flex; flex-direction:column; gap:40px; flex:1">
+    <h2 style="font-family:Oswald, 'Trebuchet MS', sans-serif; font-size:104px; font-weight:600; line-height:1.05; text-transform:uppercase; color:#f5f4f0">Noe Branagan</h2>
+    <ul style="font-family:'IBM Plex Sans', Arial, sans-serif; font-size:38px; line-height:1.65; color:#9ba6b2">
+      <li>3x Co-founder and 2x CTO. Y Combinator, S22.</li>
+      <li>Building a AI-Native startup.</li>
+      <li>Failed at the old game. Still building in the new one.</li>
+    </ul>
+    <p style="font-family:'IBM Plex Sans', Arial, sans-serif; font-size:36px; color:#ff6b35">I'm one of the contributors of todays global warming (Tokenmaxxing)</p>
+  </div>
+  <img src="img/noe.jpg" alt="Noe Branagan" style="width:364px; height:364px; object-fit:cover; border:6px solid #ff6b35; border-radius:182px">
+  
+</section>
+<section data-i="19" id="ibelieved" data-transition="fade" style="background:#F5F4F0;color:#0E1117;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<h1 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:128px;font-weight:600;line-height:1.02;text-transform:uppercase;width:1600px">I believed all of it.</h1>
+<p style="font-size:48px;line-height:1.4;color:#55606D;width:1500px">Then I went looking for the receipts.</p>
+
+</section>
+<section data-i="20" id="act2" data-transition="push" style="background:#FF6B35;color:#0E1117;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:24px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:32px;letter-spacing:6px;text-transform:uppercase">Act two</p>
+<h1 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:176px;font-weight:700;line-height:0.95;text-transform:uppercase">The bill</h1>
+
+</section>
+<section data-i="21" id="attenuation" data-transition="fade" style="background:#0E1117;color:#F5F4F0;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:center;gap:56px">
+<h2 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:80px;font-weight:600;line-height:1.08;text-transform:uppercase">Same study. Three columns.</h2>
+<table style="font-family:'IBM Plex Sans', Arial, sans-serif;font-size:38px;color:#F5F4F0;padding:22px 24px">
+<tr><th style="width:34%;text-align:left;font-weight:600;color:#9BA6B2">Tool generation</th><th style="width:22%;text-align:right;font-weight:600;color:#9BA6B2">Lines of code</th><th style="width:22%;text-align:right;font-weight:600;color:#9BA6B2">Commits</th><th style="width:22%;text-align:right;font-weight:600;color:#9BA6B2">Releases</th></tr>
+<tr><td style="text-align:left">Autocomplete</td><td style="text-align:right;color:#FF6B35">+234%</td><td style="text-align:right">+30%</td><td style="text-align:right;color:#4EA8DE">+9%</td></tr>
+<tr><td style="text-align:left">Sync agents</td><td style="text-align:right;color:#FF6B35">+958%</td><td style="text-align:right">+153%</td><td style="text-align:right;color:#4EA8DE">+20%</td></tr>
+<tr><td style="text-align:left">Async agents</td><td style="text-align:right;color:#FF6B35">+1,255%</td><td style="text-align:right">+61%</td><td style="text-align:right;color:#4EA8DE">&mdash;</td></tr>
+</table>
+<p style="font-size:40px;color:#9BA6B2;width:1540px">Production went up twelve times. What actually shipped went up a fifth.</p>
+<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#6E7884">Demirer, Musolff &amp; Yang, NBER WP 35275, rev. Sept 2026 · &gt;500,000 developers · working paper, not peer reviewed</p>
+
+</section>
+<section data-i="22" id="apps" data-transition="fade" style="background:#0E1117;color:#F5F4F0;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<div style="display:flex;gap:64px;align-items:center">
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:180px;font-weight:700;line-height:0.95;color:#FF6B35">2&times;</h3>
+<p style="font-size:38px;line-height:1.35;color:#F5F4F0">new applications shipped since early 2025</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:180px;font-weight:700;line-height:0.95;color:#4EA8DE">0%</h3>
+<p style="font-size:38px;line-height:1.35;color:#F5F4F0">change in total user engagement with them</p>
+</div>
+</div>
+<p style="font-size:34px;color:#9BA6B2;width:1600px">Measured across the Apple App Store, Google Play, the Chrome Web Store and SourceForge.</p>
+<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#6E7884">Demirer, Musolff &amp; Yang, NBER WP 35275, rev. Sept 2026</p>
+
+</section>
+<section data-i="23" id="appsline" data-transition="fade" style="background:#0E1117;color:#F5F4F0;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center">
+<h1 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:136px;font-weight:600;line-height:1.02;text-transform:uppercase">We doubled the<br>world's supply<br>of software.<br><span style="color:#FF6B35">Nobody noticed.</span></h1>
+
+</section>
+<section data-i="24" id="wherewent" data-transition="fade" style="background:#F5F4F0;color:#0E1117;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:center;gap:48px">
+<h2 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:80px;font-weight:600;line-height:1.08;text-transform:uppercase">So where did the time go?</h2>
+<div style="display:flex;gap:32px">
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FFFFFF;padding:44px;border:1px solid #DCD9D2;border-radius:16px">
+<h3 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:76px;font-weight:700;color:#FF6B35">+301%</h3>
+<p style="font-size:30px;line-height:1.35;color:#55606D">time sitting in QA</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FFFFFF;padding:44px;border:1px solid #DCD9D2;border-radius:16px">
+<h3 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:76px;font-weight:700;color:#FF6B35">+125%</h3>
+<p style="font-size:30px;line-height:1.35;color:#55606D">incidents per month</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FFFFFF;padding:44px;border:1px solid #DCD9D2;border-radius:16px">
+<h3 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:76px;font-weight:700;color:#FF6B35">+72%</h3>
+<p style="font-size:30px;line-height:1.35;color:#55606D">average pull request size</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FFFFFF;padding:44px;border:1px solid #DCD9D2;border-radius:16px">
+<h3 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:76px;font-weight:700;color:#FF6B35">+67%</h3>
+<p style="font-size:30px;line-height:1.35;color:#55606D">developer restarts</p>
+</div>
+</div>
+<p style="font-size:34px;color:#55606D;width:1560px">Twelve months of telemetry. 22,000 developers. 4,000 teams. Not a survey.</p>
+<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#737D89">Faros AI, &ldquo;The Speed Trap,&rdquo; Q3 2026 report, 18 Sept 2026 · Faros sells engineering analytics &mdash; correlation, not causation</p>
+
+</section>
+<section data-i="25" id="noreview" data-transition="fade" style="background:#0E1117;color:#F5F4F0;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:center;gap:32px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;color:#4EA8DE;letter-spacing:4px;text-transform:uppercase">And then there is this one</p>
+<h1 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:112px;font-weight:600;line-height:1.04;text-transform:uppercase;width:1620px">Pull requests merged<br>with <span style="color:#FF6B35">no review at all</span><br>are climbing fast.</h1>
+<p style="font-size:38px;color:#9BA6B2;width:1560px">Nobody read it. The agent wrote it, the pipeline passed it, and it is in production.</p>
+<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#6E7884">Faros AI, Q2 and Q3 2026 &mdash; the two reports frame this metric differently; verify the exact figure before quoting a number</p>
+
+</section>
+<section data-i="26" id="againstmyself" data-transition="push" style="background:#4EA8DE;color:#0E1117;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:32px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:30px;letter-spacing:5px;text-transform:uppercase">Intermission</p>
+<h1 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:132px;font-weight:700;line-height:1.0;text-transform:uppercase;width:1620px">Now the part where I argue against myself.</h1>
+
+</section>
+<section data-i="27" id="metr" data-transition="fade" style="background:#F5F4F0;color:#0E1117;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<h2 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:72px;font-weight:600;line-height:1.08;text-transform:uppercase;width:1620px">The study everyone quotes did not hold up</h2>
+<table style="font-family:'IBM Plex Sans', Arial, sans-serif;font-size:36px;color:#0E1117;padding:22px 24px">
+<tr><th style="width:46%;text-align:left;font-weight:600;color:#55606D">METR experiment</th><th style="width:27%;text-align:right;font-weight:600;color:#55606D">Result</th><th style="width:27%;text-align:right;font-weight:600;color:#55606D">Sample</th></tr>
+<tr><td style="text-align:left">2025, the famous one</td><td style="text-align:right;color:#FF6B35">19% slower</td><td style="text-align:right">16 devs</td></tr>
+<tr><td style="text-align:left">Late 2025, returning devs</td><td style="text-align:right;color:#4EA8DE">18% faster</td><td style="text-align:right">~10 devs</td></tr>
+<tr><td style="text-align:left">Late 2025, new recruits</td><td style="text-align:right;color:#4EA8DE">4% faster</td><td style="text-align:right">~47 devs</td></tr>
+</table>
+<p style="font-size:38px;line-height:1.35;color:#55606D;width:1620px">In February 2026 METR announced it was abandoning the experiment design. Developers now refuse to work without agents, even for $50 an hour.</p>
+<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#737D89">METR, &ldquo;We are Changing our Developer Productivity Experiment Design,&rdquo; 24 Feb 2026 · metr.org</p>
+
+</section>
+<section data-i="28" id="rerack" data-transition="fade" style="background:#0E1117;color:#F5F4F0;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:44px">
+<h1 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:116px;font-weight:600;line-height:1.04;text-transform:uppercase;width:1640px">The speed is real.</h1>
+<p style="font-size:52px;line-height:1.4;color:#9BA6B2;width:1620px">It is real in the fifteen minutes you can feel. It is not real in the quarter.</p>
+<p style="font-size:52px;line-height:1.4;color:#FF6B35;width:1620px">And the difference is being paid by somebody.</p>
+
+</section>
+<section data-i="29" id="act3" data-transition="push" style="background:#FF6B35;color:#0E1117;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:24px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:32px;letter-spacing:6px;text-transform:uppercase">Act three</p>
+<h1 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:152px;font-weight:700;line-height:0.95;text-transform:uppercase">It was never<br>about speed</h1>
+
+</section>
+<section data-i="30" id="rct" data-transition="fade" style="background:#0E1117;color:#F5F4F0;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:center;gap:48px">
+<h2 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:72px;font-weight:600;line-height:1.08;text-transform:uppercase;width:1620px">52 developers. One unfamiliar library. Same task.</h2>
+<div style="display:flex;gap:48px;align-items:stretch">
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#171C25;padding:56px;border-radius:16px;border:1px solid #2A313D">
+<p style="font-size:32px;color:#9BA6B2">Wrote it by hand</p>
+<h3 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:168px;font-weight:700;line-height:0.95;color:#4EA8DE">67%</h3>
+<p style="font-size:30px;color:#9BA6B2">on the comprehension quiz</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#171C25;padding:56px;border-radius:16px;border:1px solid #2A313D">
+<p style="font-size:32px;color:#9BA6B2">Used AI</p>
+<h3 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:168px;font-weight:700;line-height:0.95;color:#FF6B35">50%</h3>
+<p style="font-size:30px;color:#9BA6B2">on the same quiz</p>
+</div>
+</div>
+<p style="font-size:36px;color:#9BA6B2;width:1620px">Randomized. Cohen's d = 0.74. p = 0.01. Nearly two letter grades.</p>
+<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#6E7884">Shen &amp; Tamkin, &ldquo;The Effects of AI Assistance on Coding Skills,&rdquo; 29 Jan 2026 · arXiv 2601.20245</p>
+
+</section>
+<section data-i="31" id="rctwho" data-transition="fade" style="background:#F5F4F0;color:#0E1117;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<h1 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:124px;font-weight:600;line-height:1.02;text-transform:uppercase;width:1640px">That study was run and published by the company that sells the tool.</h1>
+<p style="font-size:44px;line-height:1.4;color:#55606D;width:1620px">And they expect agentic tools to make the gap wider, not narrower.</p>
+
+</section>
+<section data-i="32" id="rctdebug" data-transition="fade" style="background:#0E1117;color:#F5F4F0;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;color:#4EA8DE;letter-spacing:4px;text-transform:uppercase">Where the gap was widest</p>
+<h1 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:176px;font-weight:700;line-height:1.0;text-transform:uppercase;color:#FF6B35">Debugging.</h1>
+<p style="font-size:48px;line-height:1.4;color:#9BA6B2;width:1620px">The one skill you cannot fake, cannot delegate, and only get at 3 a.m.</p>
+
+</section>
+<section data-i="33" id="compiles" data-transition="fade" style="background:#0E1117;color:#F5F4F0;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:center;gap:48px">
+<h2 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:76px;font-weight:600;line-height:1.08;text-transform:uppercase;width:1620px">This is the whole talk in two numbers</h2>
+<div style="display:flex;gap:48px;align-items:stretch">
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#171C25;padding:56px;border-radius:16px">
+<h3 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:152px;font-weight:700;line-height:0.95;color:#4EA8DE">95%</h3>
+<p style="font-size:34px;line-height:1.35;color:#F5F4F0">of AI-generated code is syntactically correct</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#171C25;padding:56px;border-radius:16px">
+<h3 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:152px;font-weight:700;line-height:0.95;color:#FF6B35">56%</h3>
+<p style="font-size:34px;line-height:1.35;color:#F5F4F0">of it passes a security review</p>
+</div>
+</div>
+<p style="font-size:38px;color:#9BA6B2;width:1620px">That rate has been flat since 2023. The models got much smarter. They did not get safer.</p>
+<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#6E7884">Veracode, 2026 GenAI Code Security Report, 28 July 2026 · 150+ models, 80 tasks, 4 languages</p>
+
+</section>
+<section data-i="34" id="cwe" data-transition="fade" style="background:#F5F4F0;color:#0E1117;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<h2 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:72px;font-weight:600;line-height:1.08;text-transform:uppercase">It is not evenly bad. It is worse than that.</h2>
+<table style="font-family:'IBM Plex Sans', Arial, sans-serif;font-size:36px;color:#0E1117;padding:22px 24px">
+<tr><th style="width:52%;text-align:left;font-weight:600;color:#55606D">Vulnerability class</th><th style="width:48%;text-align:right;font-weight:600;color:#55606D">Generated code that is safe</th></tr>
+<tr><td style="text-align:left">Weak cryptography</td><td style="text-align:right;color:#4EA8DE">87%</td></tr>
+<tr><td style="text-align:left">SQL injection</td><td style="text-align:right;color:#4EA8DE">83%</td></tr>
+<tr><td style="text-align:left">Cross-site scripting</td><td style="text-align:right;color:#FF6B35">15%</td></tr>
+<tr><td style="text-align:left">Log injection</td><td style="text-align:right;color:#FF6B35">12%</td></tr>
+</table>
+<p style="font-size:36px;line-height:1.35;color:#55606D;width:1620px">By language, Java passes 29% of the time. Python, 62%.</p>
+<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#737D89">Veracode, 2026 GenAI Code Security Report</p>
+
+</section>
+<section data-i="35" id="prompting" data-transition="fade" style="background:#0E1117;color:#F5F4F0;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<p style="font-size:44px;color:#4EA8DE;width:1620px">&ldquo;Fine &mdash; but I just tell it to write secure code.&rdquo;</p>
+<h1 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:100px;font-weight:600;line-height:1.06;text-transform:uppercase;width:1640px">4,000 generated files.<br>Four prompting strategies.<br><span style="color:#FF6B35">No significant reduction.</span></h1>
+<p style="font-size:36px;line-height:1.4;color:#9BA6B2;width:1620px">Prompting changed which vulnerabilities appeared. It did not change how many.</p>
+<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#6E7884">Kharma et al., &ldquo;An Empirical Evaluation of LLM-Generated Code Security Across Prompting Methods,&rdquo; arXiv 2605.24298, May 2026</p>
+
+</section>
+<section data-i="36" id="depth" data-transition="fade" style="background:#F5F4F0;color:#0E1117;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;color:#FF6B35;letter-spacing:4px;text-transform:uppercase">Cognitive science, 2002</p>
+<h2 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:76px;font-weight:600;line-height:1.08;text-transform:uppercase;width:1640px">You know exactly how well you know a fact.</h2>
+<h2 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:76px;font-weight:600;line-height:1.08;text-transform:uppercase;width:1640px;color:#FF6B35">You have no idea how well you understand a mechanism.</h2>
+<p style="font-size:36px;line-height:1.4;color:#55606D;width:1620px">Ask people to rate their understanding of a device, then ask them to explain it, then let them re-rate. The ratings collapse, &ldquo;often accompanied by shock and surprise by the participants at their own ignorance.&rdquo;</p>
+<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#737D89">Rozenblit &amp; Keil, &ldquo;The misunderstood limits of folk science: an illusion of explanatory depth,&rdquo; Cognitive Science 26(5), 2002</p>
+
+</section>
+<section data-i="37" id="mitbrain" data-transition="fade" style="background:#0E1117;color:#F5F4F0;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<h1 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:108px;font-weight:600;line-height:1.04;text-transform:uppercase;width:1640px">They could not quote<br>the essay they had<br>just handed in.</h1>
+<p style="font-size:40px;line-height:1.4;color:#9BA6B2;width:1620px">MIT put EEG caps on 54 people writing essays. The group using an LLM showed the weakest brain connectivity, reported the lowest sense of ownership over their own work, and struggled to quote it minutes later.</p>
+<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#6E7884">Kosmyna et al., &ldquo;Your Brain on ChatGPT,&rdquo; arXiv 2506.08872 &mdash; preprint, not peer reviewed; n=54, only 18 completed the crossover session</p>
+
+</section>
+<section data-i="38" id="gitclear" data-transition="fade" style="background:#F5F4F0;color:#0E1117;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<h2 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:72px;font-weight:600;line-height:1.08;text-transform:uppercase">Nobody is cleaning up. 623 million code changes say so.</h2>
+<div style="display:flex;gap:32px">
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FFFFFF;padding:44px;border:1px solid #DCD9D2;border-radius:16px">
+<h3 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:72px;font-weight:700;color:#FF6B35">21% &rarr; 4%</h3>
+<p style="font-size:30px;line-height:1.35;color:#55606D">share of changes that are refactoring, 2022 to 2026</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FFFFFF;padding:44px;border:1px solid #DCD9D2;border-radius:16px">
+<h3 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:72px;font-weight:700;color:#FF6B35">5&times;</h3>
+<p style="font-size:30px;line-height:1.35;color:#55606D">more likely to copy and paste than to refactor</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FFFFFF;padding:44px;border:1px solid #DCD9D2;border-radius:16px">
+<h3 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:72px;font-weight:700;color:#FF6B35">&minus;74%</h3>
+<p style="font-size:30px;line-height:1.35;color:#55606D">work on code older than a year</p>
+</div>
+</div>
+<p style="font-size:34px;line-height:1.35;color:#55606D;width:1620px">Duplicated lines went from 40 per thousand changed lines to 73. And heavy AI users measured about a 25% velocity gain against their own baseline &mdash; not 10&times;.</p>
+<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#737D89">GitClear, &ldquo;The Maintainability Gap,&rdquo; 2026 · 623M code changes 2023&ndash;2026 · GitClear sells code-quality analytics</p>
+
+</section>
+<section data-i="39" id="punchline" data-transition="fade" style="background:#FF6B35;color:#0E1117;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<h1 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:116px;font-weight:700;line-height:1.02;text-transform:uppercase;width:1660px">Imagine waking up in a year approving code you do not understand.</h1>
+<p style="font-size:56px;line-height:1.3;width:1660px">Now imagine not even knowing how it got built.</p>
+
+</section>
+<section data-i="40" id="act4" data-transition="push" style="background:#0E1117;color:#F5F4F0;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:24px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:32px;color:#FF6B35;letter-spacing:6px;text-transform:uppercase">Act four</p>
+<h1 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:160px;font-weight:700;line-height:0.95;text-transform:uppercase">Somebody<br>wrote all of<br>this down<br>in <span style="color:#FF6B35">1983</span></h1>
+
+</section>
+<section data-i="41" id="bainbridge1" data-transition="fade" style="background:#F5F4F0;color:#0E1117;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:center;gap:48px">
+<p style="font-size:60px;line-height:1.3;width:1660px">&ldquo;The automatic control system has been put in because it can do the job better than the operator, but yet the operator is being asked to monitor that it is working effectively.&rdquo;</p>
+<p style="font-size:36px;color:#55606D">Lisanne Bainbridge, &ldquo;Ironies of Automation,&rdquo; <i>Automatica</i>, 1983</p>
+<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#737D89">She was writing about industrial process control. Not software.</p>
+
+</section>
+<section data-i="42" id="bainbridge2" data-transition="fade" style="background:#0E1117;color:#F5F4F0;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:48px">
+<h1 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:140px;font-weight:600;line-height:1.04;text-transform:uppercase;width:1660px">&ldquo;The human monitor has been given an impossible task.&rdquo;</h1>
+<p style="font-size:36px;color:#9BA6B2">Bainbridge, 1983</p>
+
+</section>
+<section data-i="43" id="bainbridge3" data-transition="fade" style="display:flex; flex-direction:column; gap:48px; justify-content:center; padding:128px 128px 160px; background:#4ea8de">
+  <h1 style="width:1660px; font-family:Oswald, 'Trebuchet MS', sans-serif; font-size:124px; font-weight:700; line-height:1.04; text-transform:uppercase; color:#0e1117">“One can argue that the operator needs to be more rather than less skilled.”</h1>
+  <p style="width:1660px; font-family:'IBM Plex Sans', Arial, sans-serif; font-size:40px; line-height:1.35; color:#0e1117">Also 1983. Also her. This is the sentence that should be on a poster in every engineering office in the world.</p>
+  <p style="position:absolute; bottom:64px; left:128px; font-family:'IBM Plex Sans', Arial, sans-serif; font-size:24px; color:#0e1117">Bainbridge, “Ironies of Automation,” 1983, p. 775</p>
+  
+</section>
+<section data-i="44" id="reluctant" data-transition="fade" style="background:#F5F4F0;color:#0E1117;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:center;gap:44px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;color:#FF6B35;letter-spacing:4px;text-transform:uppercase">Aviation industry working group, 2013</p>
+<p style="font-size:64px;line-height:1.28;width:1660px">&ldquo;Pilots sometimes rely too much on automated systems and may be <b>reluctant to intervene</b>.&rdquo;</p>
+<p style="font-size:36px;line-height:1.4;color:#55606D;width:1660px">That is the engineer who can see the generated code is wrong, and merges it anyway.</p>
+<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#737D89">PARC/CAST Flight Deck Automation Working Group, Finding 4 · 734 incident reports, 26 accidents, 20 major incidents</p>
+
+</section>
+<section data-i="45" id="act5" data-transition="push" style="background:#FF6B35;color:#0E1117;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:24px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:32px;letter-spacing:6px;text-transform:uppercase">Act five</p>
+<h1 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:152px;font-weight:700;line-height:0.95;text-transform:uppercase">Aviation already<br>solved this</h1>
+
+</section>
+<section data-i="46" id="safo" data-transition="fade" style="background:#0E1117;color:#F5F4F0;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:center;gap:44px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;color:#4EA8DE;letter-spacing:4px;text-transform:uppercase">FAA Safety Alert for Operators 13002 &middot; 4 January 2013</p>
+<p style="font-size:60px;line-height:1.3;width:1660px">&ldquo;Continuous use of autoflight systems <b>could lead to degradation</b> of the pilot's ability to quickly recover the aircraft.&rdquo;</p>
+<p style="font-size:40px;line-height:1.35;color:#FF6B35;width:1660px">They did not ban the autopilot. They mandated hand-flying.</p>
+<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#6E7884">The binding version is 14 CFR 121.423, Extended Envelope Training</p>
+
+</section>
+<section data-i="47" id="foundation" data-transition="fade" style="background:#F5F4F0;color:#0E1117;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<h1 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:132px;font-weight:600;line-height:1.04;text-transform:uppercase;width:1660px">&ldquo;Manual flight is the foundation upon which other technical flying skills are built.&rdquo;</h1>
+<p style="font-size:38px;color:#55606D">FAA Advisory Circular 120-123, &ldquo;Flightpath Management,&rdquo; 2022 &mdash; still active</p>
+<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#737D89">Replace &ldquo;manual flight&rdquo; with &ldquo;writing and debugging code yourself&rdquo; and read it again.</p>
+
+</section>
+<section data-i="48" id="willison" data-transition="fade" style="background:#0E1117;color:#F5F4F0;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:center;gap:44px">
+<p style="font-size:58px;line-height:1.3;width:1660px">&ldquo;The more time I spend working with coding agents, the more convinced I am that they make software engineering <b>even harder</b>. We can do amazing things with them, but unlocking their full potential requires extraordinary discipline and knowledge.&rdquo;</p>
+<p style="font-size:36px;color:#9BA6B2">Simon Willison, 24 September 2026</p>
+<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#6E7884">The most prominent optimist in this field, two weeks ago</p>
+
+</section>
+<section data-i="49" id="method" data-transition="fade" style="background:#F5F4F0;color:#0E1117;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:center;gap:36px">
+<h2 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:72px;font-weight:600;line-height:1.08;text-transform:uppercase">Your manual flight hours</h2>
+<ol style="font-size:36px;line-height:1.62;color:#0E1117">
+<li><b>Log your estimate before you start.</b> Guess the time, then measure it. The gap is your calibration, and it is the only one you have.</li>
+<li><b>One task a week, by hand, on purpose.</b> No agent. Pick something you would normally delegate.</li>
+<li><b>Review the plan, not the diff.</b> A bad line is one bad line. A bad plan is two thousand.</li>
+<li><b>Before you merge, explain the mechanism out loud.</b> If you cannot say why it works, you have not reviewed it. You have witnessed it.</li>
+<li><b>Debug without help once a week.</b> It is the skill with the widest measured gap and the shortest shelf life.</li>
+</ol>
+<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#737D89">Not a framework. Five habits, borrowed from an industry that had this problem first.</p>
+
+</section>
+<section data-i="50" id="closehandyman" data-transition="fade" style="background:#0E1117;color:#F5F4F0;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:44px">
+<h1 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:128px;font-weight:600;line-height:1.02;text-transform:uppercase;width:1660px">The handyman does not become a rockstar because the world got worse.</h1>
+<p style="font-size:52px;line-height:1.35;color:#FF6B35;width:1660px">He becomes a rockstar because the skill got rare.</p>
+
+</section>
+<section data-i="51" id="question" data-transition="fade" style="display:flex; flex-direction:column; gap:40px; justify-content:center; padding:128px; background:#ff6b35">
+  <p style="font-family:'JetBrains Mono', 'Courier New', monospace; font-size:30px; letter-spacing:5px; text-transform:uppercase; color:#0e1117">Take one thing home</p>
+  <h1 style="width:1660px; font-family:Oswald, 'Trebuchet MS', sans-serif; font-size:124px; font-weight:700; line-height:1.02; text-transform:uppercase; color:#0e1117">What shipped this week that nobody can explain?</h1>
+  <p style="width:1660px; font-family:'IBM Plex Sans', Arial, sans-serif; font-size:48px; line-height:1.3; color:#0e1117">Go find out. Start with your own commits.</p>
+  
+</section>
+<section data-i="52" id="workshop" data-transition="fade" style="background:#0E1117;color:#F5F4F0;font-family:'IBM Plex Sans', Arial, sans-serif;padding:112px 128px;display:flex;flex-direction:row;align-items:center;gap:80px">
+<div style="flex:1;display:flex;flex-direction:column;gap:26px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;color:#FF6B35;letter-spacing:5px;text-transform:uppercase">Free &middot; starts Tuesday</p>
+<h1 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:104px;font-weight:700;line-height:1.0;text-transform:uppercase">No more<br>vibe coding</h1>
+<p style="font-size:34px;line-height:1.35;color:#9BA6B2">Coding Agents 101 &mdash; four live sessions, two hours each, Tuesdays and Thursdays. We build on a repo you already work in.</p>
+<ul style="font-size:31px;line-height:1.55;color:#F5F4F0">
+<li>An agent doing real work on your repo</li>
+<li>An AGENTS.md your agent visibly follows</li>
+<li>One agent-built change, reviewed and merged</li>
+<li>A reusable workflow, and when not to use one</li>
+</ul>
+<p style="font-size:30px;line-height:1.35;color:#4EA8DE">You leave with an AGENTS.md starter, a review checklist and a prompt set. Sessions recorded. Spots are limited.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:18px;align-items:center">
+<img src="img/workshop.png" alt="QR code to sign up for the workshop at eonoe.github.io" style="width:420px;height:420px;border-radius:20px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:30px;color:#F5F4F0">eonoe.github.io</p>
+</div>
+
+</section>
+<section data-i="53" id="end" data-transition="fade" style="background:#0E1117;color:#F5F4F0;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:space-between">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;color:#FF6B35;letter-spacing:4px;text-transform:uppercase">Gracias</p>
+<div style="display:flex;flex-direction:column;gap:32px">
+<h1 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:116px;font-weight:600;line-height:1.04;text-transform:uppercase;width:1660px">Reviewing is not<br>the same as<br>witnessing.</h1>
+<p style="font-size:40px;color:#9BA6B2;width:1500px">Noe Branagan &middot; DevFest Santo Domingo 2026</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#6E7884">Sources, with caveats, are listed under this deck at eonoe.github.io/talks.</p>
+
+</section>
+  </div>
+  <div class="tap l" id="prev" aria-label="Previous slide"></div>
+  <div class="tap r" id="next" aria-label="Next slide"></div>
+  <div class="hud"><button id="bprev" aria-label="Previous">&larr;</button><span id="count">1 / 54</span><button id="bnext" aria-label="Next">&rarr;</button></div>
+</div></div>
+
+<main>
+<section class="about"><div class="wrap">
+  <div class="eyebrow">// talk · DevFest Santo Domingo 2026</div>
+  <h1 class="t">La ilusión de velocidad</h1>
+  <p class="lead">Speed is a number. Velocity has a direction. Coding agents multiplied how much code we produce by twelve. What actually ships went up a fifth. This talk is about where the rest went, what it is doing to the people at the keyboard, and what aviation figured out about the same problem in 1983.</p>
+  <p class="lead">Slides are in English; it was delivered in Spanish. 54 slides, about 40 minutes. Use <span class="kbd">←</span> <span class="kbd">→</span> or tap the sides. <span class="kbd">F</span> for fullscreen.</p>
+  <div class="meta"><a class="chip b" href="/">Coding Agents 101, the workshop →</a><a class="chip" href="/guides/intro-coding-agents/">The guide</a><a class="chip" href="/talks/">All talks</a></div>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <h2>Sources, as cited on the slides</h2>
+  <p>Working papers and vendor telemetry are flagged as such on the slide where they appear. Treat the cost figures as order-of-magnitude estimates against the list prices of the day.</p>
+  <ol><li>Anthropic, via Addy Osmani, Sept 2026 · Faros AI, 22,000 developers, Q3 2026</li><li>Demirer, Musolff &amp; Yang, NBER WP 35275, rev. Sept 2026 · &gt;500,000 developers · working paper, not peer reviewed</li><li>Faros AI, “The Speed Trap,” Q3 2026 report, 18 Sept 2026 · Faros sells engineering analytics — correlation, not causation</li><li>Faros AI, Q2 and Q3 2026 — the two reports frame this metric differently; verify the exact figure before quoting a number</li><li>METR, “We are Changing our Developer Productivity Experiment Design,” 24 Feb 2026 · metr.org</li><li>Shen &amp; Tamkin, “The Effects of AI Assistance on Coding Skills,” 29 Jan 2026 · arXiv 2601.20245</li><li>Veracode, 2026 GenAI Code Security Report, 28 July 2026 · 150+ models, 80 tasks, 4 languages</li><li>Kharma et al., “An Empirical Evaluation of LLM-Generated Code Security Across Prompting Methods,” arXiv 2605.24298, May 2026</li><li>Rozenblit &amp; Keil, “The misunderstood limits of folk science: an illusion of explanatory depth,” Cognitive Science 26(5), 2002</li><li>Kosmyna et al., “Your Brain on ChatGPT,” arXiv 2506.08872 — preprint, not peer reviewed; n=54, only 18 completed the crossover session</li><li>GitClear, “The Maintainability Gap,” 2026 · 623M code changes 2023–2026 · GitClear sells code-quality analytics</li><li>Bainbridge, “Ironies of Automation,” 1983, p. 775</li></ol>
+</div></section>
+</main>
+
+<footer><div class="wrap">// Noe Branagan · <a href="/">eonoe.github.io</a> · <a href="/talks/">talks</a> · <a href="/#guides">guides</a></div></footer>
+
+<script>
+(function(){
+  var stage=document.getElementById('stage'),deck=document.getElementById('deck');
+  var slides=Array.prototype.slice.call(stage.querySelectorAll(':scope > section'));
+  var n=slides.length,i=0,count=document.getElementById('count');
+  function fit(){var r=deck.getBoundingClientRect();var s=Math.min(r.width/1920,r.height/1080);stage.style.transform='translate(-50%,-50%) scale('+s+')';}
+  function show(k,push){k=Math.max(0,Math.min(n-1,k));slides.forEach(function(s,j){s.classList.toggle('on',j===k);});i=k;count.textContent=(k+1)+' / '+n;if(push!==false)history.replaceState(null,'','#'+(k+1));}
+  function fromHash(){var h=parseInt(location.hash.slice(1),10);show(isNaN(h)?0:h-1,false);}
+  window.addEventListener('resize',fit);window.addEventListener('hashchange',fromHash);
+  document.getElementById('next').onclick=document.getElementById('bnext').onclick=function(){show(i+1);};
+  document.getElementById('prev').onclick=document.getElementById('bprev').onclick=function(){show(i-1);};
+  document.addEventListener('keydown',function(e){
+    if(e.target.tagName==='INPUT')return;
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'||e.key==='j'){e.preventDefault();show(i+1);}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'||e.key==='k'){e.preventDefault();show(i-1);}
+    else if(e.key==='Home'){show(0);} else if(e.key==='End'){show(n-1);}
+    else if(e.key==='f'||e.key==='F'){fs();}
+  });
+  var tx=null;deck.addEventListener('touchstart',function(e){tx=e.touches[0].clientX;},{passive:true});
+  deck.addEventListener('touchend',function(e){if(tx===null)return;var dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>40)show(dx<0?i+1:i-1);tx=null;});
+  function fs(){var el=document.querySelector('.deckwrap');if(document.fullscreenElement){document.exitFullscreen();}else if(el.requestFullscreen){el.requestFullscreen();}}
+  document.getElementById('fs').onclick=function(e){e.preventDefault();fs();};
+  document.addEventListener('fullscreenchange',function(){setTimeout(fit,50);});
+  fit();fromHash();
+})();
+</script>
+</body>
+</html>
