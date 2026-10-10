@@ -12,7 +12,7 @@ The whole site. Static HTML, no framework and no build step. The only external d
 | `guides/intro-coding-agents/es.html` | <https://eonoe.github.io/guides/intro-coding-agents/es.html> | Same guide, Spanish |
 | `guides/index.html` | <https://eonoe.github.io/guides/> | redirect stub to the Guides section on the landing page |
 | `talks/index.html` | <https://eonoe.github.io/talks/> | **Talks** — one card per talk |
-| `talks/la-ilusion-de-velocidad/index.html` | <https://eonoe.github.io/talks/la-ilusion-de-velocidad/> | the DevFest 2026 deck, self-hosted: 54 slides as inline `<section>`s on a scaled 1920×1080 stage, images in `img/` |
+| `talks/la-ilusion-de-velocidad/index.html` | <https://eonoe.github.io/talks/la-ilusion-de-velocidad/> | the DevFest 2026 deck, self-hosted: 55 slides as inline `<section>`s on a scaled 1920×1080 stage, images in `img/` |
 | `apps-script/Code.gs` | — | the Google Apps Script web app that receives signups |
 
 The workshop page is the front door; the course page is where people go when they want the deep track. All three post signups to the same Google Apps Script endpoint — its source is `apps-script/Code.gs`, with setup notes in [`apps-script/README.md`](apps-script/README.md). The script is deployed from your Google account, not from this repo.
