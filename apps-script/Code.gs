@@ -14,7 +14,8 @@
  */
 
 var SHEET_ID = 'PASTE_YOUR_SHEET_ID_HERE';
-var SHEET_NAME = 'signups';
+var SHEET_NAME = 'signups';          // the workshop
+var TECHLEAD_SHEET_NAME = 'techlead'; // the AI Tech Lead waitlist (source 'techlead2')
 var SEND_CONFIRMATION = true;
 
 var HEADERS = ['timestamp', 'email', 'source', 'lang', 'page', 'referrer', 'utm', 'user_agent', 'confirmed'];
@@ -54,7 +55,7 @@ function doPost(e) {
   }
 
   try {
-    var sheet = getSheet();
+    var sheet = getSheet(source);
     if (isKnownSignup(sheet, email, source)) {
       return json({ ok: true, duplicate: true });
     }
@@ -85,12 +86,17 @@ function doPost(e) {
   }
 }
 
-/** Returns the signups sheet, creating it with headers on first run. */
-function getSheet() {
+/**
+ * Returns the tab for this signup's source, creating it with headers on first run.
+ * Workshop signups and the Tech Lead waitlist live on separate tabs so each list
+ * can be read, counted and mailed on its own.
+ */
+function getSheet(source) {
+  var name = source === 'techlead2' ? TECHLEAD_SHEET_NAME : SHEET_NAME;
   var ss = SpreadsheetApp.openById(SHEET_ID);
-  var sheet = ss.getSheetByName(SHEET_NAME);
+  var sheet = ss.getSheetByName(name);
   if (!sheet) {
-    sheet = ss.insertSheet(SHEET_NAME);
+    sheet = ss.insertSheet(name);
   }
   if (sheet.getLastRow() === 0) {
     sheet.appendRow(HEADERS);
