@@ -242,7 +242,7 @@ code{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:.88em;backgro
 
 /* CLOSER */
 .closer{background:var(--blue);border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);color:#fff;text-align:center;}
-.closer-in{padding:80px 0;}
+.closer-in{padding-top:80px;padding-bottom:80px;}
 .closer h2{font-size:clamp(32px,5vw,54px);margin:0 auto 16px;color:#fff;max-width:16ch;}
 .closer p{font-size:18px;color:#dcdbff;max-width:46ch;margin:0 auto 28px;}
 .closer .signup{margin:0 auto;justify-content:center;}
@@ -268,7 +268,7 @@ footer{padding:34px 0;}
 
 /* HERO GRID + OFFER CARD */
 .hero-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:44px;align-items:start;}
-@media(max-width:900px){.hero-grid{grid-template-columns:1fr;gap:34px;}}
+@media(max-width:900px){.hero-grid{grid-template-columns:minmax(0,1fr);gap:34px;}}
 .hero .sub{margin-bottom:0;}
 .offer{border:3px solid var(--ink);border-radius:14px;padding:26px;background:#fff;box-shadow:8px 8px 0 var(--pop);}
 .offer .tk-flag{display:inline-block;background:var(--pop);color:var(--ink);margin-bottom:14px;}
@@ -309,6 +309,15 @@ footer{padding:34px 0;}
 .closer .btn-ghost{background:transparent;color:#fff;border-color:#fff;box-shadow:4px 4px 0 #fff;}
 .closer .btn-white{box-shadow:4px 4px 0 var(--ink);}
 .closer-open[hidden],.closer-closed[hidden]{display:none!important;}
+
+/* MOBILE: the -in blocks used to zero the .wrap side padding; keep the header on one line */
+@media(max-width:560px){
+  .wrap{padding:0 20px;}
+  .bar-in{gap:10px;}
+  .logo{font-size:16px;white-space:nowrap;}
+  .bar .btn-sm{padding:8px 12px;font-size:13px;box-shadow:3px 3px 0 var(--ink);white-space:nowrap;}
+  .closer-in{padding-top:56px;padding-bottom:56px;}
+}
 </style>
 </head>
 <body>
