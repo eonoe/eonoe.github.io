@@ -147,15 +147,15 @@ function sendConfirmation(email, lang, source) {
 var CONFIRMATION = {
   en: {
     from: 'Coding Agents 101',
-    subject: "You're in: Coding Agents 101 starts Mon, Dec 7",
+    subject: "You're in: Coding Agents 101 starts Tue, Dec 8",
     body: [
       "You're signed up for Coding Agents 101.",
       '',
       'Four live sessions, two hours each, 6:00 PM:',
-      '  Mon, Dec 7: Get an agent doing real work',
-      '  Wed, Dec 9: Context that makes it click',
-      '  Mon, Dec 14: Review like you mean it',
-      '  Wed, Dec 16: Make it stick',
+      '  Tue, Dec 8: Get an agent doing real work',
+      '  Thu, Dec 10: Context that makes it click',
+      '  Tue, Dec 15: Review like you mean it',
+      '  Thu, Dec 17: Make it stick',
       '',
       'Bring a repo you already work in. You build alongside on your own code.',
       'Every session is recorded, so a missed one is not a problem.',
@@ -164,37 +164,37 @@ var CONFIRMATION = {
       "If you want a head start, this is the 15-minute read I'd do first:",
       'https://eonoe.github.io/guides/intro-coding-agents/',
       '',
-      'See you Monday.'
+      'See you Tuesday.'
     ].join('\n'),
     html: {
       lines: ["You're signed up for Coding Agents 101."],
       when: 'Four live sessions, two hours each, 6:00 PM (GMT-4):',
       sessions: [
-        ['Mon, Dec 7', 'Get an agent doing real work'],
-        ['Wed, Dec 9', 'Context that makes it click'],
-        ['Mon, Dec 14', 'Review like you mean it'],
-        ['Wed, Dec 16', 'Make it stick']
+        ['Tue, Dec 8', 'Get an agent doing real work'],
+        ['Thu, Dec 10', 'Context that makes it click'],
+        ['Tue, Dec 15', 'Review like you mean it'],
+        ['Thu, Dec 17', 'Make it stick']
       ],
       after: [
         'Bring a repo you already work in: you build alongside on your own code. Every session is recorded, so a missed one is not a problem.',
         "I'll send the join link and a short pre-work checklist before the first session. If you want a head start, this is the 15-minute read I'd do first:"
       ],
       cta: ['Read the guide \u2192', 'https://eonoe.github.io/guides/intro-coding-agents/'],
-      bye: 'See you Monday.',
+      bye: 'See you Tuesday.',
       foot: ['four live sessions', 'https://eonoe.github.io/']
     }
   },
   es: {
     from: 'Coding Agents 101',
-    subject: 'Ya estás dentro: Coding Agents 101 empieza el lun 7 de diciembre',
+    subject: 'Ya estás dentro: Coding Agents 101 empieza el mar 8 de diciembre',
     body: [
       'Ya estás dentro de Coding Agents 101.',
       '',
       'Cuatro sesiones en vivo, dos horas cada una, a las 6:00 PM (GMT-4):',
-      '  Lun 7 dic: Pon un agente a trabajar de verdad',
-      '  Mié 9 dic: El contexto que lo cambia todo',
-      '  Lun 14 dic: Revisar en serio',
-      '  Mié 16 dic: Que se quede contigo',
+      '  Mar 8 dic: Pon un agente a trabajar de verdad',
+      '  Jue 10 dic: El contexto que lo cambia todo',
+      '  Mar 15 dic: Revisar en serio',
+      '  Jue 17 dic: Que se quede contigo',
       '',
       'Trae un repo en el que ya trabajes: construyes sobre tu propio código.',
       'Todas las sesiones se graban, así que si te pierdes una no pasa nada.',
@@ -203,23 +203,23 @@ var CONFIRMATION = {
       'Si quieres adelantar, esta es la lectura de 15 minutos con la que empezaría:',
       'https://eonoe.github.io/guides/intro-coding-agents/es.html',
       '',
-      'Nos vemos el lunes.'
+      'Nos vemos el martes.'
     ].join('\n'),
     html: {
       lines: ['Ya estás dentro de Coding Agents 101.'],
       when: 'Cuatro sesiones en vivo, dos horas cada una, a las 6:00 PM (GMT-4):',
       sessions: [
-        ['Lun 7 dic', 'Pon un agente a trabajar de verdad'],
-        ['Mié 9 dic', 'El contexto que lo cambia todo'],
-        ['Lun 14 dic', 'Revisar en serio'],
-        ['Mié 16 dic', 'Que se quede contigo']
+        ['Mar 8 dic', 'Pon un agente a trabajar de verdad'],
+        ['Jue 10 dic', 'El contexto que lo cambia todo'],
+        ['Mar 15 dic', 'Revisar en serio'],
+        ['Jue 17 dic', 'Que se quede contigo']
       ],
       after: [
         'Trae un repo en el que ya trabajes: construyes sobre tu propio código. Todas las sesiones se graban, así que si te pierdes una no pasa nada.',
         'Antes de la primera sesión te mando el link de Meet y una lista corta de qué preparar. Si quieres adelantar, esta es la lectura de 15 minutos con la que empezaría:'
       ],
       cta: ['Leer la guía \u2192', 'https://eonoe.github.io/guides/intro-coding-agents/es.html'],
-      bye: 'Nos vemos el lunes.',
+      bye: 'Nos vemos el martes.',
       foot: ['cuatro sesiones en vivo', 'https://eonoe.github.io/es.html']
     }
   }
@@ -265,7 +265,7 @@ var WAITLIST = {
       '',
       "It isn't open yet. You're on the list, and you'll hear from me first when dates go out.",
       '',
-      'In the meantime, Coding Agents 101 is the free on-ramp and it runs live Dec 7 – 16, Mondays and Wednesdays:',
+      'In the meantime, Coding Agents 101 is the free on-ramp and it runs live Dec 8 – 17, Tuesdays and Thursdays:',
       'https://eonoe.github.io/',
       '',
       'It covers the same foundations, and it stands on its own whether you go deeper or not.'
@@ -279,7 +279,7 @@ var WAITLIST = {
       '',
       'Todavía no está abierto. Estás en la lista y serás de los primeros en saber las fechas.',
       '',
-      'Mientras tanto, Coding Agents 101 es la puerta de entrada gratuita, en directo del 7 al 16 de diciembre, lunes y miércoles:',
+      'Mientras tanto, Coding Agents 101 es la puerta de entrada gratuita, en directo del 8 al 17 de diciembre, martes y jueves:',
       'https://eonoe.github.io/es.html',
       '',
       'Cubre las mismas bases y merece la pena por sí solo, sigas o no después.'
