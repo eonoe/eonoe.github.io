@@ -18,6 +18,17 @@ var SHEET_NAME = 'signups';          // the workshop
 var TECHLEAD_SHEET_NAME = 'techlead'; // the AI Tech Lead waitlist (source 'techlead2')
 var SEND_CONFIRMATION = true;
 
+// The four sessions, for the calendar file and the "add to calendar" links.
+// start is UTC: 6:00 PM GMT-4 is 22:00Z. Keep the dates in the email copy below in sync.
+var MEET_URL = 'https://meet.google.com/qxk-zffm-ojo';
+var SESSION_MINUTES = 120;
+var SESSIONS = [
+  { start: '20261208T220000Z', en: 'Get an agent doing real work', es: 'Pon un agente a trabajar de verdad' },
+  { start: '20261210T220000Z', en: 'Context that makes it click', es: 'El contexto que lo cambia todo' },
+  { start: '20261215T220000Z', en: 'Review like you mean it', es: 'Revisar en serio' },
+  { start: '20261217T220000Z', en: 'Make it stick', es: 'Que se quede contigo' }
+];
+
 var HEADERS = ['timestamp', 'email', 'source', 'lang', 'page', 'referrer', 'utm', 'user_agent', 'confirmed'];
 var EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/;
 
@@ -135,13 +146,76 @@ function sendConfirmation(email, lang, source) {
     var set = source === 'techlead2' ? WAITLIST : CONFIRMATION;
     var msg = set[lang] || set.en;
     var mail = { to: email, subject: msg.subject, body: msg.body, name: msg.from };
-    if (msg.html) mail.htmlBody = renderHtml(msg.html);
+    if (msg.html) mail.htmlBody = renderHtml(msg.html, lang, set === CONFIRMATION);
+    if (set === CONFIRMATION) {
+      mail.attachments = [Utilities.newBlob(buildIcs(lang), 'text/calendar', 'coding-agents-101.ics')];
+    }
     MailApp.sendEmail(mail);
     return 'yes';
   } catch (err) {
     console.error('confirmation email failed for ' + email + ': ' + err);
     return 'failed';
   }
+}
+
+/** yyyymmddThhmmssZ in UTC. */
+function icsStamp(d) { return Utilities.formatDate(d, 'UTC', "yyyyMMdd'T'HHmmss'Z'"); }
+
+function sessionEnd(start) {
+  var t = Date.UTC(+start.slice(0, 4), +start.slice(4, 6) - 1, +start.slice(6, 8), +start.slice(9, 11), +start.slice(11, 13));
+  return icsStamp(new Date(t + SESSION_MINUTES * 60000));
+}
+
+function sessionTitle(i, lang) { return 'Coding Agents 101: ' + (SESSIONS[i][lang] || SESSIONS[i].en); }
+
+function sessionDetails(lang) {
+  return lang === 'es'
+    ? 'Link de Meet (el mismo para las cuatro sesiones): ' + MEET_URL + '\nTrae un repo en el que ya trabajes.'
+    : 'Meet link (the same for all four sessions): ' + MEET_URL + '\nBring a repo you already work in.';
+}
+
+function icsEscape(t) {
+  return String(t).replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\n/g, '\\n');
+}
+
+/** Folds a content line at 73 characters, as RFC 5545 asks. */
+function icsFold(line) {
+  var out = [];
+  while (line.length > 73) { out.push(line.slice(0, 73)); line = ' ' + line.slice(73); }
+  out.push(line);
+  return out.join('\r\n');
+}
+
+/** One calendar file with the four sessions, each carrying the Meet link. */
+function buildIcs(lang) {
+  var stamp = icsStamp(new Date());
+  var lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//eonoe.github.io//Coding Agents 101//EN', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH'];
+  SESSIONS.forEach(function (s, i) {
+    lines.push('BEGIN:VEVENT',
+      'UID:coding-agents-101-' + s.start + '@eonoe.github.io',
+      'DTSTAMP:' + stamp,
+      'DTSTART:' + s.start,
+      'DTEND:' + sessionEnd(s.start),
+      'SUMMARY:' + icsEscape(sessionTitle(i, lang)),
+      'DESCRIPTION:' + icsEscape(sessionDetails(lang)),
+      'LOCATION:' + icsEscape(MEET_URL),
+      'URL:' + MEET_URL,
+      'X-GOOGLE-CONFERENCE:' + MEET_URL,
+      'BEGIN:VALARM', 'TRIGGER:-PT30M', 'ACTION:DISPLAY', 'DESCRIPTION:Coding Agents 101', 'END:VALARM',
+      'END:VEVENT');
+  });
+  lines.push('END:VCALENDAR');
+  return lines.map(icsFold).join('\r\n') + '\r\n';
+}
+
+/** "Add to Google Calendar" link for one session, with the Meet link as the location. */
+function gcalUrl(i, lang) {
+  var s = SESSIONS[i];
+  return 'https://calendar.google.com/calendar/render?action=TEMPLATE' +
+    '&text=' + encodeURIComponent(sessionTitle(i, lang)) +
+    '&dates=' + s.start + '/' + sessionEnd(s.start) +
+    '&details=' + encodeURIComponent(sessionDetails(lang)) +
+    '&location=' + encodeURIComponent(MEET_URL);
 }
 
 var CONFIRMATION = {
@@ -160,7 +234,10 @@ var CONFIRMATION = {
       'Bring a repo you already work in. You build alongside on your own code.',
       'Every session is recorded, so a missed one is not a problem.',
       '',
-      "I'll send the join link and a short pre-work checklist before the first session.",
+      'Meet link, the same for all four sessions: ' + MEET_URL,
+      'A calendar file with the four sessions is attached, each with the Meet link.',
+      '',
+      "I'll send a short pre-work checklist before the first session.",
       "If you want a head start, this is the 15-minute read I'd do first:",
       'https://eonoe.github.io/guides/intro-coding-agents/',
       '',
@@ -177,8 +254,11 @@ var CONFIRMATION = {
       ],
       after: [
         'Bring a repo you already work in: you build alongside on your own code. Every session is recorded, so a missed one is not a problem.',
-        "I'll send the join link and a short pre-work checklist before the first session. If you want a head start, this is the 15-minute read I'd do first:"
+        'The Meet link is the same for all four sessions: <a href="' + MEET_URL + '" style="color:#3531ff;">meet.google.com/qxk-zffm-ojo</a>.',
+        "I'll send a short pre-work checklist before the first session. If you want a head start, this is the 15-minute read I'd do first:"
       ],
+      calTitle: 'Add them to your calendar',
+      calNote: 'Or open the attached .ics file to add all four at once. Every event has the Meet link.',
       cta: ['Read the guide \u2192', 'https://eonoe.github.io/guides/intro-coding-agents/'],
       bye: 'See you Tuesday.',
       foot: ['four live sessions', 'https://eonoe.github.io/']
@@ -199,7 +279,10 @@ var CONFIRMATION = {
       'Trae un repo en el que ya trabajes: construyes sobre tu propio código.',
       'Todas las sesiones se graban, así que si te pierdes una no pasa nada.',
       '',
-      'Antes de la primera sesión te mando el link de Meet y una lista corta de qué preparar.',
+      'Link de Meet, el mismo para las cuatro sesiones: ' + MEET_URL,
+      'Te adjunto un archivo de calendario con las cuatro sesiones, cada una con el link de Meet.',
+      '',
+      'Antes de la primera sesión te mando una lista corta de qué preparar.',
       'Si quieres adelantar, esta es la lectura de 15 minutos con la que empezaría:',
       'https://eonoe.github.io/guides/intro-coding-agents/es.html',
       '',
@@ -216,8 +299,11 @@ var CONFIRMATION = {
       ],
       after: [
         'Trae un repo en el que ya trabajes: construyes sobre tu propio código. Todas las sesiones se graban, así que si te pierdes una no pasa nada.',
-        'Antes de la primera sesión te mando el link de Meet y una lista corta de qué preparar. Si quieres adelantar, esta es la lectura de 15 minutos con la que empezaría:'
+        'El link de Meet es el mismo para las cuatro sesiones: <a href="' + MEET_URL + '" style="color:#3531ff;">meet.google.com/qxk-zffm-ojo</a>.',
+        'Antes de la primera sesión te mando una lista corta de qué preparar. Si quieres adelantar, esta es la lectura de 15 minutos con la que empezaría:'
       ],
+      calTitle: 'Agrégalas a tu calendario',
+      calNote: 'O abre el archivo .ics adjunto para agregar las cuatro de una vez. Cada evento trae el link de Meet.',
       cta: ['Leer la guía \u2192', 'https://eonoe.github.io/guides/intro-coding-agents/es.html'],
       bye: 'Nos vemos el martes.',
       foot: ['cuatro sesiones en vivo', 'https://eonoe.github.io/es.html']
@@ -231,7 +317,7 @@ var CONFIRMATION = {
  * only, because mail clients ignore everything else. The plain `body` stays as the
  * text alternative.
  */
-function renderHtml(h) {
+function renderHtml(h, lang, withCalendar) {
   var font = "Inter,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif";
   var head = "'Space Grotesk'," + font;
   var mono = "'JetBrains Mono',Menlo,Consolas,monospace";
@@ -247,12 +333,24 @@ function renderHtml(h) {
     h.lines.map(p).join('') +
     '<p style="margin:0 0 12px;">' + h.when + '</p>' +
     '<table role="presentation" cellpadding="0" cellspacing="0" style="border-left:5px solid #3531ff;background-color:#edecff;border-radius:0 10px 10px 0;margin:0 0 18px;width:100%;"><tr><td style="padding:14px 18px;font-family:' + mono + ';font-size:14px;line-height:1.7;color:#41444d;">' + sessions + '</td></tr></table>' +
+    (withCalendar ? calendarBlock(h, lang) : '') +
     h.after.map(p).join('') +
     '<p style="margin:0 0 28px;"><a href="' + h.cta[1] + '" style="display:inline-block;background-color:#3531ff;color:#ffffff;text-decoration:none;font-family:' + head + ';font-weight:600;font-size:15px;padding:12px 22px;border:2px solid #3531ff;border-radius:10px;">' + h.cta[0] + '</a></p>' +
     '<p style="margin:0 0 4px;">' + h.bye + '</p><p style="margin:0;">Noe</p>' +
     '</td></tr>' +
     '<tr><td style="padding:26px 0 0;border-top:1px solid #e7e8ec;font-family:' + mono + ';font-size:12px;color:#6b7280;">// coding agents 101 · ' + h.foot[0] + ' · <a href="' + h.foot[1] + '" style="color:#6b7280;">eonoe.github.io</a></td></tr>' +
     '</table></td></tr></table></body></html>';
+}
+
+/** The "add to calendar" row: one link per session, plus a note about the attached .ics. */
+function calendarBlock(h, lang) {
+  var mono = "'JetBrains Mono',Menlo,Consolas,monospace";
+  var links = h.sessions.map(function (s, i) {
+    return '<a href="' + gcalUrl(i, lang).replace(/&/g, '&amp;') + '" style="display:inline-block;margin:0 8px 8px 0;padding:6px 12px;border:2px solid #0b0b10;border-radius:8px;color:#0b0b10;text-decoration:none;font-family:' + mono + ';font-size:13px;">+ ' + s[0] + '</a>';
+  }).join('');
+  return '<p style="margin:0 0 6px;font-weight:600;">' + h.calTitle + '</p>' +
+    '<p style="margin:0 0 6px;">' + links + '</p>' +
+    '<p style="margin:0 0 16px;color:#41444d;font-size:15px;">' + h.calNote + '</p>';
 }
 
 /** AI Tech Lead isn't open yet. These signups are a waitlist, not an enrolment. */
