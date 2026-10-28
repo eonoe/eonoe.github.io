@@ -22,6 +22,11 @@ var SEND_CONFIRMATION = true;
 // start is UTC: 6:00 PM GMT-4 is 22:00Z. Keep the dates in the email copy below in sync.
 var MEET_URL = 'https://meet.google.com/qxk-zffm-ojo';
 var SESSION_MINUTES = 120;
+// 6:00 PM Santo Domingo is GMT-4 all year. These conversions hold for December (standard time everywhere listed).
+var TZ_NOTE = {
+  en: '6:00 PM is Santo Domingo time (GMT-4). That is 5:00 PM in New York and Bogota, 4:00 PM in Mexico City and 11:00 PM in Madrid. The calendar events show in your own time zone.',
+  es: 'Las 6:00 PM son hora de Santo Domingo (GMT-4). Equivale a las 5:00 PM en Nueva York y Bogotá, las 4:00 PM en Ciudad de México y las 11:00 PM en Madrid. Los eventos del calendario se ven en tu zona horaria.'
+};
 var SESSIONS = [
   { start: '20261208T220000Z', en: 'Get an agent doing real work', es: 'Pon un agente a trabajar de verdad' },
   { start: '20261210T220000Z', en: 'Context that makes it click', es: 'El contexto que lo cambia todo' },
@@ -170,8 +175,8 @@ function sessionTitle(i, lang) { return 'Coding Agents 101: ' + (SESSIONS[i][lan
 
 function sessionDetails(lang) {
   return lang === 'es'
-    ? 'Link de Meet (el mismo para las cuatro sesiones): ' + MEET_URL + '\nTrae un repo en el que ya trabajes.'
-    : 'Meet link (the same for all four sessions): ' + MEET_URL + '\nBring a repo you already work in.';
+    ? 'Link de Meet (el mismo para las cuatro sesiones): ' + MEET_URL + '\n6:00 PM hora de Santo Domingo (GMT-4).\nTrae un repo en el que ya trabajes.'
+    : 'Meet link (the same for all four sessions): ' + MEET_URL + '\n6:00 PM Santo Domingo time (GMT-4).\nBring a repo you already work in.';
 }
 
 function icsEscape(t) {
@@ -231,6 +236,8 @@ var CONFIRMATION = {
       '  Tue, Dec 15: Review like you mean it',
       '  Thu, Dec 17: Make it stick',
       '',
+      TZ_NOTE.en,
+      '',
       'Bring a repo you already work in. You build alongside on your own code.',
       'Every session is recorded, so a missed one is not a problem.',
       '',
@@ -257,6 +264,7 @@ var CONFIRMATION = {
         'The Meet link is the same for all four sessions: <a href="' + MEET_URL + '" style="color:#3531ff;">meet.google.com/qxk-zffm-ojo</a>.',
         "I'll send a short pre-work checklist before the first session. If you want a head start, this is the 15-minute read I'd do first:"
       ],
+      tz: TZ_NOTE.en,
       calTitle: 'Add them to your calendar',
       calNote: 'Or open the attached .ics file to add all four at once. Every event has the Meet link.',
       cta: ['Read the guide \u2192', 'https://eonoe.github.io/guides/intro-coding-agents/'],
@@ -275,6 +283,8 @@ var CONFIRMATION = {
       '  Jue 10 dic: El contexto que lo cambia todo',
       '  Mar 15 dic: Revisar en serio',
       '  Jue 17 dic: Que se quede contigo',
+      '',
+      TZ_NOTE.es,
       '',
       'Trae un repo en el que ya trabajes: construyes sobre tu propio código.',
       'Todas las sesiones se graban, así que si te pierdes una no pasa nada.',
@@ -302,6 +312,7 @@ var CONFIRMATION = {
         'El link de Meet es el mismo para las cuatro sesiones: <a href="' + MEET_URL + '" style="color:#3531ff;">meet.google.com/qxk-zffm-ojo</a>.',
         'Antes de la primera sesión te mando una lista corta de qué preparar. Si quieres adelantar, esta es la lectura de 15 minutos con la que empezaría:'
       ],
+      tz: TZ_NOTE.es,
       calTitle: 'Agrégalas a tu calendario',
       calNote: 'O abre el archivo .ics adjunto para agregar las cuatro de una vez. Cada evento trae el link de Meet.',
       cta: ['Leer la guía \u2192', 'https://eonoe.github.io/guides/intro-coding-agents/es.html'],
@@ -333,6 +344,7 @@ function renderHtml(h, lang, withCalendar) {
     h.lines.map(p).join('') +
     '<p style="margin:0 0 12px;">' + h.when + '</p>' +
     '<table role="presentation" cellpadding="0" cellspacing="0" style="border-left:5px solid #3531ff;background-color:#edecff;border-radius:0 10px 10px 0;margin:0 0 18px;width:100%;"><tr><td style="padding:14px 18px;font-family:' + mono + ';font-size:14px;line-height:1.7;color:#41444d;">' + sessions + '</td></tr></table>' +
+    (h.tz ? '<p style="margin:0 0 18px;color:#41444d;font-size:15px;">' + h.tz + '</p>' : '') +
     (withCalendar ? calendarBlock(h, lang) : '') +
     h.after.map(p).join('') +
     '<p style="margin:0 0 28px;"><a href="' + h.cta[1] + '" style="display:inline-block;background-color:#3531ff;color:#ffffff;text-decoration:none;font-family:' + head + ';font-weight:600;font-size:15px;padding:12px 22px;border:2px solid #3531ff;border-radius:10px;">' + h.cta[0] + '</a></p>' +
