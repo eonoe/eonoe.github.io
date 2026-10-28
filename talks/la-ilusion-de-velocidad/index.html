@@ -60,6 +60,8 @@
   footer{border-top:3px solid var(--ink);padding:28px 0;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted);}
   footer a{color:var(--ink);}
   @media(max-width:700px){.barlink{display:none;}.hud{right:8px;bottom:6px;}}
+.rot{display:none;}
+@media(max-width:600px) and (orientation:portrait){.rot{display:block;font-family:'JetBrains Mono',monospace;font-size:12px;text-align:center;color:var(--muted);padding:12px 26px 0;}}
 </style>
 </head>
 <body>
@@ -499,6 +501,7 @@
   <div class="hud"><button id="bprev" aria-label="Previous">&larr;</button><span id="count">1 / 55</span><button id="bnext" aria-label="Next">&rarr;</button></div>
 </div></div>
 
+<p class="rot">// rotate your phone for a bigger slide</p>
 <main>
 <section class="about"><div class="wrap">
   <div class="eyebrow">// talk · DevFest Santo Domingo 2026</div>
