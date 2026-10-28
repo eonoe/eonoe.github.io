@@ -1,5 +1,5 @@
 /**
- * Coding Agents 101 — signup capture.
+ * Coding Agents 101: signup capture.
  *
  * Deployed as a Google Apps Script Web App and called from the static pages in this
  * repo. Appends signups to a Google Sheet and sends a confirmation email.
@@ -123,7 +123,7 @@ function isKnownSignup(sheet, email, source) {
 }
 
 /**
- * Sends the confirmation email. Never throws — a mail failure must not cost us the row.
+ * Sends the confirmation email. Never throws, because a mail failure must not cost us the row.
  * Returns the value for the `confirmed` column: 'yes', 'quota', or 'failed'.
  */
 function sendConfirmation(email, lang, source) {
@@ -147,17 +147,17 @@ function sendConfirmation(email, lang, source) {
 var CONFIRMATION = {
   en: {
     from: 'Coding Agents 101',
-    subject: "You're in — Coding Agents 101 starts Mon, Dec 7",
+    subject: "You're in: Coding Agents 101 starts Mon, Dec 7",
     body: [
       "You're signed up for Coding Agents 101.",
       '',
       'Four live sessions, two hours each, 6:00 PM:',
-      '  Mon, Dec 7 — Get an agent doing real work',
-      '  Wed, Dec 9 — Context that makes it click',
-      '  Mon, Dec 14 — Review like you mean it',
-      '  Wed, Dec 16 — Make it stick',
+      '  Mon, Dec 7: Get an agent doing real work',
+      '  Wed, Dec 9: Context that makes it click',
+      '  Mon, Dec 14: Review like you mean it',
+      '  Wed, Dec 16: Make it stick',
       '',
-      'Bring a repo you already work in — you build alongside on your own code.',
+      'Bring a repo you already work in. You build alongside on your own code.',
       'Every session is recorded, so a missed one is not a problem.',
       '',
       "I'll send the join link and a short pre-work checklist before the first session.",
@@ -186,15 +186,15 @@ var CONFIRMATION = {
   },
   es: {
     from: 'Coding Agents 101',
-    subject: 'Ya estás dentro — Coding Agents 101 empieza el lun 7 de diciembre',
+    subject: 'Ya estás dentro: Coding Agents 101 empieza el lun 7 de diciembre',
     body: [
       'Ya estás dentro de Coding Agents 101.',
       '',
       'Cuatro sesiones en vivo, dos horas cada una, a las 6:00 PM (GMT-4):',
-      '  Lun 7 dic — Pon un agente a trabajar de verdad',
-      '  Mié 9 dic — El contexto que lo cambia todo',
-      '  Lun 14 dic — Revisar en serio',
-      '  Mié 16 dic — Que se quede contigo',
+      '  Lun 7 dic: Pon un agente a trabajar de verdad',
+      '  Mié 9 dic: El contexto que lo cambia todo',
+      '  Lun 14 dic: Revisar en serio',
+      '  Mié 16 dic: Que se quede contigo',
       '',
       'Trae un repo en el que ya trabajes: construyes sobre tu propio código.',
       'Todas las sesiones se graban, así que si te pierdes una no pasa nada.',
@@ -255,13 +255,13 @@ function renderHtml(h) {
     '</table></td></tr></table></body></html>';
 }
 
-/** AI Tech Lead isn't open yet — these signups are a waitlist, not an enrolment. */
+/** AI Tech Lead isn't open yet. These signups are a waitlist, not an enrolment. */
 var WAITLIST = {
   en: {
     from: 'AI Tech Lead',
     subject: "You're on the AI Tech Lead list",
     body: [
-      "Thanks for your interest in AI Tech Lead — the deep, project-based track.",
+      "Thanks for your interest in AI Tech Lead, the deep, project-based track.",
       '',
       "It isn't open yet. You're on the list, and you'll hear from me first when dates go out.",
       '',
