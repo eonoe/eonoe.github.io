@@ -171,12 +171,15 @@ function sessionEnd(start) {
   return icsStamp(new Date(t + SESSION_MINUTES * 60000));
 }
 
-function sessionTitle(i, lang) { return 'Coding Agents 101: ' + (SESSIONS[i][lang] || SESSIONS[i].en); }
+// One recurring event: Tuesday and Thursday, one occurrence per session. If the schedule stops being
+// Tue/Thu, change this rule (or go back to one event per session).
+var RECURRENCE = 'RRULE:FREQ=WEEKLY;BYDAY=TU,TH;COUNT=' + SESSIONS.length;
 
 function sessionDetails(lang) {
+  var list = CONFIRMATION[lang].html.sessions.map(function (s) { return s[0] + ': ' + s[1]; }).join('\n');
   return lang === 'es'
-    ? 'Link de Meet (el mismo para las cuatro sesiones): ' + MEET_URL + '\n6:00 PM hora de Santo Domingo (GMT-4).\nTrae un repo en el que ya trabajes.'
-    : 'Meet link (the same for all four sessions): ' + MEET_URL + '\n6:00 PM Santo Domingo time (GMT-4).\nBring a repo you already work in.';
+    ? 'Link de Meet (el mismo para las cuatro sesiones): ' + MEET_URL + '\n6:00 PM hora de Santo Domingo (GMT-4).\n\n' + list + '\n\nTrae un repo en el que ya trabajes.'
+    : 'Meet link (the same for all four sessions): ' + MEET_URL + '\n6:00 PM Santo Domingo time (GMT-4).\n\n' + list + '\n\nBring a repo you already work in.';
 }
 
 function icsEscape(t) {
@@ -191,34 +194,33 @@ function icsFold(line) {
   return out.join('\r\n');
 }
 
-/** One calendar file with the four sessions, each carrying the Meet link. */
+/** One calendar file with ONE recurring event covering the four sessions, carrying the Meet link. */
 function buildIcs(lang) {
-  var stamp = icsStamp(new Date());
-  var lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//eonoe.github.io//Coding Agents 101//EN', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH'];
-  SESSIONS.forEach(function (s, i) {
-    lines.push('BEGIN:VEVENT',
-      'UID:coding-agents-101-' + s.start + '@eonoe.github.io',
-      'DTSTAMP:' + stamp,
-      'DTSTART:' + s.start,
-      'DTEND:' + sessionEnd(s.start),
-      'SUMMARY:' + icsEscape(sessionTitle(i, lang)),
-      'DESCRIPTION:' + icsEscape(sessionDetails(lang)),
-      'LOCATION:' + icsEscape(MEET_URL),
-      'URL:' + MEET_URL,
-      'X-GOOGLE-CONFERENCE:' + MEET_URL,
-      'BEGIN:VALARM', 'TRIGGER:-PT30M', 'ACTION:DISPLAY', 'DESCRIPTION:Coding Agents 101', 'END:VALARM',
-      'END:VEVENT');
-  });
-  lines.push('END:VCALENDAR');
+  var first = SESSIONS[0].start;
+  var lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//eonoe.github.io//Coding Agents 101//EN', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH',
+    'BEGIN:VEVENT',
+    'UID:coding-agents-101-' + first + '@eonoe.github.io',
+    'DTSTAMP:' + icsStamp(new Date()),
+    'DTSTART:' + first,
+    'DTEND:' + sessionEnd(first),
+    RECURRENCE,
+    'SUMMARY:' + icsEscape('Coding Agents 101'),
+    'DESCRIPTION:' + icsEscape(sessionDetails(lang)),
+    'LOCATION:' + icsEscape(MEET_URL),
+    'URL:' + MEET_URL,
+    'X-GOOGLE-CONFERENCE:' + MEET_URL,
+    'BEGIN:VALARM', 'TRIGGER:-PT30M', 'ACTION:DISPLAY', 'DESCRIPTION:Coding Agents 101', 'END:VALARM',
+    'END:VEVENT', 'END:VCALENDAR'];
   return lines.map(icsFold).join('\r\n') + '\r\n';
 }
 
-/** "Add to Google Calendar" link for one session, with the Meet link as the location. */
-function gcalUrl(i, lang) {
-  var s = SESSIONS[i];
+/** "Add to Google Calendar" link for the whole series, with the Meet link as the location. */
+function gcalUrl(lang) {
+  var first = SESSIONS[0].start;
   return 'https://calendar.google.com/calendar/render?action=TEMPLATE' +
-    '&text=' + encodeURIComponent(sessionTitle(i, lang)) +
-    '&dates=' + s.start + '/' + sessionEnd(s.start) +
+    '&text=' + encodeURIComponent('Coding Agents 101') +
+    '&dates=' + first + '/' + sessionEnd(first) +
+    '&recur=' + encodeURIComponent(RECURRENCE) +
     '&details=' + encodeURIComponent(sessionDetails(lang)) +
     '&location=' + encodeURIComponent(MEET_URL);
 }
@@ -242,7 +244,7 @@ var CONFIRMATION = {
       'Every session is recorded, so a missed one is not a problem.',
       '',
       'Meet link, the same for all four sessions: ' + MEET_URL,
-      'A calendar file with the four sessions is attached, each with the Meet link.',
+      'A calendar file is attached: one event repeating Tuesday and Thursday, with the Meet link.',
       '',
       "I'll send a short pre-work checklist before the first session.",
       "If you want a head start, this is the 15-minute read I'd do first:",
@@ -265,8 +267,9 @@ var CONFIRMATION = {
         "I'll send a short pre-work checklist before the first session. If you want a head start, this is the 15-minute read I'd do first:"
       ],
       tz: TZ_NOTE.en,
-      calTitle: 'Add them to your calendar',
-      calNote: 'Or open the attached .ics file to add all four at once. Every event has the Meet link.',
+      calTitle: 'Add the four sessions to your calendar',
+      calButton: '+ Add to my calendar',
+      calNote: 'One event repeating every Tuesday and Thursday, with the Meet link. The attached .ics file does the same in one click.',
       cta: ['Read the guide \u2192', 'https://eonoe.github.io/guides/intro-coding-agents/'],
       bye: 'See you Tuesday.',
       foot: ['four live sessions', 'https://eonoe.github.io/']
@@ -290,7 +293,7 @@ var CONFIRMATION = {
       'Todas las sesiones se graban, así que si te pierdes una no pasa nada.',
       '',
       'Link de Meet, el mismo para las cuatro sesiones: ' + MEET_URL,
-      'Te adjunto un archivo de calendario con las cuatro sesiones, cada una con el link de Meet.',
+      'Te adjunto un archivo de calendario: un solo evento que se repite martes y jueves, con el link de Meet.',
       '',
       'Antes de la primera sesión te mando una lista corta de qué preparar.',
       'Si quieres adelantar, esta es la lectura de 15 minutos con la que empezaría:',
@@ -313,8 +316,9 @@ var CONFIRMATION = {
         'Antes de la primera sesión te mando una lista corta de qué preparar. Si quieres adelantar, esta es la lectura de 15 minutos con la que empezaría:'
       ],
       tz: TZ_NOTE.es,
-      calTitle: 'Agrégalas a tu calendario',
-      calNote: 'O abre el archivo .ics adjunto para agregar las cuatro de una vez. Cada evento trae el link de Meet.',
+      calTitle: 'Agrega las cuatro sesiones a tu calendario',
+      calButton: '+ Agregar a mi calendario',
+      calNote: 'Un solo evento que se repite cada martes y jueves, con el link de Meet. El archivo .ics adjunto hace lo mismo con un clic.',
       cta: ['Leer la guía \u2192', 'https://eonoe.github.io/guides/intro-coding-agents/es.html'],
       bye: 'Nos vemos el martes.',
       foot: ['cuatro sesiones en vivo', 'https://eonoe.github.io/es.html']
@@ -354,14 +358,12 @@ function renderHtml(h, lang, withCalendar) {
     '</table></td></tr></table></body></html>';
 }
 
-/** The "add to calendar" row: one link per session, plus a note about the attached .ics. */
+/** The "add to calendar" row: one button for the whole series, plus a note about the attached .ics. */
 function calendarBlock(h, lang) {
   var mono = "'JetBrains Mono',Menlo,Consolas,monospace";
-  var links = h.sessions.map(function (s, i) {
-    return '<a href="' + gcalUrl(i, lang).replace(/&/g, '&amp;') + '" style="display:inline-block;margin:0 8px 8px 0;padding:6px 12px;border:2px solid #0b0b10;border-radius:8px;color:#0b0b10;text-decoration:none;font-family:' + mono + ';font-size:13px;">+ ' + s[0] + '</a>';
-  }).join('');
+  var link = '<a href="' + gcalUrl(lang).replace(/&/g, '&amp;') + '" style="display:inline-block;margin:0 8px 8px 0;padding:8px 14px;border:2px solid #0b0b10;border-radius:8px;color:#0b0b10;text-decoration:none;font-family:' + mono + ';font-size:13px;">' + h.calButton + '</a>';
   return '<p style="margin:0 0 6px;font-weight:600;">' + h.calTitle + '</p>' +
-    '<p style="margin:0 0 6px;">' + links + '</p>' +
+    '<p style="margin:0 0 6px;">' + link + '</p>' +
     '<p style="margin:0 0 16px;color:#41444d;font-size:15px;">' + h.calNote + '</p>';
 }
 
