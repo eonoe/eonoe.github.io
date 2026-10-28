@@ -148,6 +148,7 @@ h1,h2,h3{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:-
 .scard{border:3px solid var(--ink);border-radius:14px;padding:24px;background:#fff;box-shadow:6px 6px 0 var(--ink);transition:transform .14s,box-shadow .14s;display:flex;flex-direction:column;}
 .scard:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--blue);}
 .scard .badge{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;background:var(--ink);color:#fff;padding:5px 11px;border-radius:8px;align-self:flex-start;margin-bottom:14px;}
+.loc{font-weight:400;color:var(--muted);}
 .scard .when{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--blue-ink);font-weight:700;margin-bottom:6px;}
 .scard h3{font-size:21px;margin-bottom:10px;}
 .scard p{font-size:14.5px;color:var(--ink2);line-height:1.55;margin-bottom:16px;flex:1;}
@@ -273,7 +274,7 @@ footer{padding:34px 0;}
     <div class="wrap cband-in">
       <div>
         <div class="cls">Spots are limited · enroll now</div>
-        <div class="cl">First session: Tuesday, December 8 · 6:00 PM</div>
+        <div class="cl" data-utc="2026-12-08T22:00:00Z">First session: Tuesday, December 8 · 6:00 PM GMT-4 (Santo Domingo)</div>
       </div>
       <div class="count" id="count" aria-live="polite">
         <div class="cu"><div class="cn" id="c-d">--</div><div class="cs">Days</div></div>
@@ -307,28 +308,28 @@ footer{padding:34px 0;}
       <div class="sessions">
         <div class="scard">
           <div class="badge">SESSION 1</div>
-          <div class="when">Tue, Dec 8 · 6:00 PM</div>
+          <div class="when" data-utc="2026-12-08T22:00:00Z">Tue, Dec 8 · 6:00 PM GMT-4</div>
           <h3>Get an agent doing real work</h3>
           <p>Install a coding agent and run a real session together, not a toy demo. Learn the loop every agent runs on: gather context, act, then verify, and put it to work on an actual task.</p>
           <div class="out">You leave with: an agent running on your own repo, doing something useful.</div>
         </div>
         <div class="scard">
           <div class="badge">SESSION 2</div>
-          <div class="when">Thu, Dec 10 · 6:00 PM</div>
+          <div class="when" data-utc="2026-12-10T22:00:00Z">Thu, Dec 10 · 6:00 PM GMT-4</div>
           <h3>Context that makes it click</h3>
           <p>The difference between a vague agent and a sharp one is mostly context. Write your first AGENTS.md so the agent stops guessing and starts using your project's real conventions.</p>
           <div class="out">You leave with: an AGENTS.md the agent visibly follows.</div>
         </div>
         <div class="scard">
           <div class="badge">SESSION 3</div>
-          <div class="when">Tue, Dec 15 · 6:00 PM</div>
+          <div class="when" data-utc="2026-12-15T22:00:00Z">Tue, Dec 15 · 6:00 PM GMT-4</div>
           <h3>Review like you mean it</h3>
           <p>The real skill is not prompting, it's reading what the agent wrote and pushing back. Review a change live, reject the part that's wrong, and merge the rest. This is the habit that keeps quality from sliding.</p>
           <div class="out">You leave with: your first agent-built change, reviewed and merged.</div>
         </div>
         <div class="scard">
           <div class="badge">SESSION 4</div>
-          <div class="when">Thu, Dec 17 · 6:00 PM</div>
+          <div class="when" data-utc="2026-12-17T22:00:00Z">Thu, Dec 17 · 6:00 PM GMT-4</div>
           <h3>Make it stick</h3>
           <p>Turn a workflow you just did into something reusable, and learn when reaching for an agent is the wrong call. Then we open the floor: bring your repo and questions, and we work through them live.</p>
           <div class="out">You leave with: a reusable workflow, a sense of the limits, and your questions answered.</div>
@@ -465,8 +466,8 @@ footer{padding:34px 0;}
 </footer>
 
 <script>
-// Countdown to the first session: Tue, Dec 8, 2026, 6:00 PM local
-var target = new Date(2026, 11, 8, 18, 0, 0).getTime(); // month is 0-indexed: 11 = December
+// Countdown to the first session: Tue, Dec 8, 2026, 6:00 PM GMT-4 = 22:00 UTC, the same instant for everyone
+var target = Date.UTC(2026, 11, 8, 22, 0, 0); // month is 0-indexed: 11 = December
 var elD=document.getElementById('c-d'),elH=document.getElementById('c-h'),
     elM=document.getElementById('c-m'),elS=document.getElementById('c-s'),
     countEl=document.getElementById('count'),closerNote=document.getElementById('closer-note');
@@ -576,6 +577,18 @@ for(var s=0;s<forms.length;s++){(function(form){
       });
   });
 })(forms[s]);}
+
+// Show each session in the visitor's own time zone when it differs from Santo Domingo (GMT-4)
+(function(){
+  var lang=document.documentElement.lang||'en';
+  document.querySelectorAll('[data-utc]').forEach(function(el){
+    var d=new Date(el.getAttribute('data-utc'));
+    if(d.getTimezoneOffset()===240) return;
+    var t=d.toLocaleString(lang,{weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZoneName:'short'});
+    var sp=document.createElement('span');sp.className='loc';sp.textContent=' · your time: '+t;
+    el.appendChild(sp);
+  });
+})();
 </script>
 </body>
 </html>
