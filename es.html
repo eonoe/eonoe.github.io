@@ -136,6 +136,7 @@ h1,h2,h3{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:-
 .scard{border:3px solid var(--ink);border-radius:14px;padding:24px;background:#fff;box-shadow:6px 6px 0 var(--ink);transition:transform .14s,box-shadow .14s;display:flex;flex-direction:column;}
 .scard:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--blue);}
 .scard .badge{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;background:var(--ink);color:#fff;padding:5px 11px;border-radius:8px;align-self:flex-start;margin-bottom:14px;}
+.loc{font-weight:400;color:var(--muted);}
 .scard .when{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--blue-ink);font-weight:700;margin-bottom:6px;}
 .scard h3{font-size:21px;margin-bottom:10px;}
 .scard p{font-size:14.5px;color:var(--ink2);line-height:1.55;margin-bottom:16px;flex:1;}
@@ -261,7 +262,7 @@ footer{padding:34px 0;}
     <div class="wrap cband-in">
       <div>
         <div class="cls">Plazas limitadas · apúntate ya</div>
-        <div class="cl">Primera sesión: martes 8 de diciembre · 6:00 PM</div>
+        <div class="cl" data-utc="2026-12-08T22:00:00Z">Primera sesión: martes 8 de diciembre · 6:00 PM GMT-4 (Santo Domingo)</div>
       </div>
       <div class="count" id="count" aria-live="polite">
         <div class="cu"><div class="cn" id="c-d">--</div><div class="cs">Días</div></div>
@@ -295,28 +296,28 @@ footer{padding:34px 0;}
       <div class="sessions">
         <div class="scard">
           <div class="badge">SESIÓN 1</div>
-          <div class="when">Mar, 8 dic · 6:00 PM</div>
+          <div class="when" data-utc="2026-12-08T22:00:00Z">Mar, 8 dic · 6:00 PM GMT-4</div>
           <h3>Pon un agente a trabajar de verdad</h3>
           <p>Instala un agente de código y corremos juntos una sesión real, no un ejemplo de juguete. Aprendes el ciclo que sigue todo agente: reunir contexto, actuar y verificar, y lo pones a trabajar en una tarea real.</p>
           <div class="out">Te llevas: un agente corriendo en tu propio repositorio, haciendo algo útil.</div>
         </div>
         <div class="scard">
           <div class="badge">SESIÓN 2</div>
-          <div class="when">Jue, 10 dic · 6:00 PM</div>
+          <div class="when" data-utc="2026-12-10T22:00:00Z">Jue, 10 dic · 6:00 PM GMT-4</div>
           <h3>El contexto que lo cambia todo</h3>
           <p>La diferencia entre un agente impreciso y uno afilado es, sobre todo, el contexto. Escribes tu primer AGENTS.md para que el agente deje de adivinar y empiece a usar las convenciones reales de tu proyecto.</p>
           <div class="out">Te llevas: un AGENTS.md que el agente sigue de verdad.</div>
         </div>
         <div class="scard">
           <div class="badge">SESIÓN 3</div>
-          <div class="when">Mar, 15 dic · 6:00 PM</div>
+          <div class="when" data-utc="2026-12-15T22:00:00Z">Mar, 15 dic · 6:00 PM GMT-4</div>
           <h3>Revisa como se debe</h3>
           <p>La habilidad de verdad no es escribir prompts, es leer lo que el agente escribió y cuestionarlo. Revisamos un cambio en vivo, rechazas lo que está mal y fusionas el resto. Este es el hábito que evita que la calidad se caiga.</p>
           <div class="out">Te llevas: tu primer cambio hecho por un agente, revisado y fusionado.</div>
         </div>
         <div class="scard">
           <div class="badge">SESIÓN 4</div>
-          <div class="when">Jue, 17 dic · 6:00 PM</div>
+          <div class="when" data-utc="2026-12-17T22:00:00Z">Jue, 17 dic · 6:00 PM GMT-4</div>
           <h3>Que perdure</h3>
           <p>Conviertes un flujo de trabajo que acabas de hacer en algo reutilizable, y aprendes cuándo recurrir a un agente es mala idea. Después abrimos el espacio: trae tu repositorio y tus preguntas, y las resolvemos en vivo.</p>
           <div class="out">Te llevas: un flujo reutilizable, claridad sobre los límites, y tus preguntas resueltas.</div>
@@ -453,8 +454,8 @@ footer{padding:34px 0;}
 </footer>
 
 <script>
-// Cuenta regresiva a la primera sesión: mar 8 dic 2026, 6:00 PM hora local
-var target = new Date(2026, 11, 8, 18, 0, 0).getTime(); // mes 0-indexado: 11 = diciembre
+// Cuenta regresiva a la primera sesión: mar 8 dic 2026, 6:00 PM GMT-4 = 22:00 UTC, el mismo instante para todos
+var target = Date.UTC(2026, 11, 8, 22, 0, 0); // mes 0-indexado: 11 = diciembre
 var elD=document.getElementById('c-d'),elH=document.getElementById('c-h'),
     elM=document.getElementById('c-m'),elS=document.getElementById('c-s'),
     countEl=document.getElementById('count'),closerNote=document.getElementById('closer-note');
@@ -564,6 +565,18 @@ for(var s=0;s<forms.length;s++){(function(form){
       });
   });
 })(forms[s]);}
+
+// Show each session in the visitor's own time zone when it differs from Santo Domingo (GMT-4)
+(function(){
+  var lang=document.documentElement.lang||'en';
+  document.querySelectorAll('[data-utc]').forEach(function(el){
+    var d=new Date(el.getAttribute('data-utc'));
+    if(d.getTimezoneOffset()===240) return;
+    var t=d.toLocaleString(lang,{weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZoneName:'short'});
+    var sp=document.createElement('span');sp.className='loc';sp.textContent=' · tu hora: '+t;
+    el.appendChild(sp);
+  });
+})();
 </script>
 </body>
 </html>
